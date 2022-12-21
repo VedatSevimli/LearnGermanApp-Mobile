@@ -1,0 +1,19 @@
+.header-wrapper{
+    display: flex;
+    justify-content: space-between;
+    padding: .5em;
+    height: 4em;
+    background-color: whitesmoke;
+
+    .company{
+        width: 2em;
+        height: 2em;
+        align-self: center;
+        cursor: pointer;
+
+        .logo{
+            width: 2em;
+            height: 2em;
+        }
+    }
+}
