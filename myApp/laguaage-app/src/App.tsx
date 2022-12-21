@@ -5,7 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import { Reading } from './components/pages/Reading/Reading';
 import { Listening } from './components/pages/Listening/Listening';
 import { Quiz } from './components/pages/Quiz/Quiz';
-import { NoMatch } from './NoMatch';
+import { NoMatch } from './components/pages/NoMatch';
 import { Words } from './components/pages/Words/Words';
 import { Home } from './components/pages/Home/Home';
 
