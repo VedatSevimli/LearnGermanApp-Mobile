@@ -1,24 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import {Header} from '../src/components/header/Header'
+import { Main } from './components/Main';
+import { Route, Routes } from 'react-router-dom';
+import { Reading } from './components/pages/Reading/Reading';
+import { Listening } from './components/pages/Listening/Listening';
+import { Quiz } from './components/pages/Quiz/Quiz';
+import { NoMatch } from './NoMatch';
+import { Words } from './components/pages/Words/Words';
+import { Home } from './components/pages/Home/Home';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+       <Header/>
+       <Routes>
+      <Route path='/' element={<Main/>}>
+            <Route index path='home' element={<Home/>}/>
+            <Route path='reading' element={<Reading/>}/>
+            <Route path='listening' element={<Listening/>}/>
+            <Route path='/words' element={<Words/>}/>
+            <Route path='quiz' element={<Quiz/>}/>
+          <Route path="*" element={<NoMatch />} />
+        </Route>
+      </Routes>
     </div>
   );
 }

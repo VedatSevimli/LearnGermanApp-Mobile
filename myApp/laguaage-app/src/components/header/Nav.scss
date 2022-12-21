@@ -1,0 +1,17 @@
+nav{
+    display: flex;
+    justify-content: space-around;
+    padding: 1em;
+    flex-grow: 1;
+    background-color: whitesmoke;
+    a{
+        background:whitesmoke;
+        color: black;
+        font-weight: 600;
+        padding: .5em;
+        cursor: pointer;
+        &:hover{
+            background-color: #fff;
+        }
+    }
+}
