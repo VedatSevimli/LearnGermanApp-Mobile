@@ -75,3 +75,12 @@ export const findVerb = async (req, res) => {
     }
     return new Response(getWord, 'The word is founded').success(res);
 };
+
+export const getVerbList = async (req, res) => {
+    const { level } = req.body;
+    const getWord = await VerbList.find({ level });
+    if (!getWord) {
+        return new Response(word, `${word} could't not found!`).err401(res);
+    }
+    return new Response(getWord, 'The word is founded').success(res);
+};

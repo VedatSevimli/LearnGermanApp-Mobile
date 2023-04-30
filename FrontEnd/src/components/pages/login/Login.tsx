@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './Login.scss';
 import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../../LoadingSpinner/LoadingSpinner';
 import Button from '../../Button/buttons';
-
-export const Login = (): JSX.Element => {
+import { UserInfo } from '../../../App';
+type LoginPorps = {
+    setAuthenticated: (isloggin: boolean) => void;
+    userInfo: any;
+};
+export const Login = ({
+    setAuthenticated,
+    userInfo
+}: LoginPorps): JSX.Element => {
     const navigate = useNavigate();
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -36,6 +43,8 @@ export const Login = (): JSX.Element => {
                 });
                 localStorage.setItem('userInfo', userInfo);
                 setIsLoading(false);
+                setAuthenticated(true);
+                setResponseMssg('');
                 navigate('/home');
             } else {
                 // handle failed login
@@ -87,7 +96,7 @@ export const Login = (): JSX.Element => {
                     style={{ borderRadius: '4px' }}
                     onClick={() => void handleLogin(username, password)}
                 >
-                    <span>Login</span>
+                    <span>{userInfo ? userInfo.name : 'Login'}</span>
                     <LoadingSpinner isLoading={isLoading} small />
                 </Button>
             </div>

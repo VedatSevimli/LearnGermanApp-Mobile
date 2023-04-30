@@ -1,25 +1,24 @@
 {
     "env": {
         "browser": true,
-        "es2021": true
+        "es6": true,
+
+        "node": true
     },
     "parser": "@typescript-eslint/parser",
     "extends": [
-        "plugin:react/recommended",
-        "standard-with-typescript",
         "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
+        "plugin:react/recommended",
         "prettier"
     ],
     "overrides": [],
     "parserOptions": {
-        "ecmaVersion": "latest",
-        "sourceType": "module",
         "project": "./tsconfig.json"
     },
     "plugins": ["react", "@typescript-eslint"],
     "rules": {
-        "indent": ["error", 4],
         "no-await-in-loop": "error",
         "no-console": "warn",
         "no-unused-vars": "off",
@@ -30,7 +29,11 @@
         "eqeqeq": "error",
         "react/jsx-uses-react": "off",
         "react/react-in-jsx-scope": "off",
-        "@typescript-eslint/no-floating-promises": "error"
+        "@typescript-eslint/no-floating-promises": "error",
+        // "@typescript-eslint/promise-funtion-async": "error",
+        "@typescript-eslint/require-await": "error",
+        // "linebreak-style": "error",
+        "no-warning-comments": "warn"
     },
     "settings": {
         "react": {
