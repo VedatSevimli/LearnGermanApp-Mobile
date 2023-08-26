@@ -2,7 +2,6 @@
     "env": {
         "browser": true,
         "es6": true,
-
         "node": true
     },
     "parser": "@typescript-eslint/parser",
@@ -24,7 +23,7 @@
         "no-unused-vars": "off",
         "no-var": "error",
         "no-nested-ternary": "error",
-        "quotes": ["error", "single"],
+        "quotes": ["warn", "single"],
         "semi": ["error", "always"],
         "eqeqeq": "error",
         "react/jsx-uses-react": "off",
@@ -32,7 +31,6 @@
         "@typescript-eslint/no-floating-promises": "error",
         // "@typescript-eslint/promise-funtion-async": "error",
         "@typescript-eslint/require-await": "error",
-        // "linebreak-style": "error",
         "no-warning-comments": "warn"
     },
     "settings": {

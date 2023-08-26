@@ -1,17 +1,79 @@
-nav{
+nav {
     display: flex;
+    align-items: center;
     justify-content: space-around;
-    padding: 1em;
     flex-grow: 1;
-    background-color: whitesmoke;
-    a{
-        background:whitesmoke;
-        color: black;
-        font-weight: 600;
-        padding: .5em;
-        cursor: pointer;
-        &:hover{
-            background-color: #fff;
-        }
+  
+    a {
+      color: #333333;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+  
+      &:hover {
+        color: #f47f20;
+      }
     }
-}
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      position: relative;
+  
+      .user-icon {
+        width: 30px;
+        height: 30px;
+        background-color: #f47f20;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-weight: 600;
+        font-size: 16px;
+        margin-right: 10px;
+        cursor: pointer;
+      }
+      .user-dropdown {
+        position: absolute;
+        top: 1.75em;
+        left: -2em;
+        background-color: white;
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: none;
+        flex-direction: column;
+        z-index: 1;
+  
+        &.show {
+          display: flex;
+        }
+  
+        a {
+          padding: 0.5em;
+          margin: 0;
+          text-align: center;
+          color: #333;
+          text-decoration: none;
+          transition: background-color 0.4s ease;
+  
+          &:hover {
+            background-color: #f47f20;
+            color: white;
+          }
+        }
+      }
+  
+      &:hover .user-dropdown {
+        display: flex;
+      }
+    
+      
+  
+      .user-name {
+        font-weight: 500;
+      }
+    }
+  }
+  

@@ -1,8 +1,6 @@
-import  React from 'react';
-import './Reading.scss'
+import React from 'react';
+import './Reading.scss';
 
-export const Reading:React.FC =():JSX.Element=> {
-    return ( <div className='reading'>
-        Reading page
-    </div> );
-}
+export const Reading: React.FC = (): JSX.Element => {
+    return <div className="reading">Reading page</div>;
+};

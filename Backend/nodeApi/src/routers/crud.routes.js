@@ -11,5 +11,5 @@ export const crud = express.Router();
 
 crud.post('/add-new-verb', checkToken, AddVerb);
 crud.post('/update-verb', checkToken, findAndUpdateVerb);
-crud.get('/get-verb', findVerb);
-crud.get('/get-verbs-with-level', getVerbList);
+crud.post('/get-verb', findVerb);
+crud.post('/get-verbs-with-level', getVerbList);

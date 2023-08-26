@@ -1,10 +1,17 @@
-import  React from 'react';
-import './Words.scss'
+import React from 'react';
+import './Words.scss';
+import { Verb } from '../../modules/verbs/verbs.type';
+import { WordCard } from './Word/WordCard ';
 
-export const Words:React.FC = ():JSX.Element=>{
-    return(
-        <div className='word-list'>
-            Word List
+type WordsProps = {
+    words: Verb[];
+};
+export const Words: React.FC<WordsProps> = ({ words }): JSX.Element => {
+    return (
+        <div className="words-page">
+            {words.map((wordData, idx) => (
+                <WordCard key={idx} wordData={wordData} />
+            ))}
         </div>
-    )
-}
+    );
+};

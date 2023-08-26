@@ -4,14 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../../LoadingSpinner/LoadingSpinner';
 import Button from '../../Button/buttons';
 import { UserInfo } from '../../../App';
+import { doLogin } from '../../API/VerbList/login';
 type LoginPorps = {
     setAuthenticated: (isloggin: boolean) => void;
-    userInfo: any;
 };
-export const Login = ({
-    setAuthenticated,
-    userInfo
-}: LoginPorps): JSX.Element => {
+export const Login = ({ setAuthenticated }: LoginPorps): JSX.Element => {
     const navigate = useNavigate();
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -24,15 +21,7 @@ export const Login = ({
     ): Promise<void> => {
         try {
             setIsLoading(true);
-            const response = await fetch('http://localhost:5000/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': 'http://localhost:3000'
-                },
-                body: JSON.stringify({ email, password })
-            });
-            const res = await response.json();
+            const res = await doLogin({ email, password });
 
             if (res.success) {
                 // handle successful login
@@ -41,6 +30,7 @@ export const Login = ({
                     lastName: res.userlastName,
                     token: res.token
                 });
+
                 localStorage.setItem('userInfo', userInfo);
                 setIsLoading(false);
                 setAuthenticated(true);
@@ -57,16 +47,24 @@ export const Login = ({
         }
     };
 
+    const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            void handleLogin(username, password);
+        }
+    };
+
     return (
         <div className="login">
             <div className="login-header">
                 <h2>Login</h2>
             </div>
+
             <div className="login-content">
                 <label>
-                    Eamil:
+                    Email:
                     <input
                         type="text"
+                        id="email44"
                         name="email"
                         value={username}
                         onChange={(event) => setUsername(event.target.value)}
@@ -83,12 +81,13 @@ export const Login = ({
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
                         placeholder="Password.."
+                        onKeyPress={handleKeyPress}
                     />
                 </label>
                 <br />
             </div>
 
-            <div className="footer">
+            <div className="login-footer">
                 <span className="res-mssg">{responseMssg}</span>
 
                 <Button
@@ -96,7 +95,7 @@ export const Login = ({
                     style={{ borderRadius: '4px' }}
                     onClick={() => void handleLogin(username, password)}
                 >
-                    <span>{userInfo ? userInfo.name : 'Login'}</span>
+                    <span>Login</span>
                     <LoadingSpinner isLoading={isLoading} small />
                 </Button>
             </div>

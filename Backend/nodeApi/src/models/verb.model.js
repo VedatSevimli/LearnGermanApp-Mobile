@@ -49,7 +49,7 @@ const verbListSchema = new mongoose.Schema(
         definition: { type: String, required: true, trim: true },
         level: { type: String, required: true }
     },
-    { collection: 'verbList' }
+    { collection: 'verbListA1' }
 );
 
-export const VerbList = mongoose.model('verbList', verbListSchema);
+export const VerbList = mongoose.model('verbListA1', verbListSchema); //now just a1 list but after other levels are ready then it will be changed
