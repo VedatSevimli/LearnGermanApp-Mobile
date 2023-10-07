@@ -3,8 +3,8 @@ import './Login.scss';
 import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../../LoadingSpinner/LoadingSpinner';
 import Button from '../../Button/buttons';
-import { UserInfo } from '../../../App';
-import { doLogin } from '../../API/VerbList/login';
+import { doLogin } from '../../../API/Login/login';
+
 type LoginPorps = {
     setAuthenticated: (isloggin: boolean) => void;
 };

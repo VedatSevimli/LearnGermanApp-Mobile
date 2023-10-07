@@ -8,12 +8,17 @@ export interface Verb {
     sentences: Sentences;
     isSeparable: boolean;
     isReflexiv: boolean;
+    isModalVerb: boolean;
     preposition: string;
     audio: string;
     hasAkkObject: boolean;
     hasDativObject: boolean;
     imageUrl: string;
 }
+
+export type VerbKeys = keyof Verb;
+
+export type SentencesAndConjugation = 'sentences' | 'conjugation';
 
 export interface Id {
     $oid: string;
@@ -51,4 +56,12 @@ export interface Perfect {
 export interface PastTense {
     sentence: string;
     def: Def;
+}
+
+export enum TensesE {
+    presens = 'presens',
+    pastTense = 'pastTense',
+    perfect = 'perfect',
+    konjuktiv = 'konjuktiv',
+    imperativ = 'imperativ'
 }

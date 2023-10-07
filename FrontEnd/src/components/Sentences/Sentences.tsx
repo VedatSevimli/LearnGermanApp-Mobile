@@ -1,14 +1,23 @@
 import React from 'react';
 import './Sentences.scss';
-import { Sentences } from '../modules/verbs/verbs.type';
+import { Sentences } from '../../modules/verbs/verbs.type';
+import { useNavigate } from 'react-router-dom';
+
 export type SentencesComponentProps = {
     sentencesData: Sentences;
+    word: string;
 };
 
-export const SentencesComponent: React.FC<SentencesComponentProps> = (
-    props
-): JSX.Element => {
-    const { presens, pastTense, perfect } = props.sentencesData;
+export enum quizOptE {
+    Question = 'Question',
+    DragDrop = 'DragDrop',
+    MatchWords = 'MatchWords'
+}
+
+export const SentencesComponent: React.FC<SentencesComponentProps> = ({
+    sentencesData
+}): JSX.Element => {
+    const { presens, pastTense, perfect } = sentencesData;
 
     return (
         <div className="sentence-component">
@@ -33,14 +42,6 @@ export const SentencesComponent: React.FC<SentencesComponentProps> = (
                             <p>{sentence.def.tr}</p>
                         </div>
                     ))}
-                </div>
-            </div>
-            <div className="quiz-section">
-                <h2>Quiz Options</h2>
-                <div className="quiz-options">
-                    <div className="quiz-option">Quiz with Questions</div>
-                    <div className="quiz-option">Drag and Drop</div>
-                    <div className="quiz-option">Match the Words</div>
                 </div>
             </div>
         </div>

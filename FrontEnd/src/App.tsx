@@ -12,13 +12,12 @@ import { Home } from './components/pages/Home/Home';
 import { Login } from './components/pages/login/Login';
 import { Footer } from './components/Footer/footer';
 
-import { loginWithToken } from './components/API/VerbList/login';
-import {
-    getVerbList,
-    verbLevelE
-} from './components/API/Login/getVerbListWithLevel';
-import { Verb } from './components/modules/verbs/verbs.type';
+import { loginWithToken } from './API/Login/login';
+import { getVerbList, verbLevelE } from './API/VerbList/verb';
+import { Verb } from './modules/verbs/verbs.type';
 import { VerbDetails } from './components/pages/Worddetails/Worddetails';
+
+import { sortVerbsOrderLerning } from './utils/util';
 
 export type UserInfo = {
     name: string;
@@ -68,7 +67,7 @@ function App(): JSX.Element {
     useEffect(() => {
         const getVerbListA = async (): Promise<void> => {
             const verbs = await getVerbList({ level: verbLevelE.A1 });
-            setVerbList(verbs);
+            setVerbList(sortVerbsOrderLerning(verbs));
         };
         try {
             void getVerbListA();
@@ -84,10 +83,16 @@ function App(): JSX.Element {
                 <Routes>
                     <Route index path="/" element={<Home />} />
                     <Route index path="/home" element={<Home />} />
-                    <Route path="/reading" element={<Reading />} />
+                    <Route
+                        path="/reading"
+                        element={<Reading verbList={verbList} />}
+                    />
                     <Route path="/listening" element={<Listening />} />
                     <Route path="/words" element={<Words words={verbList} />} />
-                    <Route path="/quiz" element={<Quiz />} />
+                    <Route
+                        path="/quiz/:word/:qtype/:tense/:quizOpt"
+                        element={<Quiz />}
+                    />
                     <Route
                         path="/wordDetails/:word"
                         element={<VerbDetails />}

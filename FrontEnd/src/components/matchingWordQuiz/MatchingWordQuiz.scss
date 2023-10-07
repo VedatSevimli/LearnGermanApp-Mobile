@@ -1,0 +1,59 @@
+.matching-quiz {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+    h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .wrapper {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        .word-cards,
+        .definition-cards {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+
+            .word-card,
+            .definition-card {
+                border: 1px solid #ccc;
+                padding: 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s ease-in-out,
+                    border 0.3s ease-in-out;
+                user-select: none;
+                margin-bottom: 0.5em;
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+
+            .selected {
+                border: 2px solid #3498db;
+            }
+
+            .matched {
+                background-color: #2ecc71;
+                color: white;
+                cursor: default;
+            }
+
+            .not-matched {
+                border: 2px solid #e74c3c;
+                cursor: default;
+            }
+
+            .german-word,
+            .definition-text {
+                font-size: 18px;
+                margin: 0;
+            }
+        }
+    }
+}

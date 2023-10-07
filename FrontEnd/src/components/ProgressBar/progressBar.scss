@@ -1,0 +1,32 @@
+.progress-bar-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    .progress-bar {
+        width: 100%;
+        height: 1em;
+        background: #ffffff;
+        border-radius: 25px;
+
+        overflow: hidden;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        .progress {
+            height: 100%;
+            border-radius: 25px;
+            background: linear-gradient(to right, #007bff, #00ff00);
+            transition: width 0.3s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    .percentage-label {
+        font-size: 12px;
+        font-weight: bold;
+        color: #333;
+        position: absolute;
+    }
+}
