@@ -4,24 +4,56 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  
+
     h2 {
-      margin-bottom: 20px;
+        margin-bottom: 20px;
     }
-  
+
     .conjugation-section,
     .sentences-section {
-      margin-bottom: 20px;
+        margin-bottom: 20px;
     }
-  
+
+    .conjugation-section {
+        h3 {
+            text-align: center;
+            padding: 0.5em;
+        }
+
+        .conjugation-content {
+            display: flex;
+            .conjugation-table {
+                width: 33%;
+                margin: 0.5em;
+            }
+        }
+    }
+
     .sentence {
-      border-top: 1px solid #ccc;
-      padding-top: 10px;
-      margin-top: 10px;
-  
-      p {
-        margin: 0;
-      }
+        border-top: 1px solid #ccc;
+        padding-top: 10px;
+        margin-top: 10px;
+
+        p {
+            margin: 0;
+        }
     }
-  }
-  
+
+    .quiz-options {
+        display: flex;
+        flex-direction: column;
+
+        .quiz-option {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #f0f0f0;
+            }
+        }
+    }
+}

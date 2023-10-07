@@ -22,7 +22,7 @@
         "no-console": "warn",
         "no-unused-vars": "off",
         "no-var": "error",
-        "no-nested-ternary": "error",
+        "no-nested-ternary": "warn",
         "quotes": ["warn", "single"],
         "semi": ["error", "always"],
         "eqeqeq": "error",

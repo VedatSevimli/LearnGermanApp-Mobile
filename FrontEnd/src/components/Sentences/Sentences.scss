@@ -2,51 +2,33 @@
     display: flex;
     justify-content: space-between;
     margin: 20px;
-  
+
     .sentence-section,
     .quiz-section {
-      flex: 1;
-      padding: 10px;
-    }
-  
-    h2 {
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
-  
-    .sentence-list {
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      padding: 10px;
-      max-height: 300px;
-      overflow-y: auto;
-  
-      .sentence-item {
-        border-bottom: 1px solid #ccc;
+        flex: 1;
         padding: 10px;
-  
-        p {
-          margin: 0;
-        }
-      }
     }
-  
-    .quiz-options {
-      display: flex;
-      flex-direction: column;
-  
-      .quiz-option {
+
+    h2 {
+        font-size: 18px;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    .sentence-list {
         border: 1px solid #ccc;
         border-radius: 5px;
         padding: 10px;
-        margin-bottom: 10px;
-        text-align: center;
-        cursor: pointer;
-  
-        &:hover {
-          background-color: #f0f0f0;
+        max-height: 300px;
+        overflow-y: auto;
+
+        .sentence-item {
+            border-bottom: 1px solid #ccc;
+            padding: 10px;
+
+            p {
+                margin: 0;
+            }
         }
-      }
     }
-  }
-  
+}

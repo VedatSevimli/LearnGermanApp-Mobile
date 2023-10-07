@@ -1,0 +1,18 @@
+@mixin flexContainerColumns {
+    display: flex;
+    flex-direction: column;
+}
+@mixin flexContColsRews {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+@mixin flexControws {
+    display: flex;
+    flex-direction: row;
+}
+
+@mixin flexContRowsReverse {
+    display: flex;
+    flex-direction: row-reverse;
+}

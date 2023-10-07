@@ -10,7 +10,6 @@ export const ConjugationTable: React.FC<ConjugationTableProps> = ({
     conjugations,
     isSeparable
 }): JSX.Element => {
-    console.log({ conjugations });
     return (
         <div className="conjugation-table">
             <div className="header">{tense} Tense</div>
