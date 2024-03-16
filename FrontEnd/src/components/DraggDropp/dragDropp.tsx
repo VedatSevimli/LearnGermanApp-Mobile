@@ -11,6 +11,7 @@ export type DragDroppProps = {
     mixConj: string[];
 };
 
+//TODO: show one by one the questions not all of them..
 export const DraggQuiz: React.FC<DragDroppProps> = (props): JSX.Element => {
     const { question, definition, mixConj } = props;
     const [widgets, setWidgets] = useState<string[]>([]);

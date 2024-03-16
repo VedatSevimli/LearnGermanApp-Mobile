@@ -31,7 +31,11 @@ export const DropDown: React.FC<DropDownProps> = ({
                     </option>
                 )}
                 {options.map((option, index) => (
-                    <option key={index} value={option}>
+                    <option
+                        key={index}
+                        value={option}
+                        disabled={option === '----------'}
+                    >
                         {option}
                     </option>
                 ))}

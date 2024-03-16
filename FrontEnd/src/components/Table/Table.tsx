@@ -12,12 +12,12 @@ export const ConjugationTable: React.FC<ConjugationTableProps> = ({
 }): JSX.Element => {
     return (
         <div className="conjugation-table">
-            <div className="header">{tense} Tense</div>
+            <div className="header">{tense} </div>
             <div
                 className={`conjugation-rows ${isSeparable ? 'separable' : ''}`}
             >
-                <div className="person-header">Person</div>
-                <div className="conjugation-header">Conjugation</div>
+                <div className="person-header">Der Person</div>
+                <div className="conjugation-header">Konjugation</div>
                 {isSeparable && <div className="conjugation-header"></div>}
                 {conjugations?.map((conjugation, index) => {
                     const [person, conj, conj2] = conjugation.split(' ');

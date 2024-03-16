@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import Button from '../../Button/buttons';
 
 export type DialogFooter = {
-    children: ReactNode;
+    children?: ReactNode;
     onDismiss: () => void;
 };
 

@@ -1,14 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import './MatchingWordQuiz.scss';
+import {
+    Conjugation,
+    SentencesAndConjugation,
+    TensesE,
+    Verb
+} from '../../modules/verbs/verbs.type';
 
 export type matchingWords = {
     word: string;
     def: string;
 };
+
 export type MatchingWordQuizProps = {
-    words: matchingWords[];
+    verb: Verb;
+    tense: TensesE;
+    words?: matchingWords[];
 };
-const MatchingWordQuiz: React.FC<MatchingWordQuizProps> = ({ words }) => {
+
+const MatchingWordQuiz: React.FC<MatchingWordQuizProps> = ({ verb, tense }) => {
     const [shuffledWords, setShuffledWords] = useState<matchingWords[]>([]);
     const [shuffledDefs, setShuffledDefs] = useState<matchingWords[]>([]);
     const [selectedWord, setSelectedWord] = useState<string>('');
@@ -16,14 +26,26 @@ const MatchingWordQuiz: React.FC<MatchingWordQuizProps> = ({ words }) => {
     const [matchedPairs, setMatchedPairs] = useState<
         { word: string; definition: string }[]
     >([{ word: '', definition: '' }]);
+    const [matchingWords, setMatchingWords] = useState<matchingWords[]>([]);
 
     useEffect(() => {
-        shuffleWords();
+        const mw = (verb.conjugation as Conjugation)[tense].map((pc) => {
+            const [subj, verb, verb2] = pc.split(' ');
+            return {
+                word: subj,
+                def: verb + ' ' + (verb2 ?? '')
+            };
+        });
+        setMatchingWords(mw);
     }, []);
 
+    useEffect(() => {
+        matchingWords.length && shuffleWords();
+    }, [matchingWords]);
+
     const shuffleWords = () => {
-        const shuffledW = [...words].sort(() => Math.random() - 0.5);
-        const shuffledD = [...words].sort(() => Math.random() - 0.5);
+        const shuffledW = [...matchingWords].sort(() => Math.random() - 0.5);
+        const shuffledD = [...matchingWords].sort(() => Math.random() - 0.5);
         setShuffledWords(shuffledW);
         setShuffledDefs(shuffledD);
     };
@@ -42,7 +64,7 @@ const MatchingWordQuiz: React.FC<MatchingWordQuizProps> = ({ words }) => {
 
     const checkMatch = (word: string, definition: string) => {
         const matchingWord = shuffledWords.find(
-            (wordObj) => wordObj.def === definition
+            (wordObj) => wordObj.def === definition && wordObj.word === word
         );
         if (matchingWord?.word === word) {
             setSelectedWord('');
@@ -55,6 +77,25 @@ const MatchingWordQuiz: React.FC<MatchingWordQuizProps> = ({ words }) => {
         }
     };
 
+    const ismatched = (wordObj: matchingWords): string => {
+        if (matchedPairs.filter((mp) => mp.word && mp.definition).length) {
+            const matchedPair = matchedPairs.find(
+                (pair) =>
+                    pair.definition === wordObj.def &&
+                    pair.word === wordObj.word
+            );
+            if (matchedPair) {
+                return 'matched';
+            } else {
+                if (selectedDefinition && selectedDefinition === wordObj.def) {
+                    return 'not-matched';
+                }
+            }
+        }
+
+        return '';
+    };
+
     return (
         <div className="matching-quiz">
             <h2>Matching Word Quiz</h2>
@@ -65,13 +106,7 @@ const MatchingWordQuiz: React.FC<MatchingWordQuizProps> = ({ words }) => {
                             key={index}
                             className={`word-card ${
                                 selectedWord === wordObj.word ? 'selected' : ''
-                            } ${
-                                matchedPairs.some(
-                                    (pair) => pair.word === wordObj.word
-                                )
-                                    ? 'matched'
-                                    : ''
-                            }`}
+                            } ${ismatched(wordObj)}`}
                             onClick={() => handleWordClick(wordObj.word)}
                         >
                             <p className="german-word">{wordObj.word}</p>
@@ -86,16 +121,7 @@ const MatchingWordQuiz: React.FC<MatchingWordQuizProps> = ({ words }) => {
                                 selectedDefinition === wordObj.def
                                     ? 'selected'
                                     : ''
-                            } ${
-                                matchedPairs.some(
-                                    (pair) => pair.definition === wordObj.def
-                                )
-                                    ? 'matched'
-                                    : selectedDefinition &&
-                                      selectedDefinition === wordObj.def
-                                    ? 'not-matched'
-                                    : ''
-                            }`}
+                            } ${ismatched(wordObj)}`}
                             onClick={() => handleDefinitionClick(wordObj.def)}
                         >
                             <p className="definition-text">{wordObj.def}</p>

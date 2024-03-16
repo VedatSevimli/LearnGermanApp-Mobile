@@ -53,3 +53,31 @@ const verbListSchema = new mongoose.Schema(
 );
 
 export const VerbList = mongoose.model('verbListA1', verbListSchema); //now just a1 list but after other levels are ready then it will be changed
+
+const readingTexsSchema = new mongoose.Schema(
+    {
+        textId: { type: Number },
+        usedVerbs: [{ type: String }],
+        text: { type: String },
+        tense: { type: String },
+        questions: [
+            {
+                question: { type: String },
+                options: [{ type: String }],
+                correctAnswer: { type: String }
+            }
+        ],
+        fillTheBlank: {
+            sentences: [
+                {
+                    prefix: { type: String },
+                    verb: { type: String },
+                    suffix: { type: String }
+                }
+            ]
+        }
+    },
+
+    { collection: 'readingTexts' }
+);
+export const ReadingTexts = mongoose.model('readingTexts', readingTexsSchema);

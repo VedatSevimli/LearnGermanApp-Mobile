@@ -18,11 +18,11 @@ export type QuizSectionsProps = {
 
 const dropdownitems = [
     'sentences-presens',
-    'sentences-pastTense',
+    // 'sentences-pastTense',
     'sentences-perfect',
     '----------',
     'conjugation-presens',
-    'conjugation-pastTense',
+    // 'conjugation-pastTense',
     'conjugation-perfect'
 ];
 export const QuizSections: React.FC<QuizSectionsProps> = ({
@@ -38,9 +38,7 @@ export const QuizSections: React.FC<QuizSectionsProps> = ({
         setIsPopupOpen(false);
     };
     const handleQuizoptClicked = (item: string, quizOpt: quizOptE) => {
-        // openPopup();
         const [QuestionType, tense] = item.split('-');
-        console.log(QuestionType, tense);
 
         onQuizoptClick(
             QuestionType as SentencesAndConjugation,
@@ -56,7 +54,7 @@ export const QuizSections: React.FC<QuizSectionsProps> = ({
                     className="quiz-option"
                     defaultOption={'Übung with Questions'}
                     onSelect={(item) =>
-                        handleQuizoptClicked(item, quizOptE.Question)
+                        handleQuizoptClicked(item, quizOptE.MultipleChoice)
                     }
                     options={dropdownitems}
                 ></DropDown>
@@ -76,13 +74,11 @@ export const QuizSections: React.FC<QuizSectionsProps> = ({
                     onSelect={(item) =>
                         handleQuizoptClicked(item, quizOptE.MatchWords)
                     }
-                    options={dropdownitems}
+                    options={dropdownitems.slice(
+                        dropdownitems.indexOf('----------') + 1
+                    )}
                 ></DropDown>
             </div>
-            {/* <Popup isOpen={isPopupOpen} onClose={closePopup}>
-                <h2>Popup Title</h2>
-                <p>Popup Content goes here...</p>
-            </Popup> */}
         </div>
     );
 };

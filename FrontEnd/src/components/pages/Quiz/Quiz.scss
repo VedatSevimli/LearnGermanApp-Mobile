@@ -1,7 +1,32 @@
+@import '../../../_commonstyle/flexbox.scss';
 .quiz {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    .quiz-section-wrapper {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        // width: 100%;
+        // height: 100%;
+        grid-row-gap: 0.5em;
+        grid-column-gap: 0.5em;
+        .quiz-opt {
+            @include flexContRows;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 1px solid #cccc;
+            border-radius: 4px;
+            transition: all ease-in-out 0.5s;
+            &:hover {
+                background: rgb(47, 223, 254);
+                border: 1px solid #0000;
+            }
+        }
+    }
+    .quiz-dialog {
+        margin: auto;
+    }
 }

@@ -3,15 +3,16 @@ import { times } from '../../../images/image';
 
 export type DialogHeaderProps = {
     children: ReactNode;
+    onDismiss: () => void;
 };
 
-const DialogHeader: React.FC<DialogHeaderProps> = ({ children }) => {
+const DialogHeader: React.FC<DialogHeaderProps> = ({ onDismiss, children }) => {
     return (
         <div className="dialog-header">
-            <div>
+            <div onClick={() => onDismiss()}>
+                {children}
                 <img src={times}></img>
             </div>
-            {children}
         </div>
     );
 };

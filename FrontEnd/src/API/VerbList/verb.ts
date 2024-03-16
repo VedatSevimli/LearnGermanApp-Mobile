@@ -38,3 +38,20 @@ export const getWord = async ({ word }: { word: string }): Promise<Verb> => {
     const verb = await response.json();
     return verb.data;
 };
+
+export const getWords = async ({
+    words
+}: {
+    words: string[];
+}): Promise<Verb[]> => {
+    const response = await fetch('http://localhost:5000/api/get-verbs', {
+        method: 'POST',
+        body: JSON.stringify({ words }),
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': 'http://localhost:3000'
+        }
+    });
+    const verb = await response.json();
+    return verb.data;
+};
