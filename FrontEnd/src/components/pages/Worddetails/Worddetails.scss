@@ -1,3 +1,4 @@
+@import '../../../_commonstyle/flexbox.scss';
 .verb-details {
     padding: 20px;
     margin: 20px;
@@ -21,7 +22,8 @@
         }
 
         .conjugation-content {
-            display: flex;
+            @include flexContRows;
+            justify-content: center;
             .conjugation-table {
                 width: 33%;
                 margin: 0.5em;
@@ -49,7 +51,6 @@
             padding: 10px;
             margin-bottom: 10px;
             text-align: center;
-            cursor: pointer;
 
             &:hover {
                 background-color: #f0f0f0;

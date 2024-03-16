@@ -1,25 +1,19 @@
-import React, { ReactNode, useState } from 'react';
-import './Dialog.scss';
+import React, { ReactNode } from 'react';
+import './dialog.scss';
 
 export type DialogProps = {
-    onDismiss: () => void;
-    style: any;
-    className: string;
-    children: ReactNode;
+    onDismiss?: () => void;
+    style?: any;
+    className?: string;
+    children?: ReactNode;
 };
 
-const Dialog: React.FC<DialogProps> = ({
-    onDismiss,
-    style,
-    className,
-    children
-}) => {
+const Dialog: React.FC<DialogProps> = ({ style, className, children }) => {
     return (
-        <div className={`dialog ${className}`} style={style}>
-            <div className="dialog-content">{children}</div>
-            <button className="dismiss-button" onClick={onDismiss}>
-                Close
-            </button>
+        <div className="dialog-overlay">
+            <div className={`dialog ${className}`} style={style}>
+                <div className="dialog-content">{children}</div>
+            </div>
         </div>
     );
 };

@@ -3,6 +3,7 @@ import React from 'react';
 import { Verb } from '../../../../modules/verbs/verbs.type';
 import { useNavigate } from 'react-router-dom';
 import ProgressBar from '../../../ProgressBar/progressBar';
+import { sprechen } from '../../../../images/image';
 
 type WordProps = {
     wordData: Verb;
@@ -61,10 +62,23 @@ export const WordCard: React.FC<WordProps> = ({ wordData, classes }) => {
                     </div>
                 )}
             </div>
-            <div className="progress-bar-wrapper">
-                <ProgressBar
-                    percentage={classes.includes('disable') ? 0 : 80}
+
+            {word === 'sprechen' ? (
+                <img
+                    src={sprechen}
+                    alt="test"
+                    width="64"
+                    height="64"
+                    style={{
+                        position: 'absolute',
+                        right: '3px',
+                        borderRadius: '4px'
+                    }}
                 />
+            ) : null}
+
+            <div className="progress-bar-wrapper">
+                <ProgressBar percentage={classes.includes('disable') ? 0 : 5} />
             </div>
         </div>
     );

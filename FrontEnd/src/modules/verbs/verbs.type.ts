@@ -1,3 +1,5 @@
+import { type } from 'os';
+
 export interface Verb {
     _id: Id;
     word: string;
@@ -14,6 +16,7 @@ export interface Verb {
     hasAkkObject: boolean;
     hasDativObject: boolean;
     imageUrl: string;
+    quiz?: Quiz;
 }
 
 export type VerbKeys = keyof Verb;
@@ -33,17 +36,19 @@ export interface Conjugation {
     presens: string[];
     pastTense: string[];
     perfect: string[];
-    konjuktiv: any[];
-    imperativ: any[];
+    konjuktiv: string[];
+    imperativ: string[];
 }
+
+export type ConjugationKeys = keyof Conjugation;
 
 export interface Sentences {
-    presens: Presens[];
-    perfect: Perfect[];
-    pastTense: PastTense[];
+    presens: Sentence[];
+    perfect: Sentence[];
+    pastTense: Sentence[];
 }
 
-export interface Presens {
+export interface Sentence {
     sentence: string;
     def: Def;
 }
@@ -65,3 +70,45 @@ export enum TensesE {
     konjuktiv = 'konjuktiv',
     imperativ = 'imperativ'
 }
+
+export type Option = {
+    text: string;
+    isCorrect: boolean;
+};
+
+export type Question = {
+    id: number;
+    question: string;
+    options: Option[];
+};
+
+export type QuizSection = {
+    presens: Question[];
+    perfect: Question[];
+    pastTense: Question[];
+};
+
+export type SentenceQuestion = {
+    id: number;
+    question: string;
+    options: Option[];
+};
+
+export type SentencesQuestions = {
+    presens: SentenceQuestion[];
+    perfect: SentenceQuestion[];
+    pastTense: SentenceQuestion[];
+};
+
+export type MainQuestion = {
+    question: string;
+    options: Option[];
+};
+
+export type Quiz = {
+    mainQuestion: MainQuestion;
+    conjugationQuestions: QuizSection;
+    sentencesQuestions: SentencesQuestions;
+};
+
+export type QuizKeys = keyof Quiz;

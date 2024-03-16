@@ -2,6 +2,7 @@ import React from 'react';
 import './Sentences.scss';
 import { Sentences } from '../../modules/verbs/verbs.type';
 import { useNavigate } from 'react-router-dom';
+import { Sentence } from './sentence';
 
 export type SentencesComponentProps = {
     sentencesData: Sentences;
@@ -9,7 +10,7 @@ export type SentencesComponentProps = {
 };
 
 export enum quizOptE {
-    Question = 'Question',
+    MultipleChoice = 'MultipleChoice',
     DragDrop = 'DragDrop',
     MatchWords = 'MatchWords'
 }
@@ -25,22 +26,13 @@ export const SentencesComponent: React.FC<SentencesComponentProps> = ({
                 <h2>Sentences</h2>
                 <div className="sentence-list">
                     {presens.map((sentence, index) => (
-                        <div key={index} className="sentence-item">
-                            <p>{sentence.sentence}</p>
-                            <p>{sentence.def.tr}</p>
-                        </div>
+                        <Sentence key={index} sentence={sentence}></Sentence>
                     ))}
                     {pastTense.map((sentence, index) => (
-                        <div key={index} className="sentence-item">
-                            <p>{sentence.sentence}</p>
-                            <p>{sentence.def.tr}</p>
-                        </div>
+                        <Sentence key={index} sentence={sentence}></Sentence>
                     ))}
                     {perfect.map((sentence, index) => (
-                        <div key={index} className="sentence-item">
-                            <p>{sentence.sentence}</p>
-                            <p>{sentence.def.tr}</p>
-                        </div>
+                        <Sentence key={index} sentence={sentence}></Sentence>
                     ))}
                 </div>
             </div>

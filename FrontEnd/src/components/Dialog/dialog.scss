@@ -1,3 +1,5 @@
+@import '../../_commonstyle/flexbox.scss';
+
 .dialog-overlay {
     position: fixed;
     top: 0;
@@ -14,23 +16,32 @@
 .dialog {
     background-color: white;
     border-radius: 5px;
-    width: 400px;
+    width: 100%;
+    max-width: 90vw;
+    min-width: 50vw;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .dialog-header,
 .dialog-body,
 .dialog-footer {
-    padding: 20px;
+    padding: 1em;
 }
 
 .dialog-header {
     border-bottom: 1px solid #ccc;
     font-size: 18px;
     font-weight: bold;
+    > div {
+        @include flexContRows;
+        h3 {
+            flex-grow: 1;
+        }
+        cursor: pointer;
+    }
     img {
-        width: 2em;
-        height: 2em;
+        width: 1.5em;
+        height: 1.5em;
     }
 }
 

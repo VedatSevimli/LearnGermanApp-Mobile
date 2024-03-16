@@ -1,0 +1,59 @@
+@import '../../_commonstyle/flexbox.scss';
+@import '../../_commonstyle/color.scss';
+
+.fill-the-blanks {
+    padding: 1em;
+    width: 50%;
+    h1 {
+        color: $primary-color;
+    }
+
+    p {
+        margin-bottom: 10px;
+    }
+
+    input {
+        padding: 5px;
+        max-width: 8em;
+        max-height: 1em;
+        text-align: center;
+        border: 1px solid $primary-color;
+        border-radius: 3px;
+        font-size: 14px;
+        margin: 0.25em;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    input[placeholder='(${textData.sentences[0].verb})'] {
+        // Adjust styling for the first input if needed
+    }
+
+    input[style*='border-color: green'] {
+        border-color: $success-color;
+    }
+
+    input[style*='border-color: red'] {
+        border-color: $error-color;
+    }
+
+    button {
+        padding: 8px 15px;
+        margin-top: 10px;
+        background-color: $primary-color;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: darken($primary-color, 10%);
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+}

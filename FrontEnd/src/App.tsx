@@ -18,6 +18,8 @@ import { Verb } from './modules/verbs/verbs.type';
 import { VerbDetails } from './components/pages/Worddetails/Worddetails';
 
 import { sortVerbsOrderLerning } from './utils/util';
+import { TextDetails } from './components/pages/TextDetails/TextDetails';
+// import { Hatim } from './components/Hatim';
 
 export type UserInfo = {
     name: string;
@@ -91,12 +93,17 @@ function App(): JSX.Element {
                     <Route path="/words" element={<Words words={verbList} />} />
                     <Route
                         path="/quiz/:word/:qtype/:tense/:quizOpt"
-                        element={<Quiz />}
+                        element={<Quiz verbList={verbList} />}
+                    />
+                    <Route
+                        path="/quiz"
+                        element={<Quiz verbList={verbList} />}
                     />
                     <Route
                         path="/wordDetails/:word"
-                        element={<VerbDetails />}
+                        element={<VerbDetails verbList={verbList} />}
                     />
+                    <Route path="/reading/:textId" element={<TextDetails />} />
 
                     <Route
                         path="/login"
@@ -106,6 +113,7 @@ function App(): JSX.Element {
                     </Route>
                 </Routes>
             </main>
+
             <Footer />
         </div>
     );

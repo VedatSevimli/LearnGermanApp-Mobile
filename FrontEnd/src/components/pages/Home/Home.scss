@@ -1,4 +1,7 @@
+@import '../../../_commonstyle/flexbox.scss';
 .home-container {
+    height: 100%;
+    @include flexContainerColumns;
     padding: 1em;
     text-align: center;
 
@@ -24,6 +27,7 @@
     .features-section {
         display: flex;
         justify-content: space-around;
+        flex-grow: 1;
 
         .feature {
             display: flex;
@@ -47,8 +51,8 @@
             }
 
             .img-container {
-                width: 3em;
-                height: 3em;
+                width: 10em;
+                height: 10em;
                 border: 1px solid #c2c2c2;
                 border-radius: 4px;
                 margin-bottom: 1em;

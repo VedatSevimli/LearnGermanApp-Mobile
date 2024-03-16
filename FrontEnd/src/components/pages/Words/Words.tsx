@@ -11,7 +11,7 @@ export const Words: React.FC<WordsProps> = ({ words }): JSX.Element => {
         <div className="words-page">
             {words.map((wordData, idx) => (
                 <WordCard
-                    classes={idx > 0 ? ['disable'] : ['']}
+                    classes={idx > 100 ? ['disable'] : ['']}
                     key={idx}
                     wordData={wordData}
                 />
