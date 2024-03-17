@@ -77,12 +77,12 @@ export const Reading: React.FC<ReadingProps> = ({ verbList }): JSX.Element => {
                                     <h3>Metinde kullanilan fiiller</h3>
                                 )}
                                 <div className="used-verbs-wrapper">
-                                    {gt.usedVerbs.map((uv) => {
+                                    {gt.usedVerbs.map((uv, idx) => {
                                         const isLearned =
                                             learnedWords.includes(uv);
                                         return (
                                             <span
-                                                key={uv}
+                                                key={idx}
                                                 className={`used-verb ${
                                                     isLearned ? 'learned' : ''
                                                 }`}
