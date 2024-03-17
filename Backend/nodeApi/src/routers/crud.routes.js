@@ -13,7 +13,7 @@ export const crud = express.Router();
 //TODO:use GET instead of POST
 crud.post('/add-new-verb', checkToken, AddVerb);
 crud.post('/update-verb', checkToken, findAndUpdateVerb);
-crud.post('/get-verb', findVerb);
+crud.get('/get-verb', findVerb);
 crud.post('/get-verbs', findVerbs);
-crud.post('/get-verbs-with-level', getVerbList);
+crud.get('/get-verbs-with-level', getVerbList);
 crud.get('/get-reading-text', getReadingTexts);
