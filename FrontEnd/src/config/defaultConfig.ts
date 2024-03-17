@@ -1,15 +1,27 @@
+import { MultipleChoiceQuestion } from '../components/pages/TextDetails/TextDetails';
+import {
+    dragg_dropp,
+    fillTheBlanks,
+    match_words,
+    multiple_choice_question,
+    speaking_quiz,
+    writing_quiz
+} from '../images/image';
 import { defaultConfigProps } from './configProps';
 
 export const defaultConfig = (): defaultConfigProps => {
     return {
         siteBackground: '#ffffff',
         options: [
-            'Multiple Choice',
-            'Drag and Drop',
-            'Fill the blanks',
-            'Match the Words',
-            'Speak',
-            'Write'
+            {
+                name: 'Multiple Choice',
+                image: multiple_choice_question
+            },
+            { name: 'Drag and Drop', image: dragg_dropp },
+            { name: 'Fill the blanks', image: fillTheBlanks },
+            { name: 'Match the Words', image: match_words },
+            { name: 'Speak', image: speaking_quiz },
+            { name: 'Write', image: writing_quiz }
         ],
         learnedWords: [
             'haben',

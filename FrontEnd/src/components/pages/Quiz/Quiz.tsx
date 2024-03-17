@@ -136,8 +136,9 @@ export const Quiz: React.FC<QuizProps> = (props): JSX.Element => {
                             return (
                                 <Quizoption
                                     key={i}
-                                    option={opt}
+                                    option={opt.name}
                                     onClick={handleOptionClick}
+                                    imgSrc={opt.image}
                                 ></Quizoption>
                             );
                         })}

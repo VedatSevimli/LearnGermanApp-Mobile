@@ -108,7 +108,10 @@ export const TextDetails: React.FC<TextDetailsProps> = () => {
 
             if (textData) {
                 const newTextData = [...textData];
-                if (!textData[0].fillTheBlank && newTextData) {
+                if (
+                    newTextData &&
+                    !textData[0].fillTheBlank?.sentences?.length
+                ) {
                     const fillTheBlank = generateFillTheBlank(textData[0].text);
                     newTextData[0].fillTheBlank = fillTheBlank;
                 }

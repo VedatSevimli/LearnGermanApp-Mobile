@@ -8,6 +8,6 @@ export type QuizOptions =
 
 export type defaultConfigProps = {
     siteBackground: string;
-    options: QuizOptions[];
+    options: { name: QuizOptions; image: string }[];
     learnedWords: string[];
 };

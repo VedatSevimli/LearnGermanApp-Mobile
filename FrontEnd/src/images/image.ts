@@ -8,6 +8,12 @@ import drink from './drink.svg';
 import speaker from './speaker-svgrepo-com.svg';
 import reading2 from './reading.png';
 import sprechen from './sprechen.png';
+import dragg_dropp from './dragg_dropp.webp';
+import speaking_quiz from './speaking_quiz.jpg';
+import fillTheBlanks from './fillTheBlanks.gif';
+import multiple_choice_question from './multiple_choice_question.png';
+import match_words from './match_words.webp';
+import writing_quiz from './writing_quiz.avif';
 
 export {
     quiz,
@@ -18,5 +24,11 @@ export {
     times,
     drink,
     speaker,
-    sprechen
+    sprechen,
+    dragg_dropp,
+    speaking_quiz,
+    fillTheBlanks,
+    multiple_choice_question,
+    match_words,
+    writing_quiz
 };

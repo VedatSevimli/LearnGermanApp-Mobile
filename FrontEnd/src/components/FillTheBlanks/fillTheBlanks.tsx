@@ -44,7 +44,7 @@ export const FillBlanksApp: React.FC<FillBlankProps> = ({ textData }) => {
                         {textData.fillTheBlank?.sentences.map(
                             (sentence, index) => (
                                 <span key={index}>
-                                    {sentence.prefix}
+                                    {` ${sentence.prefix} `}
                                     <input
                                         type="text"
                                         value={userInputs[index]}
@@ -64,7 +64,7 @@ export const FillBlanksApp: React.FC<FillBlankProps> = ({ textData }) => {
                                                     : ''
                                         }}
                                     />
-                                    {sentence.suffix}
+                                    {` ${sentence.suffix} `}
                                 </span>
                             )
                         )}
