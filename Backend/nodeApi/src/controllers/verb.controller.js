@@ -69,7 +69,7 @@ export const findAndUpdateVerb = async (req, res) => {
 };
 
 export const findVerb = async (req, res) => {
-    const { word } = req.body;
+    const { word } = req.query;
     const getWord = await VerbList.findOne({ word });
     if (!getWord) {
         return new Response(word, `${word} could't not found!`).err401(res);
@@ -96,7 +96,7 @@ export const findVerbs = async (req, res) => {
 };
 
 export const getVerbList = async (req, res) => {
-    const { level } = req.body;
+    const { level } = req.query;
     const getWord = await VerbList.find({ level });
 
     if (!getWord) {
@@ -107,7 +107,6 @@ export const getVerbList = async (req, res) => {
 
 export const getReadingTexts = async (req, res) => {
     const { textId } = req.query;
-    console.log(textId);
     if (textId === 'all') {
         const readingTexts = await ReadingTexts.find({});
         new Response(readingTexts, 'The text is founded').success(res);
