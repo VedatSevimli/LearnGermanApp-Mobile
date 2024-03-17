@@ -11,6 +11,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { appiLimiter } from './src/middlewares/rateLimit.js';
 import moment from 'moment-timezone';
+import multer from 'multer';
+import { ImageUpload } from './src/models/image.model.js';
 
 dotenv.config();
 
@@ -47,6 +49,34 @@ app.use(
         replaceWith: '_'
     })
 ); // prevetn injection attack
+
+// Set up multer for file uploads
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+// Route to handle file upload
+app.post('/uploadImages', upload.array('images', 10), async (req, res) => {
+    try {
+        const files = req.files;
+        // Handle each uploaded file
+        for (let i = 0; i < files.length; i++) {
+            const newImage = new ImageUpload({
+                name: files[i].originalname,
+                data: files[i].buffer
+            });
+            await newImage.save();
+        }
+        // const newImage = new ImageUpload({
+        //     name: req.file.originalname,
+        //     data: req.file.buffer
+        // });
+        // await newImage.save();
+        res.send('Image uploaded successfully');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error uploading image');
+    }
+});
 
 // Routes
 app.use('/api', router);
