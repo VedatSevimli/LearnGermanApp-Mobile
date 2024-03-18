@@ -3,7 +3,6 @@ import React from 'react';
 import { Verb } from '../../../../modules/verbs/verbs.type';
 import { useNavigate } from 'react-router-dom';
 import ProgressBar from '../../../ProgressBar/progressBar';
-import { sprechen } from '../../../../images/image';
 
 type WordProps = {
     wordData: Verb;
@@ -63,9 +62,9 @@ export const WordCard: React.FC<WordProps> = ({ wordData, classes }) => {
                 )}
             </div>
 
-            {word === 'sprechen' ? (
+            {wordData.imageUrl ? (
                 <img
-                    src={sprechen}
+                    src={wordData.imageUrl}
                     alt="test"
                     width="64"
                     height="64"

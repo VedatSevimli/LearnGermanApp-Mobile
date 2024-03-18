@@ -13,6 +13,7 @@ import { appiLimiter } from './src/middlewares/rateLimit.js';
 import moment from 'moment-timezone';
 import multer from 'multer';
 import { ImageUpload } from './src/models/image.model.js';
+import { Response } from './src/utils/response.js';
 
 dotenv.config();
 
@@ -66,11 +67,7 @@ app.post('/uploadImages', upload.array('images', 10), async (req, res) => {
             });
             await newImage.save();
         }
-        // const newImage = new ImageUpload({
-        //     name: req.file.originalname,
-        //     data: req.file.buffer
-        // });
-        // await newImage.save();
+
         res.send('Image uploaded successfully');
     } catch (error) {
         console.error(error);
