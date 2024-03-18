@@ -4,10 +4,7 @@ import listening from './listening.jpg';
 import reading from './reading.jpg';
 import words from './words.jpg';
 import times from './times.svg';
-import drink from './drink.svg';
 import speaker from './speaker-svgrepo-com.svg';
-import reading2 from './reading.png';
-import sprechen from './sprechen.png';
 import dragg_dropp from './dragg_dropp.webp';
 import speaking_quiz from './speaking_quiz.jpg';
 import fillTheBlanks from './fillTheBlanks.gif';
@@ -22,9 +19,7 @@ export {
     reading,
     words,
     times,
-    drink,
     speaker,
-    sprechen,
     dragg_dropp,
     speaking_quiz,
     fillTheBlanks,

@@ -5,9 +5,14 @@ import {
     findVerb,
     findVerbs,
     getReadingTexts,
-    getVerbList
+    getVerbList,
+    updateVerbImageUrl
 } from '../controllers/verb.controller.js';
 import { checkToken } from '../middlewares/auth.js';
+import multer from 'multer';
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 export const crud = express.Router();
 //TODO:use GET instead of POST
@@ -17,3 +22,8 @@ crud.get('/get-verb', findVerb);
 crud.post('/get-verbs', findVerbs);
 crud.get('/get-verbs-with-level', getVerbList);
 crud.get('/get-reading-text', getReadingTexts);
+crud.post(
+    '/update-verb-image-url',
+    upload.single('imageUrl'),
+    updateVerbImageUrl
+);

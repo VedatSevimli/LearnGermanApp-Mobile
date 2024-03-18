@@ -109,9 +109,42 @@ export const getReadingTexts = async (req, res) => {
     const { textId } = req.query;
     if (textId === 'all') {
         const readingTexts = await ReadingTexts.find({});
-        new Response(readingTexts, 'The text is founded').success(res);
+        return new Response(readingTexts, 'The text is founded').success(res);
     } else {
         const readingText = await ReadingTexts.find({ textId: textId });
-        new Response(readingText, 'The text is founded').success(res);
+        return new Response(readingText, 'The text is founded').success(res);
+    }
+};
+
+export const updateVerbImageUrl = async (req, res) => {
+    try {
+        // Extract data from the request
+        const { word } = req.query;
+        const file = req.file;
+        if (!file) {
+            return res.status(400).json({ error: 'No file provided' });
+        }
+
+        const base64Image = file.buffer.toString('base64');
+        const imageUrl = `data:image/png;base64,${base64Image}`;
+
+        // Update imageUrl for the verb
+        const updatedVerb = await VerbList.findOneAndUpdate(
+            { word },
+            { $set: { imageUrl: imageUrl } },
+            { new: true, projection: { _id: 0 } }
+        );
+
+        if (!updatedVerb) {
+            return new Response(null, 'No verb found').err404(res);
+        }
+
+        return new Response(
+            file.originalname,
+            'Verb imageUrl updated successfully'
+        ).success(res);
+    } catch (error) {
+        console.error('Error updating verb imageUrl:', error);
+        return new Response(null, 'Internal Server Error').erro500(res);
     }
 };
