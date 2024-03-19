@@ -43,7 +43,7 @@ export const getWords = async ({
 }: {
     words: string[];
 }): Promise<Verb[]> => {
-    const response = await fetch('http://localhost:5000/api/get-verbs', {
+    const response = await fetch(`${baseAPiPath}get-verbs`, {
         method: 'POST',
         body: JSON.stringify({ words }),
         headers: {

@@ -1,6 +1,5 @@
 import {
     Option,
-    Quiz,
     QuizSection,
     Sentence,
     SentencesQuestions,

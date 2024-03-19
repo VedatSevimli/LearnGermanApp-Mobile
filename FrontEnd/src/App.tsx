@@ -19,7 +19,6 @@ import { VerbDetails } from './components/pages/Worddetails/Worddetails';
 
 import { sortVerbsOrderLerning } from './utils/util';
 import { TextDetails } from './components/pages/TextDetails/TextDetails';
-// import { Hatim } from './components/Hatim';
 
 export type UserInfo = {
     name: string;
@@ -39,6 +38,7 @@ function App(): JSX.Element {
     const [verbList, setVerbList] = useState<Verb[]>([]);
 
     useEffect(() => {
+        isMounted.current = true;
         const doLoginWithToken = async () => {
             const user = localStorage.getItem('userInfo');
             const userInfo: UserInfo = user ? JSON.parse(user) : null;
