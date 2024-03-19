@@ -1,11 +1,12 @@
 import { Login, LoginWithToken } from '../../modules/login/login.type';
 
+const baseApiPath = 'http://localhost:5000/api/';
 export const loginWithToken = async ({
     token
 }: {
     token: string;
 }): Promise<LoginWithToken> => {
-    const response = await fetch('http://localhost:5000/api/me', {
+    const response = await fetch(`${baseApiPath}me`, {
         method: 'GET',
         headers: new Headers({
             'Content-Type': 'application/json',
@@ -24,7 +25,7 @@ export const doLogin = async ({
     email: string;
     password: string;
 }): Promise<Login> => {
-    const response = await fetch('http://localhost:5000/api/login', {
+    const response = await fetch(`${baseApiPath}login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

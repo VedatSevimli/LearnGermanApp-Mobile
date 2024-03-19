@@ -1,5 +1,3 @@
-import { type } from 'os';
-
 export interface Verb {
     _id: Id;
     word: string;
