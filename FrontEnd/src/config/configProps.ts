@@ -1,3 +1,6 @@
+import { quizOptE } from '../components/Sentences/Sentences';
+import { SentencesAndConjugation, TensesE } from '../modules/verbs/verbs.type';
+
 export type QuizOptions =
     | 'Multiple Choice'
     | 'Drag and Drop'
@@ -10,4 +13,9 @@ export type defaultConfigProps = {
     siteBackground: string;
     options: { name: QuizOptions; image: string }[];
     learnedWords: string[];
+    learnMode: {
+        QuestionType: SentencesAndConjugation;
+        tense: TensesE;
+        quizOpt: quizOptE;
+    }[];
 };

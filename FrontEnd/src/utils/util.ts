@@ -1,8 +1,10 @@
+import { ElementType } from 'react';
 import {
     Option,
     QuizSection,
     Sentence,
     SentencesQuestions,
+    TensesE,
     Verb
 } from '../modules/verbs/verbs.type';
 
@@ -35,7 +37,11 @@ export const sortVerbsOrderLerning = (verbs: Verb[]) => {
     return sortedVerbObjects;
 };
 
-export const generateQuiz = (obj: Verb, verbdefintions: string[]): Verb => {
+export const generateQuiz = (
+    obj: Verb,
+    verbdefintions: string[],
+    numberOfOptions = 4
+): Verb => {
     const arrWithoutSelected = verbdefintions.filter(
         (verb) => verb !== obj.word
     );
@@ -52,7 +58,7 @@ export const generateQuiz = (obj: Verb, verbdefintions: string[]): Verb => {
         return options;
     }
 
-    function gt() {
+    function getVerbs() {
         const num = Math.floor(Math.random() * arrWithoutSelected.length);
         const stc = arrWithoutSelected.splice(num, 1);
         return stc.toString();
@@ -63,9 +69,9 @@ export const generateQuiz = (obj: Verb, verbdefintions: string[]): Verb => {
         question: `${obj.word}`,
         options: shuffleOptions([
             { text: obj.def.tr, isCorrect: true },
-            { text: gt(), isCorrect: false },
-            { text: gt(), isCorrect: false },
-            { text: gt(), isCorrect: false }
+            { text: getVerbs(), isCorrect: false },
+            { text: getVerbs(), isCorrect: false },
+            { text: getVerbs(), isCorrect: false }
         ])
     };
 
@@ -75,85 +81,59 @@ export const generateQuiz = (obj: Verb, verbdefintions: string[]): Verb => {
         pastTense: []
     };
 
-    function getConjugationOption(conjArr: string[]): string {
-        const num = Math.floor(Math.random() * conjArr.length);
-        const stc = conjArr.splice(num, 1);
-        return stc.toString().split(' ').slice(1).join(' ');
-    }
+    const getConjugationOptions = (conjArr: string[]): string[] => {
+        const uniqueOptions: Set<string> = new Set();
+
+        for (let i = 0; i < conjArr.length; i++) {
+            uniqueOptions.add(conjArr[i].split(' ').slice(1).join(' '));
+        }
+        return Array.from(uniqueOptions);
+    };
+
+    const generateConjunctionQuestion = (
+        conj: string,
+        idx: number,
+        arr: string[],
+        tense: TensesE
+    ) => {
+        const arrWithoutSelected = arr.filter((c) => c !== conj);
+        const splitSentence = conj.split(' ');
+        const options = getConjugationOptions(arrWithoutSelected)
+            .filter((opt) => opt !== splitSentence.slice(1).join(' '))
+            .sort(() => Math.random() - 0.5)
+            .slice(0, numberOfOptions - 1);
+
+        const correctOption = {
+            text: splitSentence.slice(1).join(' '),
+            isCorrect: true
+        };
+
+        const allOptions = [
+            correctOption,
+            ...options.map((opt) => ({ text: opt, isCorrect: false }))
+        ];
+
+        conjugationQuestions[tense]?.push({
+            id: idx,
+            question: `${splitSentence[0]} _____ (${obj.word})`,
+            options: shuffleOptions(allOptions)
+        });
+    };
 
     // *add present tense question to the quiz array
-    obj.conjugation.presens.forEach((conj, idx, arr) => {
-        const arrWithoutSelected = arr.filter((c) => c !== conj);
-        const splitSentence = conj.split(' ');
-
-        const opt = [
-            { text: splitSentence.slice(1).join(' '), isCorrect: true },
-            {
-                text: getConjugationOption(arrWithoutSelected),
-                isCorrect: false
-            },
-            {
-                text: getConjugationOption(arrWithoutSelected),
-                isCorrect: false
-            },
-            { text: getConjugationOption(arrWithoutSelected), isCorrect: false }
-        ];
-
-        conjugationQuestions.presens.push({
-            id: idx,
-            question: `${splitSentence[0]} _____ (${obj.word})`,
-            options: shuffleOptions(opt)
-        });
-    });
+    obj.conjugation.presens.forEach((...p) =>
+        generateConjunctionQuestion(...p, TensesE.presens)
+    );
 
     // add pastTense tense question to the quiz array
-    obj.conjugation.pastTense.forEach((conj, idx, arr) => {
-        const arrWithoutSelected = arr.filter((c) => c !== conj);
-        const splitSentence = conj.split(' ');
-
-        const opt = [
-            { text: splitSentence.slice(1).join(' '), isCorrect: true },
-            {
-                text: getConjugationOption(arrWithoutSelected),
-                isCorrect: false
-            },
-            {
-                text: getConjugationOption(arrWithoutSelected),
-                isCorrect: false
-            },
-            { text: getConjugationOption(arrWithoutSelected), isCorrect: false }
-        ];
-
-        conjugationQuestions.pastTense.push({
-            id: idx,
-            question: `${splitSentence[0]} _____ (${obj.word})`,
-            options: shuffleOptions(opt)
-        });
-    });
+    obj.conjugation.pastTense.forEach((...p) =>
+        generateConjunctionQuestion(...p, TensesE.pastTense)
+    );
 
     // add perfect conj questions to the quiz array
-    obj.conjugation.perfect.forEach((conj, idx, arr) => {
-        const arrWithoutSelected = arr.filter((c) => c !== conj);
-        const splitSentence = conj.split(' ');
-
-        const opt = [
-            { text: splitSentence.slice(1).join(' '), isCorrect: true },
-            {
-                text: getConjugationOption(arrWithoutSelected),
-                isCorrect: false
-            },
-            {
-                text: getConjugationOption(arrWithoutSelected),
-                isCorrect: false
-            },
-            { text: getConjugationOption(arrWithoutSelected), isCorrect: false }
-        ];
-        conjugationQuestions.perfect.push({
-            id: idx,
-            question: `${splitSentence[0]} _____ (${obj.word})`,
-            options: shuffleOptions(opt)
-        });
-    });
+    obj.conjugation.perfect.forEach((...p) =>
+        generateConjunctionQuestion(...p, TensesE.perfect)
+    );
 
     const sentencesQuestions: SentencesQuestions = {
         presens: [],
@@ -169,94 +149,58 @@ export const generateQuiz = (obj: Verb, verbdefintions: string[]): Verb => {
         }
         return stc[0] ?? { def: { tr: 'Alle sind richtig' } };
     }
+
+    const generateSentenceQuestion = (
+        sentence: Sentence,
+        idx: number,
+        arr: Sentence[],
+        tense: TensesE
+    ) => {
+        const arrWithoutSelected = arr.filter(
+            (s) => s.sentence !== sentence.sentence
+        );
+
+        const opt = [
+            {
+                text: getSentenceMixOpt(arrWithoutSelected).def.tr,
+                isCorrect: false
+            },
+            { text: sentence.def.tr, isCorrect: true },
+            {
+                text: getSentenceMixOpt(arrWithoutSelected).def.tr,
+                isCorrect: false
+            },
+            {
+                text: getSentenceMixOpt(arrWithoutSelected).def.tr,
+                isCorrect: false
+            }
+        ];
+        sentencesQuestions[tense]?.push({
+            id: idx,
+            question: `${sentence.sentence}`,
+            options: shuffleOptions(opt)
+        });
+    };
+
     // *add sentence translation questions to the quiz array
-    obj.sentences.presens.forEach((sentence, idx, arr) => {
-        const arrWithoutSelected = arr.filter(
-            (s) => s.sentence !== sentence.sentence
-        );
+    obj.sentences.presens.forEach((...p) =>
+        generateSentenceQuestion(...p, TensesE.presens)
+    );
 
-        const opt = [
-            {
-                text: getSentenceMixOpt(arrWithoutSelected).def.tr,
-                isCorrect: false
-            },
-            { text: sentence.def.tr, isCorrect: true },
-            {
-                text: getSentenceMixOpt(arrWithoutSelected).def.tr,
-                isCorrect: false
-            },
-            {
-                text: getSentenceMixOpt(arrWithoutSelected).def.tr,
-                isCorrect: false
-            }
-        ];
-        sentencesQuestions.presens.push({
-            id: idx,
-            question: `${sentence.sentence}`,
-            options: shuffleOptions(opt)
-        });
-    });
+    obj.sentences.perfect.forEach((...p) =>
+        generateSentenceQuestion(...p, TensesE.presens)
+    );
 
-    obj.sentences.perfect.forEach((sentence, idx, arr) => {
-        const arrWithoutSelected = arr.filter(
-            (s) => s.sentence !== sentence.sentence
-        );
-
-        const opt = [
-            {
-                text: getSentenceMixOpt(arrWithoutSelected).def.tr,
-                isCorrect: false
-            },
-            { text: sentence.def.tr, isCorrect: true },
-            {
-                text: getSentenceMixOpt(arrWithoutSelected).def.tr,
-                isCorrect: false
-            },
-            {
-                text: getSentenceMixOpt(arrWithoutSelected).def.tr,
-                isCorrect: false
-            }
-        ];
-        sentencesQuestions.perfect.push({
-            id: idx,
-            question: `${sentence.sentence}`,
-            options: shuffleOptions(opt)
-        });
-    });
-
-    obj.sentences.pastTense.forEach((sentence, idx, arr) => {
-        const arrWithoutSelected = arr.filter(
-            (s) => s.sentence !== sentence.sentence
-        );
-
-        const opt = [
-            {
-                text: getSentenceMixOpt(arrWithoutSelected).def.tr,
-                isCorrect: false
-            },
-            { text: sentence.def.tr, isCorrect: true },
-            {
-                text: getSentenceMixOpt(arrWithoutSelected).def.tr,
-                isCorrect: false
-            },
-            {
-                text: getSentenceMixOpt(arrWithoutSelected).def.tr,
-                isCorrect: false
-            }
-        ];
-        sentencesQuestions.pastTense.push({
-            id: idx,
-            question: `${sentence.sentence}`,
-            options: shuffleOptions(opt)
-        });
-    });
+    obj.sentences.pastTense.forEach((...p) =>
+        generateSentenceQuestion(...p, TensesE.presens)
+    );
 
     return {
         ...obj,
         quiz: {
             mainQuestion,
-            conjugationQuestions,
-            sentencesQuestions
+            conjugation: conjugationQuestions,
+            sentences: sentencesQuestions
         }
     };
 };
@@ -429,3 +373,23 @@ export const verbsForSorting = [
     'abfliegen',
     'ausschneiden'
 ];
+
+export function shuffleArray<T>(array: ElementType<T>[]): ElementType<T>[] {
+    let currentIndex = array.length,
+        randomIndex;
+
+    // While there remain elements to shuffle.
+    while (currentIndex > 0) {
+        // Pick a remaining element.
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex],
+            array[currentIndex]
+        ];
+    }
+
+    return array;
+}

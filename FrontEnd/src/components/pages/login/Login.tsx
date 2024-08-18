@@ -2,8 +2,8 @@ import { useState } from 'react';
 import './Login.scss';
 import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../../LoadingSpinner/LoadingSpinner';
-import Button from '../../Button/buttons';
 import { doLogin } from '../../../API/Login/login';
+import { Button } from '../../Button/button';
 
 type LoginPorps = {
     setAuthenticated: (isloggin: boolean) => void;

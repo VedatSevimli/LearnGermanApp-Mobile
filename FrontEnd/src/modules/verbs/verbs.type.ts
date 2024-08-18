@@ -34,8 +34,8 @@ export interface Conjugation {
     presens: string[];
     pastTense: string[];
     perfect: string[];
-    konjuktiv: string[];
-    imperativ: string[];
+    konjuktiv?: string[];
+    imperativ?: string[];
 }
 
 export type ConjugationKeys = keyof Conjugation;
@@ -44,6 +44,8 @@ export interface Sentences {
     presens: Sentence[];
     perfect: Sentence[];
     pastTense: Sentence[];
+    konjuktiv?: Sentence[];
+    imperativ?: Sentence[];
 }
 
 export interface Sentence {
@@ -84,6 +86,8 @@ export type QuizSection = {
     presens: Question[];
     perfect: Question[];
     pastTense: Question[];
+    konjuktiv?: Question[];
+    imperativ?: Question[];
 };
 
 export type SentenceQuestion = {
@@ -96,6 +100,8 @@ export type SentencesQuestions = {
     presens: SentenceQuestion[];
     perfect: SentenceQuestion[];
     pastTense: SentenceQuestion[];
+    konjuktiv?: SentenceQuestion[];
+    imperativ?: SentenceQuestion[];
 };
 
 export type MainQuestion = {
@@ -105,8 +111,8 @@ export type MainQuestion = {
 
 export type Quiz = {
     mainQuestion: MainQuestion;
-    conjugationQuestions: QuizSection;
-    sentencesQuestions: SentencesQuestions;
+    conjugation: QuizSection;
+    sentences: SentencesQuestions;
 };
 
 export type QuizKeys = keyof Quiz;

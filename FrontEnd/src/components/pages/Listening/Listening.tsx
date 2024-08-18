@@ -1,35 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Listening.scss';
 
 export const Listening: React.FC = (): JSX.Element => {
-    async function uploadImage() {
-        const fileInput = document.getElementById('imageInput');
-        const files = fileInput?.files;
-        if (!files) {
-            return;
-        }
-
-        const formData = new FormData();
-        for (let i = 0; i < files.length; i++) {
-            formData.append('images', files[i]);
-        }
-
-        try {
-            const response = await fetch('http://localhost:5000/uploadImages', {
-                method: 'POST',
-                headers: {
-                    'Access-Control-Allow-Origin': 'http://localhost:3000'
-                },
-                body: formData
-            });
-        } catch (error) {
-            console.error('Error uploading image:', error);
-        }
-    }
+    const [responseMessage, setResponseMessage] = useState<string>();
 
     async function uploadImageUrl() {
-        const fileInput = document.getElementById('imageInput2');
-        const wordInput = document.getElementById('word');
+        const fileInput = document.getElementById(
+            'imageInput2'
+        ) as HTMLInputElement;
+        const wordInput = document.getElementById('word') as HTMLInputElement;
 
         const files = fileInput?.files;
         if (!files) {
@@ -51,6 +30,8 @@ export const Listening: React.FC = (): JSX.Element => {
                     body: formData
                 }
             );
+            const responseMsg = await response.json();
+            setResponseMessage(responseMsg.message as string);
         } catch (error) {
             console.error('Error uploading image:', error);
         }
@@ -58,16 +39,27 @@ export const Listening: React.FC = (): JSX.Element => {
     return (
         <div className="listening">
             Listening page
-            {/* <div className="upload-image">
-                <h1>Upload Image</h1>
-                <input type="file" id="imageInput" multiple />
-                <button onClick={uploadImage}>Upload</button>
-            </div> */}
-            <div className="upload-image">
+            <div
+                className="upload-image"
+                style={{ display: 'flex', flexDirection: 'column' }}
+            >
                 <h1>Upload Verb Image</h1>
-                <input type="text" id="word" />
-                <input type="file" id="imageInput2" />
-                <button onClick={uploadImageUrl}>Upload</button>
+                <label htmlFor="word">
+                    word:
+                    <input type="text" id="word" />
+                </label>
+                <label htmlFor="imageInput2">
+                    resim sec
+                    <input type="file" id="imageInput2" />
+                </label>
+                <button
+                    className="primaryBtn"
+                    style={{ width: '50%' }}
+                    onClick={uploadImageUrl}
+                >
+                    Upload
+                </button>
+                {responseMessage && <span>{responseMessage}</span>}
             </div>
         </div>
     );

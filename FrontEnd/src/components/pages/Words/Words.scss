@@ -51,6 +51,13 @@
             align-items: flex-end;
             margin-top: auto;
         }
+        .verbImg {
+            position: absolute;
+            right: 3px;
+            max-height: 4em;
+            max-width: 4em;
+            border-radius: 4px;
+        }
 
         .progress-bar-wrapper {
             margin: 0.5em 0;

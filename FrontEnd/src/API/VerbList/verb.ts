@@ -7,6 +7,7 @@ export enum verbLevelE {
 }
 const baseAPiPath = 'http://localhost:5000/api/';
 const allowedOrigins = ['http://localhost:3000'];
+
 export const getVerbList = async ({
     level
 }: {

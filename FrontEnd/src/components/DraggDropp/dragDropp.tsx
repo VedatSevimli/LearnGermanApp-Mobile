@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import './dragDropp.scss';
-import Button from '../Button/buttons';
 import { speakSentence } from '../../utils/speech';
 import { speaker } from '../../images/image';
+import { Button } from '../Button/button';
 
 export type DragDroppProps = {
     question: string;
     definition: string;
     mixConj: string[];
+    setNext?: React.Dispatch<React.SetStateAction<number>>;
 };
 
-//TODO: show one by one the questions not all of them..
 export const DraggQuiz: React.FC<DragDroppProps> = (props): JSX.Element => {
     const { question, definition, mixConj } = props;
+    const isMounted = useRef<boolean>(false);
     const [widgets, setWidgets] = useState<string[]>([]);
     const [mixedWid, setMixedWid] = useState<string[]>(
         shuffleArray(question.split(' '))
@@ -21,11 +22,27 @@ export const DraggQuiz: React.FC<DragDroppProps> = (props): JSX.Element => {
     const [showDef, setShowDef] = useState<boolean>(false);
 
     useEffect(() => {
+        isMounted.current = true;
+        return () => {
+            isMounted.current = false;
+        };
+    }, []);
+
+    useEffect(() => {
         setWidgets([]);
-        const concatItkems = shuffleArray([...question.split(' '), ...mixConj]);
-        setMixedWid(concatItkems);
-        setShowDef(false);
+        const concatItems = shuffleArray([...question.split(' '), ...mixConj]);
+        isMounted.current && setMixedWid(concatItems);
+        isMounted.current && setShowDef(false);
     }, [question]);
+
+    useEffect(() => {
+        widgets.join(' ').length === question.toString().length &&
+            widgets.join(' ') === question.toString() &&
+            setTimeout(() => {
+                isMounted.current &&
+                    props.setNext?.((prev) => (prev = prev + 1));
+            }, 1.5 * 1000);
+    }, [widgets, question]);
 
     const handleOnDrag = (
         e: React.DragEvent<HTMLDivElement>,
@@ -63,9 +80,21 @@ export const DraggQuiz: React.FC<DragDroppProps> = (props): JSX.Element => {
         ]);
     };
 
+    const handleWidgetClick = (word: string) => {
+        setMixedWid((prev) => {
+            const idx = prev.indexOf(word);
+            let filteredArr;
+            if (idx !== -1) {
+                filteredArr = prev.filter((_, i) => i !== idx);
+            }
+            return filteredArr ?? [];
+        });
+        setWidgets((prev) => [...prev, word]);
+    };
+
     return (
         <div className="draggQuestion">
-            <h2>Bitten ordnen Sie den Satz zu</h2>
+            <h2>Bitte ordnen Sie den Satz zu</h2>
 
             <div className="definition" onClick={() => setShowDef(!showDef)}>
                 <p>
@@ -83,19 +112,7 @@ export const DraggQuiz: React.FC<DragDroppProps> = (props): JSX.Element => {
                             draggable
                             onDragStart={(e) => handleOnDrag(e, w)}
                             key={i}
-                            onClick={() => {
-                                setMixedWid((prev) => {
-                                    const idx = prev.indexOf(w);
-                                    let filteredArr;
-                                    if (idx !== -1) {
-                                        filteredArr = prev.filter(
-                                            (item, i) => i !== idx
-                                        );
-                                    }
-                                    return filteredArr ?? [];
-                                });
-                                setWidgets((prev) => [...prev, w]);
-                            }}
+                            onClick={() => handleWidgetClick(w)}
                         >
                             {w}
                         </div>

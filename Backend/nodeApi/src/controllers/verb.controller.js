@@ -148,3 +148,32 @@ export const updateVerbImageUrl = async (req, res) => {
         return new Response(null, 'Internal Server Error').erro500(res);
     }
 };
+
+export const addReadingTexts = async (req, res) => {
+    const { text } = req.body;
+
+    const hasSameWord = await ReadingTexts.findOne({ text });
+
+    if (hasSameWord) {
+        return res.status(401).json({
+            success: false,
+            message: 'you have same text in list'
+        });
+    }
+    const saveText = new ReadingTexts(req.body);
+
+    await saveText
+        .save()
+        .then((data) =>
+            new Response(data.textId, 'the verb is added in the list').created(
+                res
+            )
+        )
+        .catch((err) => {
+            return res.status(401).json({
+                success: false,
+                message: err.message
+            });
+            // throw new APIError("the verb could not add to list", 400);
+        });
+};
