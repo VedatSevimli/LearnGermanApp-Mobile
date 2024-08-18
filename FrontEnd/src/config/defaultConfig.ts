@@ -1,4 +1,4 @@
-import { MultipleChoiceQuestion } from '../components/pages/TextDetails/TextDetails';
+import { quizOptE } from '../components/Sentences/Sentences';
 import {
     dragg_dropp,
     fillTheBlanks,
@@ -7,6 +7,7 @@ import {
     speaking_quiz,
     writing_quiz
 } from '../images/image';
+import { TensesE } from '../modules/verbs/verbs.type';
 import { defaultConfigProps } from './configProps';
 
 export const defaultConfig = (): defaultConfigProps => {
@@ -38,6 +39,58 @@ export const defaultConfig = (): defaultConfigProps => {
             'hören',
             'geben',
             'nehmen'
+        ],
+        learnMode: [
+            {
+                quizOpt: quizOptE.MatchWords,
+                QuestionType: 'conjugation',
+                tense: TensesE.presens
+            },
+            {
+                quizOpt: quizOptE.DragDrop,
+                QuestionType: 'conjugation',
+                tense: TensesE.presens
+            },
+            {
+                quizOpt: quizOptE.MultipleChoice,
+                QuestionType: 'conjugation',
+                tense: TensesE.presens
+            },
+            {
+                quizOpt: quizOptE.DragDrop,
+                QuestionType: 'sentences',
+                tense: TensesE.presens
+            },
+            {
+                quizOpt: quizOptE.MultipleChoice,
+                QuestionType: 'sentences',
+                tense: TensesE.presens
+            },
+            {
+                quizOpt: quizOptE.MatchWords,
+                QuestionType: 'conjugation',
+                tense: TensesE.perfect
+            },
+            {
+                quizOpt: quizOptE.DragDrop,
+                QuestionType: 'conjugation',
+                tense: TensesE.perfect
+            },
+            {
+                quizOpt: quizOptE.MultipleChoice,
+                QuestionType: 'conjugation',
+                tense: TensesE.perfect
+            },
+            {
+                quizOpt: quizOptE.DragDrop,
+                QuestionType: 'sentences',
+                tense: TensesE.perfect
+            },
+            {
+                quizOpt: quizOptE.MultipleChoice,
+                QuestionType: 'sentences',
+                tense: TensesE.perfect
+            }
         ]
     };
 };

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import './multipleChoice.scss';
 import { generateQuiz } from '../../utils/util';
 import {
-    QuizKeys,
     SentencesAndConjugation,
     TensesE,
     Verb
@@ -16,8 +15,13 @@ export type MultipleChoiceProps = {
     verbList: Verb[];
     tense: TensesE;
     questionType: SentencesAndConjugation;
+    onQuizFinsih?: (quizResult?: quizResult) => void;
 };
-
+export type quizResult = {
+    correctAnswers: number[];
+    wrongAnswers: number[];
+    quizFinished: boolean;
+};
 export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     questionType,
     tense,
@@ -25,7 +29,12 @@ export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
 }): JSX.Element => {
     const [questions, setQuestion] = useState<Verb>();
     const [timeOut, setTimeOut] = useState<boolean>(false);
-    const [questionNumber, setQuestionNumber] = useState<number>(1); //TODO if the last question is answered then should be shwon istatistic
+    const [questionNumber, setQuestionNumber] = useState<number>(1);
+    const [quizResult, setQuizResult] = useState<{
+        correctAnswers: number[];
+        wrongAnswers: number[];
+        quizFinished: boolean;
+    }>({ correctAnswers: [], wrongAnswers: [], quizFinished: false });
 
     useEffect(() => {
         if (props.verb) {
@@ -44,24 +53,44 @@ export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         }
     }, [timeOut]);
 
+    useEffect(() => {
+        if (quizResult.quizFinished) {
+            props.onQuizFinsih?.(quizResult);
+        }
+    }, [quizResult.quizFinished]);
+
     return (
         <div className="question-quiz">
             <div className="top">
-                <Timer
-                    setTimeOut={setTimeOut}
-                    questionNumber={questionNumber}
-                />
+                {!quizResult.quizFinished && (
+                    <Timer
+                        setTimeOut={setTimeOut}
+                        questionNumber={questionNumber}
+                    />
+                )}
             </div>
             <div className="bottom">
-                {questions?.quiz && (
-                    <Trivia
-                        data={
-                            questions?.quiz[`${questionType}Questions`][tense]
-                        }
-                        questionNumber={questionNumber}
-                        setQuestionNumber={setQuestionNumber}
-                        setTimeOut={setTimeOut}
-                    />
+                {questions?.quiz?.[questionType][tense] &&
+                    !quizResult.quizFinished && (
+                        <Trivia
+                            data={questions.quiz[questionType][tense] ?? []}
+                            questionNumber={questionNumber}
+                            setQuestionNumber={setQuestionNumber}
+                            setTimeOut={setTimeOut}
+                            setQuizResult={setQuizResult}
+                        />
+                    )}
+                {quizResult.quizFinished && (
+                    <div className="quizResult">
+                        <span>
+                            Richtig geantwortete Fragen :
+                            {quizResult.correctAnswers.length}
+                        </span>
+                        <span>
+                            Falsch geantwortete Fragen :
+                            {quizResult.wrongAnswers.length}
+                        </span>
+                    </div>
                 )}
             </div>
         </div>

@@ -10,7 +10,7 @@ interface ButtonProps {
     style?: React.CSSProperties;
 }
 
-const Button: React.FC<ButtonProps> = ({
+export const Button: React.FC<ButtonProps> = ({
     onClick,
     type = 'primary',
     disabled = false,
@@ -31,5 +31,3 @@ const Button: React.FC<ButtonProps> = ({
         </button>
     );
 };
-
-export default Button;

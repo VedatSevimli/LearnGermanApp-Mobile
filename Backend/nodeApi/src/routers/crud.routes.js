@@ -6,7 +6,8 @@ import {
     findVerbs,
     getReadingTexts,
     getVerbList,
-    updateVerbImageUrl
+    updateVerbImageUrl,
+    addReadingTexts
 } from '../controllers/verb.controller.js';
 import { checkToken } from '../middlewares/auth.js';
 import multer from 'multer';
@@ -19,9 +20,10 @@ export const crud = express.Router();
 crud.post('/add-new-verb', checkToken, AddVerb);
 crud.post('/update-verb', checkToken, findAndUpdateVerb);
 crud.get('/get-verb', findVerb);
-crud.post('/get-verbs', findVerbs);
+crud.post('/get-verbs', findVerbs);//name sould be changed
 crud.get('/get-verbs-with-level', getVerbList);
 crud.get('/get-reading-text', getReadingTexts);
+crud.post('/add-reading-text', addReadingTexts);
 crud.post(
     '/update-verb-image-url',
     upload.single('imageUrl'),

@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import Button from '../../Button/buttons';
+import { Button } from '../../Button/button';
 
 export type DialogFooter = {
     children?: ReactNode;

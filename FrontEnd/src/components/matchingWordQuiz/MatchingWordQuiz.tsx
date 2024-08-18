@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './MatchingWordQuiz.scss';
-import {
-    Conjugation,
-    SentencesAndConjugation,
-    TensesE,
-    Verb
-} from '../../modules/verbs/verbs.type';
+import { TensesE } from '../../modules/verbs/verbs.type';
 
 export type matchingWords = {
     word: string;
@@ -13,35 +8,42 @@ export type matchingWords = {
 };
 
 export type MatchingWordQuizProps = {
-    verb: Verb;
     tense: TensesE;
-    words?: matchingWords[];
+    matchingWords: matchingWords[];
+    setNext?: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const MatchingWordQuiz: React.FC<MatchingWordQuizProps> = ({ verb, tense }) => {
+const MatchingWordQuiz: React.FC<MatchingWordQuizProps> = ({
+    setNext,
+    ...props
+}) => {
     const [shuffledWords, setShuffledWords] = useState<matchingWords[]>([]);
     const [shuffledDefs, setShuffledDefs] = useState<matchingWords[]>([]);
     const [selectedWord, setSelectedWord] = useState<string>('');
     const [selectedDefinition, setSelectedDefinition] = useState<string>('');
     const [matchedPairs, setMatchedPairs] = useState<
-        { word: string; definition: string }[]
-    >([{ word: '', definition: '' }]);
-    const [matchingWords, setMatchingWords] = useState<matchingWords[]>([]);
+        { word?: string; definition?: string }[]
+    >([]);
+    const [matchingWords, setMatchingWords] = useState<matchingWords[]>(
+        props.matchingWords ?? []
+    );
 
     useEffect(() => {
-        const mw = (verb.conjugation as Conjugation)[tense].map((pc) => {
-            const [subj, verb, verb2] = pc.split(' ');
-            return {
-                word: subj,
-                def: verb + ' ' + (verb2 ?? '')
-            };
-        });
-        setMatchingWords(mw);
-    }, []);
+        setMatchedPairs([]);
+        setShuffledWords([]);
+        setShuffledDefs([]);
+        setMatchingWords(props.matchingWords ?? []);
+    }, [props.matchingWords]);
 
     useEffect(() => {
         matchingWords.length && shuffleWords();
     }, [matchingWords]);
+
+    useEffect(() => {
+        matchedPairs.length === props.matchingWords?.length
+            ? setNext?.((prev) => (prev = prev + 1))
+            : null;
+    }, [matchedPairs]);
 
     const shuffleWords = () => {
         const shuffledW = [...matchingWords].sort(() => Math.random() - 0.5);

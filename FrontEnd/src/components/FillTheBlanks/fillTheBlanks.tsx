@@ -22,7 +22,7 @@ export const FillBlanksApp: React.FC<FillBlankProps> = ({ textData }) => {
 
         const isCorrect =
             value.toLowerCase() ===
-            textData.fillTheBlank?.sentences[index].verb.toLowerCase();
+            textData.fillTheBlank?.sentences[index].verb.trim().toLowerCase();
         const newCorrectness = [...correctness];
         newCorrectness[index] = isCorrect;
         setCorrectness(newCorrectness);
@@ -51,7 +51,7 @@ export const FillBlanksApp: React.FC<FillBlankProps> = ({ textData }) => {
                                         onChange={(e) =>
                                             handleInputChange(
                                                 index,
-                                                e.target.value
+                                                e.target.value.trim()
                                             )
                                         }
                                         placeholder={`${textData.usedVerbs?.[index]}`}

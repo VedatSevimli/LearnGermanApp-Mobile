@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './quizSections.scss';
 import { quizOptE } from '../../../Sentences/Sentences';
-import { Popup } from '../../../Popup/popup';
 import { DropDown } from '../../../Dropdown/dropDown';
 import {
     SentencesAndConjugation,
     TensesE
 } from '../../../../modules/verbs/verbs.type';
+import { Button } from '../../../Button/button';
 
 export type QuizSectionsProps = {
     onQuizoptClick: (
@@ -14,6 +14,7 @@ export type QuizSectionsProps = {
         tense: TensesE,
         quizOpt: quizOptE
     ) => void;
+    onLearnModeClick: () => void;
 };
 
 const dropdownitems = [
@@ -26,17 +27,9 @@ const dropdownitems = [
     'conjugation-perfect'
 ];
 export const QuizSections: React.FC<QuizSectionsProps> = ({
-    onQuizoptClick
+    onQuizoptClick,
+    onLearnModeClick
 }) => {
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
-
-    const openPopup = () => {
-        setIsPopupOpen(true);
-    };
-
-    const closePopup = () => {
-        setIsPopupOpen(false);
-    };
     const handleQuizoptClicked = (item: string, quizOpt: quizOptE) => {
         const [QuestionType, tense] = item.split('-');
 
@@ -52,7 +45,7 @@ export const QuizSections: React.FC<QuizSectionsProps> = ({
             <div className="quiz-options">
                 <DropDown
                     className="quiz-option"
-                    defaultOption={'Übung with Questions'}
+                    defaultOption={'Multiple Choice'}
                     onSelect={(item) =>
                         handleQuizoptClicked(item, quizOptE.MultipleChoice)
                     }
@@ -78,6 +71,9 @@ export const QuizSections: React.FC<QuizSectionsProps> = ({
                         dropdownitems.indexOf('----------') + 1
                     )}
                 ></DropDown>
+                <Button type="primary" onClick={onLearnModeClick}>
+                    Lernen Modus
+                </Button>
             </div>
         </div>
     );

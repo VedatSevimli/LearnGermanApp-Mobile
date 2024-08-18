@@ -63,17 +63,7 @@ export const WordCard: React.FC<WordProps> = ({ wordData, classes }) => {
             </div>
 
             {wordData.imageUrl ? (
-                <img
-                    src={wordData.imageUrl}
-                    alt="test"
-                    width="64"
-                    height="64"
-                    style={{
-                        position: 'absolute',
-                        right: '3px',
-                        borderRadius: '4px'
-                    }}
-                />
+                <img src={wordData.imageUrl} alt="test" className="verbImg" />
             ) : null}
 
             <div className="progress-bar-wrapper">

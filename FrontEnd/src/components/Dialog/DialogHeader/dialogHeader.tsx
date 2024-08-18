@@ -9,9 +9,9 @@ export type DialogHeaderProps = {
 const DialogHeader: React.FC<DialogHeaderProps> = ({ onDismiss, children }) => {
     return (
         <div className="dialog-header">
-            <div onClick={() => onDismiss()}>
+            <div>
                 {children}
-                <img src={times}></img>
+                <img onClick={() => onDismiss()} src={times}></img>
             </div>
         </div>
     );

@@ -13,7 +13,9 @@ type ReadingProps = {
     verbList?: Verb[];
 };
 
-export const Reading: React.FC<ReadingProps> = ({ verbList }): JSX.Element => {
+export const Reading: React.FC<ReadingProps> = ({
+    verbList
+}: ReadingProps): JSX.Element => {
     const navigate = useNavigate();
     const { learnedWords } = defaultConfig();
     const [texts, setTexts] = useState<ITextData[]>([]);

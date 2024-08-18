@@ -12,7 +12,8 @@ export type SentencesComponentProps = {
 export enum quizOptE {
     MultipleChoice = 'MultipleChoice',
     DragDrop = 'DragDrop',
-    MatchWords = 'MatchWords'
+    MatchWords = 'MatchWords',
+    LearnMode = 'LearnMode'
 }
 
 export const SentencesComponent: React.FC<SentencesComponentProps> = ({
