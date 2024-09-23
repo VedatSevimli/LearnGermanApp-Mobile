@@ -15,6 +15,7 @@ export type QuizSectionsProps = {
         quizOpt: quizOptE
     ) => void;
     onLearnModeClick: () => void;
+    showQuizOptions?: boolean;
 };
 
 const dropdownitems = [
@@ -28,7 +29,8 @@ const dropdownitems = [
 ];
 export const QuizSections: React.FC<QuizSectionsProps> = ({
     onQuizoptClick,
-    onLearnModeClick
+    onLearnModeClick,
+    ...props
 }) => {
     const handleQuizoptClicked = (item: string, quizOpt: quizOptE) => {
         const [QuestionType, tense] = item.split('-');
@@ -43,37 +45,45 @@ export const QuizSections: React.FC<QuizSectionsProps> = ({
         <div className="quiz-section">
             <h2>Übung Optionen</h2>
             <div className="quiz-options">
-                <DropDown
-                    className="quiz-option"
-                    defaultOption={'Multiple Choice'}
-                    onSelect={(item) =>
-                        handleQuizoptClicked(item, quizOptE.MultipleChoice)
-                    }
-                    options={dropdownitems}
-                ></DropDown>
+                {props.showQuizOptions ? (
+                    <>
+                        <DropDown
+                            className="quiz-option"
+                            defaultOption={'Multiple Choice'}
+                            onSelect={(item) =>
+                                handleQuizoptClicked(
+                                    item,
+                                    quizOptE.MultipleChoice
+                                )
+                            }
+                            options={dropdownitems}
+                        ></DropDown>
 
-                <DropDown
-                    className="quiz-option"
-                    defaultOption={'Drag and Drop'}
-                    onSelect={(item) =>
-                        handleQuizoptClicked(item, quizOptE.DragDrop)
-                    }
-                    options={dropdownitems}
-                ></DropDown>
+                        <DropDown
+                            className="quiz-option"
+                            defaultOption={'Drag and Drop'}
+                            onSelect={(item) =>
+                                handleQuizoptClicked(item, quizOptE.DragDrop)
+                            }
+                            options={dropdownitems}
+                        ></DropDown>
 
-                <DropDown
-                    className="quiz-option"
-                    defaultOption={'Match the Words'}
-                    onSelect={(item) =>
-                        handleQuizoptClicked(item, quizOptE.MatchWords)
-                    }
-                    options={dropdownitems.slice(
-                        dropdownitems.indexOf('----------') + 1
-                    )}
-                ></DropDown>
-                <Button type="primary" onClick={onLearnModeClick}>
-                    Lernen Modus
-                </Button>
+                        <DropDown
+                            className="quiz-option"
+                            defaultOption={'Match the Words'}
+                            onSelect={(item) =>
+                                handleQuizoptClicked(item, quizOptE.MatchWords)
+                            }
+                            options={dropdownitems.slice(
+                                dropdownitems.indexOf('----------') + 1
+                            )}
+                        ></DropDown>
+                    </>
+                ) : (
+                    <Button type="primary" onClick={onLearnModeClick}>
+                        Lernen Modus
+                    </Button>
+                )}
             </div>
         </div>
     );

@@ -158,3 +158,54 @@ export const resetPassword = async (req, res) => {
         'the pasword changing is successfully'
     ).success(res);
 };
+
+export const saveUserProccess = async (req, res) => {
+    const { word, email, progressValue, wrongAnswers } = req.body;
+    console.log({ email });
+
+    try {
+        const userCheck = await User.findOne({ email });
+
+        if (!userCheck) {
+            return new Response(false, 'User not found').err404(res);
+        }
+
+        const existingProgress = userCheck.progress.find(
+            (p) => p.word === word
+        );
+        console.log({ existingProgress });
+
+        if (existingProgress) {
+            await User.updateOne(
+                { email, 'progress.word': word },
+                {
+                    $set: {
+                        'progress.$.progress': progressValue,
+                        'progress.$.wrongAnswers': wrongAnswers
+                    }
+                }
+            );
+        } else {
+            await User.updateOne(
+                { email },
+                {
+                    $push: {
+                        progress: {
+                            word,
+                            progress: progressValue,
+                            wrongAnswers: wrongAnswers
+                        }
+                    }
+                }
+            );
+        }
+
+        return new Response(true, 'Progress saved successfully').success(res);
+    } catch (error) {
+        console.error('Error updating user progress:', error);
+        return new Response(
+            false,
+            'An error occurred while saving progress'
+        ).err401(res);
+    }
+};

@@ -12,7 +12,6 @@ export type QuizOptions =
 export type defaultConfigProps = {
     siteBackground: string;
     options: { name: QuizOptions; image: string }[];
-    learnedWords: string[];
     learnMode: {
         QuestionType: SentencesAndConjugation;
         tense: TensesE;

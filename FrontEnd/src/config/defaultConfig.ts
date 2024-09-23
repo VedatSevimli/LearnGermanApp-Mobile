@@ -24,23 +24,9 @@ export const defaultConfig = (): defaultConfigProps => {
             { name: 'Speak', image: speaking_quiz },
             { name: 'Write', image: writing_quiz }
         ],
-        learnedWords: [
-            'haben',
-            'sein',
-            'machen',
-            'essen',
-            'trinken',
-            'gehen',
-            'kommen',
-            'fahren',
-            'sagen',
-            'sprechen',
-            'sehen',
-            'hören',
-            'geben',
-            'nehmen'
-        ],
+
         learnMode: [
+            //first presens tense
             {
                 quizOpt: quizOptE.MatchWords,
                 QuestionType: 'conjugation',
@@ -66,6 +52,7 @@ export const defaultConfig = (): defaultConfigProps => {
                 QuestionType: 'sentences',
                 tense: TensesE.presens
             },
+            //perfect tense
             {
                 quizOpt: quizOptE.MatchWords,
                 QuestionType: 'conjugation',

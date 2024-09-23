@@ -1,0 +1,70 @@
+.not-found-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+    text-align: center;
+
+    .not-found-content {
+        max-width: 600px;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        background: white;
+        animation: fadeIn 0.5s ease-in;
+
+        .not-found-title {
+            font-size: 80px;
+            color: #ff4757;
+            margin: 0;
+        }
+
+        .not-found-subtitle {
+            font-size: 24px;
+            margin: 10px 0;
+            color: #2f3542;
+        }
+
+        .not-found-description {
+            font-size: 16px;
+            color: #576574;
+            margin-bottom: 20px;
+        }
+
+        .not-found-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #ff4757;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+            &:hover {
+                background-color: #e84118;
+            }
+        }
+
+        .not-found-image {
+            margin-top: 20px;
+
+            img {
+                width: 100%;
+                max-width: 300px; /* Adjust based on your design */
+            }
+        }
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

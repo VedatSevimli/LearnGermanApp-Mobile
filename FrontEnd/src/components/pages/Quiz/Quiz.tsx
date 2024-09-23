@@ -1,10 +1,9 @@
-import React, { ElementType, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Quiz.scss';
 import MatchingWordQuiz, {
     matchingWords
 } from '../../matchingWordQuiz/MatchingWordQuiz';
 import { useParams } from 'react-router-dom';
-import { quizOptE } from '../../Sentences/Sentences';
 import { getWord, getWords } from '../../../API/VerbList/verb';
 import {
     Conjugation,
@@ -13,7 +12,6 @@ import {
     VerbKeys
 } from '../../../modules/verbs/verbs.type';
 import { LoadingOverlay } from '../../LoadingOverlay/LoadingOverlay';
-import { DraggQuiz } from '../../DraggDropp/dragDropp';
 import { MultipleChoice } from '../../MultipleChoice/multipleChoice';
 import { defaultConfig } from '../../../config/defaultConfig';
 import { Quizoption } from '../../Quiz/QuizOptions/quizoption';
@@ -21,7 +19,8 @@ import { QuizOptions } from '../../../config/configProps';
 import Dialog from '../../Dialog/dialog';
 import DialogHeader from '../../Dialog/DialogHeader/dialogHeader';
 import DialogBody from '../../Dialog/DialogBody/dialogBody';
-import { shuffleArray } from '../../../utils/util';
+import { UserData } from '../../../modules/login/login.type';
+import { useUser } from '../../../context/userContext/userContext';
 
 type QuizProps = {
     verbList: Verb[];
@@ -33,7 +32,10 @@ export type WithoutConjugationAndSentences<T extends VerbKeys> = Omit<
 
 export const Quiz: React.FC<QuizProps> = (props): JSX.Element => {
     const { word, qtype, tense, quizOpt } = useParams();
-    const { learnedWords, options } = defaultConfig();
+    const { userData } = useUser();
+
+    const { options } = defaultConfig();
+    const learnedWords = userData?.progress.map((p) => p.word) ?? [];
 
     const [isLoading, setIsLoading] = useState(false);
     const [activeQuiz, setActiveQuiz] =
@@ -173,7 +175,7 @@ export const Quiz: React.FC<QuizProps> = (props): JSX.Element => {
                     key={matchingWords.length}
                     // matchingWords={matchingWordsArr?.[qnumber]}
                     matchingWords={matchingWords}
-                    setNext={setQNumber}
+                    onQuizFinish={setQNumber}
                     tense={TensesE.presens}
                 ></MatchingWordQuiz>
             );
@@ -200,7 +202,7 @@ export const Quiz: React.FC<QuizProps> = (props): JSX.Element => {
 
     return (
         <div className="quiz">
-            {openDialog && learnedWords.length > 0 ? (
+            {openDialog && learnedWords?.length > 0 ? (
                 <Dialog className="quiz-dialog">
                     <DialogHeader onDismiss={() => setOpenDialog(false)}>
                         <h3>{activeQuiz}</h3>

@@ -6,7 +6,7 @@
     flex-grow: 1;
     .top {
         display: flex;
-        justify-content: end;
+        justify-content: flex-end;
         align-items: center;
         width: 100%;
         margin-bottom: 1em;
@@ -35,62 +35,6 @@
     }
 }
 
-.answer.correct {
-    animation: correct 0.7s ease forwards;
-}
-
-.trivia {
-    background-color: #f5f5f5;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin: 20px;
-    max-width: 600px;
-    font-family: 'Arial', sans-serif;
-
-    .question {
-        font-size: 20px;
-        font-weight: bold;
-        margin-bottom: 1em;
-        color: #333;
-    }
-
-    .answers {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1em;
-
-        .answer {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 1em;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-
-            &.correct {
-                background-color: #d4edda;
-                border-color: #c3e6cb;
-            }
-
-            &.wrong {
-                background-color: #f8d7da;
-                border-color: #f5c6cb;
-            }
-            &.active {
-                background-color: #cce5ff;
-                border-color: #b8daff;
-            }
-
-            &:hover {
-                background-color: #f0f0f0;
-                transform: scale(1.03);
-            }
-        }
-    }
-}
-
 .quizResult {
     display: flex;
     flex-direction: column;
@@ -116,27 +60,10 @@
     span:last-child {
         color: #dc3545;
     }
-}
 
-@keyframes correct {
-    0%,
-    22%,
-    42% {
-        background: #d9ead3;
+    .wrong-answer-review {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5em;
     }
-
-    20%,
-    40%,
-    60% {
-        background: #5cb85c;
-    }
-
-    62%,
-    100% {
-        background: #27ae60;
-    }
-}
-
-.answer.wrong {
-    animation: wrong 0.7s ease forwards;
 }

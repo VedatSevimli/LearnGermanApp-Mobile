@@ -22,6 +22,11 @@ import DialogHeader from '../../Dialog/DialogHeader/dialogHeader';
 import DialogBody from '../../Dialog/DialogBody/dialogBody';
 import { DraggQuiz } from '../../DraggDropp/dragDropp';
 import MatchingWordQuiz from '../../matchingWordQuiz/MatchingWordQuiz';
+import { Trivia } from '../../MultipleChoice/triva';
+import { UserInfo } from '../../../App';
+import { saveUserProccess } from '../../../API/Login/login';
+import { UserData } from '../../../modules/login/login.type';
+import { useUser } from '../../../context/userContext/userContext';
 
 type VerbDetailsP = {
     verbList: Verb[];
@@ -29,15 +34,19 @@ type VerbDetailsP = {
 export const VerbDetails: React.FC<VerbDetailsP> = ({
     verbList
 }): JSX.Element => {
+    const { userData } = useUser();
+
     const { word } = useParams();
-    const { learnedWords, learnMode } = defaultConfig();
+    const { learnMode } = defaultConfig();
     const [openDialog, setOpenDialog] = useState<boolean>(false);
     const [activeQuiz, setActiveQuiz] = useState<quizOptE>(
         quizOptE.MultipleChoice
     );
     const [verb, setVerb] = useState<Verb>({} as Verb);
     const [isLoading, setIsLoading] = useState(true);
-    const [showSentences, setShowSentences] = useState(false);
+    const [showSentences, setShowSentences] = useState(() => {
+        return !!userData?.progress.find((p) => p.word === word);
+    });
     const [options, setOptions] = useState<{
         QuestionType: SentencesAndConjugation;
         tense: TensesE;
@@ -51,11 +60,8 @@ export const VerbDetails: React.FC<VerbDetailsP> = ({
 
     const [isLearnModeActive, setIsLearnModeActive] = useState<boolean>(false);
     const [learnModeQnumber, setLearnModeQnumber] = useState<number>(0);
-    const [showLearnedResult, setShowLearnedResult] = useState<quizResult>({
-        correctAnswers: [],
-        quizFinished: false,
-        wrongAnswers: []
-    });
+    const [quizResult, setQuizResult] = useState<quizResult[]>([]);
+    const [isQuizFinsihed, setIsQuizFinsihed] = useState<boolean>();
 
     useEffect(() => {
         const getVerbList = async (): Promise<void> => {
@@ -71,6 +77,37 @@ export const VerbDetails: React.FC<VerbDetailsP> = ({
         void getVerbList();
     }, [word]);
 
+    useEffect(() => {
+        if (quizResult && isQuizFinsihed) {
+            const updateVerbLearnProgress = async (
+                word: string,
+                quizResult: quizResult[]
+            ) => {
+                const correctAnswers = quizResult
+                    .map((q) => q.correctAnswers)
+                    .flat().length;
+                const wrongAnswers = quizResult
+                    .map((q) => q.wrongAnswers)
+                    .flat()
+                    .map((_, i) => i).length;
+
+                const totalUniqueQuestions = correctAnswers + wrongAnswers;
+                const wrongScore = wrongAnswers * 0.34;
+                const weightedScore = correctAnswers + wrongScore;
+                const progressPercentage =
+                    (weightedScore / totalUniqueQuestions) * 100;
+
+                await saveUserProccess({
+                    email: userData?.email ?? '',
+                    word,
+                    progressValue: progressPercentage.toFixed(1),
+                    wrongAnswers: quizResult.map((q) => q.wrongAnswers).flat()
+                });
+            };
+            userData && void updateVerbLearnProgress(verb.word, quizResult);
+        }
+    }, [isQuizFinsihed]);
+
     const handleQuizoptClick = (
         QuestionType: SentencesAndConjugation,
         tense: TensesE,
@@ -79,13 +116,12 @@ export const VerbDetails: React.FC<VerbDetailsP> = ({
         setOptions({ QuestionType, quizOpt, tense });
         handleOptionClick(quizOpt);
     };
-
     const generateMatchingWords = () => {
         return verb.conjugation[options.tense]?.map((c) => {
             const [word, def, def2] = c.split(' ');
             return {
                 word,
-                def: def ?? '' + ' ' + def2 ?? ''
+                def: `${def ?? ''} ${def2 ?? ''}`
             };
         });
     };
@@ -93,39 +129,20 @@ export const VerbDetails: React.FC<VerbDetailsP> = ({
     const handleQuizFinsih = (quizResult?: quizResult) => {
         if (isLearnModeActive && learnMode[learnModeQnumber + 1]) {
             setActiveQuiz(learnMode[learnModeQnumber + 1].quizOpt);
-            setOptions({
-                ...learnMode[learnModeQnumber + 1]
-            });
+            setOptions({ ...learnMode[learnModeQnumber + 1] });
             setLearnModeQnumber((prev) => ++prev);
-            if (quizResult) {
-                setShowLearnedResult((prev) => ({
-                    ...prev,
-                    correctAnswers: [
-                        ...prev.correctAnswers,
-                        ...quizResult.correctAnswers
-                    ],
-                    wrongAnswers: [
-                        ...prev.wrongAnswers,
-                        ...quizResult.wrongAnswers
-                    ],
-                    quizFinished: false
-                }));
-            }
         } else {
-            if (quizResult) {
-                setShowLearnedResult((prev) => ({
-                    ...prev,
-                    correctAnswers: [
-                        ...prev.correctAnswers,
-                        ...quizResult.correctAnswers
-                    ],
-                    wrongAnswers: [
-                        ...prev.wrongAnswers,
-                        ...quizResult.wrongAnswers
-                    ],
-                    quizFinished: true
-                }));
-            }
+            setIsQuizFinsihed(true);
+        }
+        if (quizResult) {
+            setQuizResult((prev) => [
+                ...prev,
+                {
+                    ...quizResult,
+                    questionType: options.QuestionType,
+                    tense: options.tense
+                }
+            ]);
         }
     };
 
@@ -145,13 +162,13 @@ export const VerbDetails: React.FC<VerbDetailsP> = ({
                 <MatchingWordQuiz
                     matchingWords={generateMatchingWords() ?? []}
                     tense={options.tense}
-                    setNext={() => handleQuizFinsih()}
+                    onQuizFinish={() => handleQuizFinsih()}
                 ></MatchingWordQuiz>
             );
         } else if (activeQuiz === quizOptE.DragDrop) {
             if (options.QuestionType === 'conjugation') {
                 const question =
-                    verb?.[options.QuestionType]?.[options.tense]?.[qnumber];
+                    verb[options.QuestionType][options.tense]?.[qnumber];
                 const mixedConjuction =
                     verb[options.QuestionType][options.tense]?.map(
                         (w: string) => w.split(' ')[1]
@@ -172,23 +189,18 @@ export const VerbDetails: React.FC<VerbDetailsP> = ({
                     )
                 );
             }
-
-            if (!verb[options.QuestionType][options.tense]?.[qnumber]) {
+            const sentence =
+                verb[options.QuestionType][options.tense]?.[qnumber];
+            if (!sentence) {
                 handleQuizFinsih();
                 setQNumber(0);
             }
             return (
-                verb[options.QuestionType][options.tense]?.[qnumber] && (
+                sentence && (
                     <DraggQuiz
                         key={qnumber}
-                        question={
-                            verb[options.QuestionType][options.tense]?.[qnumber]
-                                .sentence ?? ''
-                        }
-                        definition={
-                            verb[options.QuestionType][options.tense]?.[qnumber]
-                                .def?.tr ?? ''
-                        }
+                        question={sentence.sentence ?? ''}
+                        definition={sentence.def?.tr ?? ''}
                         mixConj={[]}
                         setNext={setQNumber}
                     ></DraggQuiz>
@@ -221,9 +233,26 @@ export const VerbDetails: React.FC<VerbDetailsP> = ({
         return (
             <div className="result">
                 <div className="result-content">
-                    sie haben den Verb gelernt. Gratulation!!!!
+                    Sie haben den Verb gelernt. Gratulation!!!!
                 </div>
                 <span>weiter lernen</span>
+                <div
+                    style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}
+                    className="wrong-answer-review"
+                >
+                    {quizResult
+                        .map((qr) => ({ wrongAnswers: qr.wrongAnswers }))
+                        .map((wa) => {
+                            return wa.wrongAnswers.map((w) => (
+                                <Trivia
+                                    key={w.question.id}
+                                    question={w.question}
+                                    enableClikEvent={true}
+                                    userAnswer={w.userAnswer}
+                                ></Trivia>
+                            ));
+                        })}
+                </div>
             </div>
         );
     };
@@ -259,7 +288,7 @@ export const VerbDetails: React.FC<VerbDetailsP> = ({
                     <h3>Sätze</h3>
                     <div className="sentences">
                         <div className="sentence">
-                            {verb && (
+                            {verb.sentences && (
                                 <SentencesComponent
                                     sentencesData={verb.sentences}
                                     word={verb.word}
@@ -269,19 +298,22 @@ export const VerbDetails: React.FC<VerbDetailsP> = ({
                     </div>
                 </div>
             )}
-            <div className="bottom-container">
-                <QuizSections
-                    onQuizoptClick={handleQuizoptClick}
-                    onLearnModeClick={handleLearnModeClick}
-                />
-            </div>
-            {openDialog && learnedWords.length > 0 && (
+            {
+                <div className="bottom-container">
+                    <QuizSections
+                        onQuizoptClick={handleQuizoptClick}
+                        onLearnModeClick={handleLearnModeClick}
+                        showQuizOptions={showSentences}
+                    />
+                </div>
+            }
+            {openDialog && (
                 <Dialog className="quiz-dialog">
                     <DialogHeader onDismiss={() => setOpenDialog(false)}>
                         <h3>{activeQuiz}</h3>
                     </DialogHeader>
                     <DialogBody>
-                        {showLearnedResult.quizFinished && isLearnModeActive
+                        {isQuizFinsihed && isLearnModeActive
                             ? renderLearnedResult()
                             : renderActiveQuiz(activeQuiz)}
                     </DialogBody>

@@ -34,7 +34,28 @@ const userShema = new mongoose.Schema(
                 type: String,
                 default: null
             }
-        }
+        },
+        progress: [
+            {
+                word: { type: String },
+                progress: { type: Number },
+                wrongAnswers: [
+                    {
+                        question: {
+                            id: { type: Number },
+                            question: { type: String },
+                            options: [
+                                {
+                                    text: { type: String },
+                                    isCorrect: { type: Boolean }
+                                }
+                            ]
+                        },
+                        userAnswer: { type: Number }
+                    }
+                ]
+            }
+        ]
     },
     { collection: 'users', timestamps: true }
 );

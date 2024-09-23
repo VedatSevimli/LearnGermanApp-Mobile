@@ -27,7 +27,7 @@
                 border-radius: 3px;
                 font-size: 16px;
                 width: 300px;
-                margin-top: .5em;
+                margin-top: 0.5em;
             }
         }
     }
@@ -44,6 +44,97 @@
             color: red;
             margin-bottom: 0.5em;
             inline-size: 300px;
+        }
+    }
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    font-family: 'Arial', sans-serif;
+}
+
+.login-box {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+
+    .error-message {
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+        border: 1px solid #f5c6cb;
+        border-radius: 5px;
+        font-size: 0.9rem;
+        text-align: left;
+    }
+
+    h2 {
+        color: #6e8efb;
+        margin-bottom: 1.5rem;
+        font-weight: 700;
+    }
+
+    .login-form {
+        display: flex;
+        flex-direction: column;
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        input {
+            padding: 0.75rem;
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.2s ease-in-out;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #6e8efb;
+        }
+
+        .submit-btn {
+            padding: 0.75rem;
+            background-color: #6e8efb;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .submit-btn:hover {
+            background-color: #4f6cfb;
+        }
+    }
+
+    .switch-mode-text {
+        margin-top: 1.5rem;
+        font-size: 0.9rem;
+        color: #555;
+        span {
+            color: #6e8efb;
+            cursor: pointer;
+            font-weight: bold;
+            margin-left: 0.5rem;
+        }
+        &:hover {
+            text-decoration: underline;
         }
     }
 }

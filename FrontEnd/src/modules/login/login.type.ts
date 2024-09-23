@@ -1,19 +1,27 @@
+import { SentenceQuestion } from '../verbs/verbs.type';
+
 export {};
+type Progress = {
+    wrongAnswers: { question: SentenceQuestion; userAnswer: number }[];
+    word: string;
+    progress: number;
+};
+export type UserData = {
+    _id: string;
+    name: string;
+    lastName: string;
+    email: string;
+    progress: [Progress];
+    token?: string;
+};
 export type LoginWithToken = {
     success: boolean;
-    data: {
-        _id: string;
-        name: string;
-        lastName: string;
-        email: string;
-    };
+    data: UserData;
     message: string;
 };
 
 export interface Login {
     success: boolean;
-    token: string;
     message: string;
-    userName: string;
-    userlastName: string;
+    data: UserData;
 }

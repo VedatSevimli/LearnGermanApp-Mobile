@@ -2,22 +2,21 @@ import React from 'react';
 import { Nav } from './Nav';
 import logo from '../../images/language-svgrepo-com.svg';
 import './Header.scss';
+import { useUser } from '../../context/userContext/userContext';
 
 type HeaderProps = {
-    userInfo: any;
-    setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+    //
 };
-export const Header: React.FC<HeaderProps> = ({
-    userInfo,
-    setAuthenticated
-}): JSX.Element => {
+export const Header: React.FC<HeaderProps> = (props): JSX.Element => {
+    const { userData, logout } = useUser();
+
     return (
         <div className="header-wrapper">
             <div className="company">
                 <img className="logo" src={logo} alt="" />
             </div>
 
-            <Nav userInfo={userInfo} setAuthenticated={setAuthenticated} />
+            <Nav userInfo={userData} logout={logout} />
         </div>
     );
 };
