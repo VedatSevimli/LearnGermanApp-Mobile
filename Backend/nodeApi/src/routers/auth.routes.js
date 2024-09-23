@@ -5,7 +5,8 @@ import {
     me,
     forgetPassword,
     resetCodeCheck,
-    resetPassword
+    resetPassword,
+    saveUserProccess
 } from '../controllers/auth.controllers.js';
 import { authValidation } from '../middlewares/validation/auth.validation.js';
 import { checkToken } from '../middlewares/auth.js';
@@ -21,6 +22,7 @@ auth.get('/me', checkToken, me);
 auth.post('/forget-password', forgetPassword);
 auth.post('/reset-code-check', resetCodeCheck);
 auth.post('/reset-password', resetPassword);
+auth.post('/save-user-proccess', saveUserProccess);
 
 auth.post('/uploads', (req, res) => {
     // * TODO:check it

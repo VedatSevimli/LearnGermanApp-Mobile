@@ -5,7 +5,9 @@ import { generateQuiz } from '../../utils/util';
 import {
     SentencesAndConjugation,
     TensesE,
-    Verb
+    Verb,
+    SentenceQuestion,
+    Quiz
 } from '../../modules/verbs/verbs.type';
 import { Timer } from './timer';
 import { Trivia } from './triva';
@@ -19,7 +21,7 @@ export type MultipleChoiceProps = {
 };
 export type quizResult = {
     correctAnswers: number[];
-    wrongAnswers: number[];
+    wrongAnswers: { question: SentenceQuestion; userAnswer: number }[];
     quizFinished: boolean;
 };
 export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
@@ -27,24 +29,18 @@ export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     tense,
     ...props
 }): JSX.Element => {
-    const [questions, setQuestion] = useState<Verb>();
+    const [quiz] = useState<Quiz>(() => {
+        const definitions = props.verbList.map((verb) => verb.def.tr);
+        const quiz = generateQuiz(props.verb, definitions);
+        return quiz.quizQuestions;
+    });
     const [timeOut, setTimeOut] = useState<boolean>(false);
     const [questionNumber, setQuestionNumber] = useState<number>(1);
-    const [quizResult, setQuizResult] = useState<{
-        correctAnswers: number[];
-        wrongAnswers: number[];
-        quizFinished: boolean;
-    }>({ correctAnswers: [], wrongAnswers: [], quizFinished: false });
-
-    useEffect(() => {
-        if (props.verb) {
-            const definitions = props?.verbList?.map((w) => {
-                return w.def.tr;
-            });
-            const quiz = generateQuiz(props.verb, definitions);
-            setQuestion(quiz);
-        }
-    }, [props.verb]);
+    const [quizResult, setQuizResult] = useState<quizResult>({
+        correctAnswers: [],
+        wrongAnswers: [],
+        quizFinished: false
+    });
 
     useEffect(() => {
         if (timeOut) {
@@ -54,10 +50,11 @@ export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     }, [timeOut]);
 
     useEffect(() => {
-        if (quizResult.quizFinished) {
+        if (quiz && !quiz[questionType][tense]?.[questionNumber - 1]) {
+            setQuizResult({ ...quizResult, quizFinished: true });
             props.onQuizFinsih?.(quizResult);
         }
-    }, [quizResult.quizFinished]);
+    }, [questionNumber]);
 
     return (
         <div className="question-quiz">
@@ -70,11 +67,12 @@ export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
                 )}
             </div>
             <div className="bottom">
-                {questions?.quiz?.[questionType][tense] &&
+                {quiz[questionType][tense]?.[questionNumber - 1] &&
                     !quizResult.quizFinished && (
                         <Trivia
-                            data={questions.quiz[questionType][tense] ?? []}
-                            questionNumber={questionNumber}
+                            question={
+                                quiz[questionType][tense][questionNumber - 1]
+                            }
                             setQuestionNumber={setQuestionNumber}
                             setTimeOut={setTimeOut}
                             setQuizResult={setQuizResult}
@@ -90,6 +88,19 @@ export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
                             Falsch geantwortete Fragen :
                             {quizResult.wrongAnswers.length}
                         </span>
+                        <div
+                            className="wrong-answer-review"
+                            style={{ display: 'flex' }}
+                        >
+                            {quizResult.wrongAnswers.map((wa) => (
+                                <Trivia
+                                    key={wa.question.id}
+                                    question={wa.question}
+                                    enableClikEvent={true}
+                                    userAnswer={wa.userAnswer}
+                                ></Trivia>
+                            ))}
+                        </div>
                     </div>
                 )}
             </div>

@@ -43,8 +43,7 @@
 
     .quiz-options {
         display: flex;
-        // flex-direction: column;
-
+        justify-content: center;
         .quiz-option {
             border-radius: 4px;
             text-align: center;

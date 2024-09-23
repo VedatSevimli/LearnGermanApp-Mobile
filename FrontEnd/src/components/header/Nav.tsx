@@ -1,15 +1,13 @@
 import React from 'react';
 import './Nav.scss';
 import { Link } from 'react-router-dom';
+import { UserData } from '../../modules/login/login.type';
 
 type NavProps = {
-    userInfo: any;
-    setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+    userInfo: UserData | null;
+    logout: () => void;
 };
-export const Nav: React.FC<NavProps> = ({
-    userInfo,
-    setAuthenticated
-}): JSX.Element => {
+export const Nav: React.FC<NavProps> = ({ userInfo, logout }): JSX.Element => {
     return (
         <nav>
             <Link to="/home">Home</Link>
@@ -23,15 +21,7 @@ export const Nav: React.FC<NavProps> = ({
                         {userInfo?.name[0]?.toUpperCase()}
                     </div>
                     <div className="user-dropdown">
-                        <Link
-                            to="/login"
-                            onClick={() => {
-                                localStorage.removeItem('userInfo');
-                                setAuthenticated(false);
-                            }}
-                        >
-                            Logout
-                        </Link>
+                        <span onClick={logout}>Logout</span>
                         <Link to="/languages">Languages</Link>
                         <Link to="/news">News</Link>
                     </div>

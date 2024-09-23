@@ -3,12 +3,18 @@ import React from 'react';
 import { Verb } from '../../../../modules/verbs/verbs.type';
 import { useNavigate } from 'react-router-dom';
 import ProgressBar from '../../../ProgressBar/progressBar';
+import { UserData } from '../../../../modules/login/login.type';
 
 type WordProps = {
     wordData: Verb;
     classes: string[];
+    userData: UserData;
 };
-export const WordCard: React.FC<WordProps> = ({ wordData, classes }) => {
+export const WordCard: React.FC<WordProps> = ({
+    wordData,
+    classes,
+    ...props
+}) => {
     const {
         word,
         def,
@@ -23,6 +29,9 @@ export const WordCard: React.FC<WordProps> = ({ wordData, classes }) => {
     const handleCardClick = () => {
         navigate(`/wordDetails/${word}`);
     };
+
+    const learnProgress =
+        props.userData?.progress.find((p) => p.word === word)?.progress ?? 0;
 
     return (
         <div
@@ -67,7 +76,9 @@ export const WordCard: React.FC<WordProps> = ({ wordData, classes }) => {
             ) : null}
 
             <div className="progress-bar-wrapper">
-                <ProgressBar percentage={classes.includes('disable') ? 0 : 5} />
+                <ProgressBar
+                    percentage={classes.includes('disable') ? 0 : learnProgress}
+                />
             </div>
         </div>
     );

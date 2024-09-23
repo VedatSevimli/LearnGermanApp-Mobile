@@ -10,11 +10,11 @@ export type matchingWords = {
 export type MatchingWordQuizProps = {
     tense: TensesE;
     matchingWords: matchingWords[];
-    setNext?: React.Dispatch<React.SetStateAction<number>>;
+    onQuizFinish?: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const MatchingWordQuiz: React.FC<MatchingWordQuizProps> = ({
-    setNext,
+    onQuizFinish,
     ...props
 }) => {
     const [shuffledWords, setShuffledWords] = useState<matchingWords[]>([]);
@@ -41,7 +41,7 @@ const MatchingWordQuiz: React.FC<MatchingWordQuizProps> = ({
 
     useEffect(() => {
         matchedPairs.length === props.matchingWords?.length
-            ? setNext?.((prev) => (prev = prev + 1))
+            ? onQuizFinish?.((prev) => (prev = prev + 1))
             : null;
     }, [matchedPairs]);
 

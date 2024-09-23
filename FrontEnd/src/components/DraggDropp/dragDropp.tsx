@@ -31,7 +31,8 @@ export const DraggQuiz: React.FC<DragDroppProps> = (props): JSX.Element => {
     useEffect(() => {
         setWidgets([]);
         const concatItems = shuffleArray([...question.split(' '), ...mixConj]);
-        isMounted.current && setMixedWid(concatItems);
+        const widgetSet = new Set(concatItems);
+        isMounted.current && setMixedWid(Array.from(widgetSet));
         isMounted.current && setShowDef(false);
     }, [question]);
 
@@ -81,6 +82,7 @@ export const DraggQuiz: React.FC<DragDroppProps> = (props): JSX.Element => {
     };
 
     const handleWidgetClick = (word: string) => {
+        speakSentence(word, { rate: 1 });
         setMixedWid((prev) => {
             const idx = prev.indexOf(word);
             let filteredArr;

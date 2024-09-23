@@ -1,41 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Option, SentenceQuestion } from '../../modules/verbs/verbs.type';
+import { quizResult } from './multipleChoice';
+import './triva.scss';
 
 type TrivaProps = {
-    data: SentenceQuestion[];
-    questionNumber: number;
-    setQuestionNumber: React.Dispatch<React.SetStateAction<number>>;
-    setTimeOut: React.Dispatch<React.SetStateAction<boolean>>;
-    setQuizResult: React.Dispatch<
-        React.SetStateAction<{
-            correctAnswers: number[];
-            wrongAnswers: number[];
-            quizFinished: boolean;
-        }>
-    >;
+    setQuestionNumber?: React.Dispatch<React.SetStateAction<number>>;
+    setTimeOut?: React.Dispatch<React.SetStateAction<boolean>>;
+    setQuizResult?: React.Dispatch<React.SetStateAction<quizResult>>;
+    question: SentenceQuestion;
+    enableClikEvent?: boolean;
+    userAnswer?: number;
 };
 export const Trivia: React.FC<TrivaProps> = ({
-    data,
-    questionNumber,
+    question,
     setQuestionNumber,
     setTimeOut,
+    setQuizResult,
     ...props
 }): JSX.Element => {
-    const [question, setQuestion] = useState<SentenceQuestion>();
     const [selectedAnswer, setSelectedAnswer] = useState<string>('');
     const [className, setClassName] = useState<string>('answer');
-    const [quizResult, setQuizResult] = useState<{
-        correctAnswers: number[];
-        wrongAnswers: number[];
-    }>({ correctAnswers: [], wrongAnswers: [] });
-
-    useEffect(() => {
-        if (data && data[questionNumber - 1]) {
-            setQuestion(data[questionNumber - 1]);
-        } else {
-            props.setQuizResult(() => ({ ...quizResult, quizFinished: true }));
-        }
-    }, [data, questionNumber]);
 
     const delay = (duration: number, callback: () => void): void => {
         setTimeout(() => {
@@ -43,32 +27,39 @@ export const Trivia: React.FC<TrivaProps> = ({
         }, duration);
     };
 
-    const handleClick = (question: { option: Option; id: number }) => {
-        setSelectedAnswer(question.option.text);
+    const handleClick = (_question: {
+        option: Option;
+        id: number;
+        optionId: number;
+    }) => {
+        setSelectedAnswer(_question.option.text);
         setClassName('answer active');
         delay(1000, () => {
             setClassName(
-                question.option.isCorrect ? 'answer correct' : 'answer wrong'
+                _question.option.isCorrect ? 'answer correct' : 'answer wrong'
             );
         });
 
         delay(1200, () => {
-            if (question.option.isCorrect) {
-                setQuizResult((prev) => ({
+            if (_question.option.isCorrect) {
+                setQuizResult?.((prev) => ({
                     ...prev,
-                    correctAnswers: [...prev.correctAnswers, question.id]
+                    correctAnswers: [...prev.correctAnswers, _question.id]
                 }));
                 delay(1400, () => {
-                    setQuestionNumber((prev) => prev + 1);
+                    setQuestionNumber?.((prev) => prev + 1);
                     setSelectedAnswer('');
                 });
             } else {
-                setQuizResult((prev) => ({
+                setQuizResult?.((prev) => ({
                     ...prev,
-                    wrongAnswers: [...prev.wrongAnswers, question.id]
+                    wrongAnswers: [
+                        ...prev.wrongAnswers,
+                        { question: question, userAnswer: _question.optionId }
+                    ]
                 }));
                 delay(1400, () => {
-                    setTimeOut(true);
+                    setTimeOut?.(true);
                     setSelectedAnswer('');
                 });
             }
@@ -83,14 +74,23 @@ export const Trivia: React.FC<TrivaProps> = ({
                     question?.options.map((option, idx) => (
                         <div
                             key={idx}
-                            className={
+                            className={`${
                                 selectedAnswer === option.text
                                     ? className
                                     : 'answer'
-                            }
+                            } ${
+                                option.isCorrect && props.enableClikEvent
+                                    ? 'answer correct'
+                                    : ''
+                            } ${props.userAnswer === idx ? 'wrong' : ''}`}
                             onClick={() =>
                                 !selectedAnswer &&
-                                handleClick({ option: option, id: question.id })
+                                !props.enableClikEvent &&
+                                handleClick({
+                                    option: option,
+                                    id: question.id,
+                                    optionId: idx
+                                })
                             }
                         >
                             {option.text}

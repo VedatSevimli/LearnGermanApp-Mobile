@@ -1,6 +1,7 @@
 import { ElementType } from 'react';
 import {
     Option,
+    Quiz,
     QuizSection,
     Sentence,
     SentencesQuestions,
@@ -37,11 +38,12 @@ export const sortVerbsOrderLerning = (verbs: Verb[]) => {
     return sortedVerbObjects;
 };
 
+type QuizQuestions = { verb: Verb; quizQuestions: Quiz };
 export const generateQuiz = (
     obj: Verb,
     verbdefintions: string[],
     numberOfOptions = 4
-): Verb => {
+): QuizQuestions => {
     const arrWithoutSelected = verbdefintions.filter(
         (verb) => verb !== obj.word
     );
@@ -188,16 +190,16 @@ export const generateQuiz = (
     );
 
     obj.sentences.perfect.forEach((...p) =>
-        generateSentenceQuestion(...p, TensesE.presens)
+        generateSentenceQuestion(...p, TensesE.perfect)
     );
 
     obj.sentences.pastTense.forEach((...p) =>
-        generateSentenceQuestion(...p, TensesE.presens)
+        generateSentenceQuestion(...p, TensesE.pastTense)
     );
 
     return {
-        ...obj,
-        quiz: {
+        verb: obj,
+        quizQuestions: {
             mainQuestion,
             conjugation: conjugationQuestions,
             sentences: sentencesQuestions

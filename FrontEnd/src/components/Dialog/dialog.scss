@@ -6,6 +6,7 @@
     left: 0;
     width: 100%;
     height: 100%;
+
     background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
@@ -19,10 +20,12 @@
     width: 100%;
     max-width: 90vw;
     min-width: 50vw;
+    max-height: 100vh;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
     .dialog-content {
         @include flexContainerColumns;
         height: 100%;
+        max-height: 100vh;
 
         .dialog-header,
         .dialog-body,
@@ -44,6 +47,7 @@
             img {
                 width: 1.5em;
                 height: 1.5em;
+                cursor: pointer;
             }
         }
 
@@ -52,6 +56,7 @@
             flex-grow: 1;
             display: grid;
             place-items: center;
+            overflow: auto;
         }
 
         .dialog-footer {

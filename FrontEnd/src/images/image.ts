@@ -11,6 +11,7 @@ import fillTheBlanks from './fillTheBlanks.gif';
 import multiple_choice_question from './multiple_choice_question.png';
 import match_words from './match_words.webp';
 import writing_quiz from './writing_quiz.avif';
+import noMatch from './noMatch.jpg';
 
 export {
     quiz,
@@ -25,5 +26,6 @@ export {
     fillTheBlanks,
     multiple_choice_question,
     match_words,
-    writing_quiz
+    writing_quiz,
+    noMatch
 };
