@@ -70,3 +70,18 @@
         }
     }
 }
+
+@media (max-width: 768px) {
+    .matching-quiz {
+        min-width: 350px;
+        .wrapper {
+            flex-direction: column;
+            justify-content: start;
+            .word-cards,
+            .definition-cards {
+                width: 95%;
+                margin-left: 0;
+            }
+        }
+    }
+}

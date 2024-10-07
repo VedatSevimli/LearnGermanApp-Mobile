@@ -5,8 +5,10 @@ export enum verbLevelE {
     'A2' = 'A2',
     'B1' = 'B1'
 }
-const baseAPiPath = 'http://localhost:5000/api/';
-const allowedOrigins = ['http://localhost:3000'];
+const baseApiPath = process.env.REACT_APP_API_URL;
+const allowedOrigins = ['http://localhost:3000', 'http://192.168.2.44'];
+
+console.log({ baseApiPath });
 
 export const getVerbList = async ({
     level
@@ -14,7 +16,7 @@ export const getVerbList = async ({
     level: verbLevelE;
 }): Promise<Verb[]> => {
     const response = await fetch(
-        `${baseAPiPath}get-verbs-with-level?level=${level}`,
+        `${baseApiPath}get-verbs-with-level?level=${level}`,
         {
             method: 'GET',
             headers: {
@@ -28,7 +30,7 @@ export const getVerbList = async ({
 };
 
 export const getWord = async ({ word }: { word: string }): Promise<Verb> => {
-    const response = await fetch(`${baseAPiPath}get-verb?word=${word}`, {
+    const response = await fetch(`${baseApiPath}get-verb?word=${word}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -44,7 +46,7 @@ export const getWords = async ({
 }: {
     words: string[];
 }): Promise<Verb[]> => {
-    const response = await fetch(`${baseAPiPath}get-verbs`, {
+    const response = await fetch(`${baseApiPath}get-verbs`, {
         method: 'POST',
         body: JSON.stringify({ words }),
         headers: {

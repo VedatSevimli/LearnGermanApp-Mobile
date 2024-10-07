@@ -8,6 +8,7 @@ import { getReadingTexts } from '../../../API/ReadingTexts/texts';
 import { ITextData } from '../../../modules/texts/texts.type';
 import { LoadingOverlay } from '../../LoadingOverlay/LoadingOverlay';
 import { useUser } from '../../../context/userContext/userContext';
+import { setSeo } from '../../../utils/seo';
 
 type ReadingProps = {
     verbList?: Verb[];
@@ -32,6 +33,11 @@ export const Reading: React.FC<ReadingProps> = ({
             isMounted.current && setTexts(() => texts);
         };
         void getTexts();
+
+        setSeo(
+            'Deutsch-Turkish App - Lesetexten',
+            'Deutsche texte lesen und üben'
+        );
 
         return () => {
             isMounted.current = false;

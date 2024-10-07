@@ -7,20 +7,31 @@
     bottom: 0;
     width: 100%;
     z-index: 999;
-    
+
     .footer-links {
-      display: flex;
-      justify-content: center;
-      
-      a {
-        color: #61dafb;
-        margin: 0 1em;
-        text-decoration: none;
-        
-        &:hover {
-          text-decoration: underline;
+        display: flex;
+        justify-content: center;
+
+        a {
+            color: #61dafb;
+            margin: 0 1em;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
         }
-      }
     }
-  }
-  
+}
+
+@media (max-width: 768px) {
+    .footer {
+        padding: 0.5em;
+        .footer-links {
+            flex-wrap: wrap;
+            a {
+                margin: 0 0.75em;
+            }
+        }
+    }
+}

@@ -21,6 +21,7 @@ import DialogHeader from '../../Dialog/DialogHeader/dialogHeader';
 import DialogBody from '../../Dialog/DialogBody/dialogBody';
 import { UserData } from '../../../modules/login/login.type';
 import { useUser } from '../../../context/userContext/userContext';
+import { setSeo } from '../../../utils/seo';
 
 type QuizProps = {
     verbList: Verb[];
@@ -69,6 +70,8 @@ export const Quiz: React.FC<QuizProps> = (props): JSX.Element => {
             setMatchingWords(matchingVerbs);
         };
         void getLearnedWords();
+
+        setSeo('Deutsch-Turkish App - Quiz', 'Verben Übunen , Verben Übungen');
     }, []);
 
     useEffect(() => {

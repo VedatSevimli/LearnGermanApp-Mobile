@@ -27,6 +27,7 @@ import { UserInfo } from '../../../App';
 import { saveUserProccess } from '../../../API/Login/login';
 import { UserData } from '../../../modules/login/login.type';
 import { useUser } from '../../../context/userContext/userContext';
+import { setSeo } from '../../../utils/seo';
 
 type VerbDetailsP = {
     verbList: Verb[];
@@ -76,6 +77,13 @@ export const VerbDetails: React.FC<VerbDetailsP> = ({
         };
         void getVerbList();
     }, [word]);
+
+    useEffect(() => {
+        setSeo(
+            `Deutsch-Turkish App - ${verb.word}`,
+            `${verb.word} Konjugation Übungen`
+        );
+    }, [verb]);
 
     useEffect(() => {
         if (quizResult && isQuizFinsihed) {

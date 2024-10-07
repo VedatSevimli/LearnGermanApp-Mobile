@@ -2,8 +2,13 @@ import React from 'react';
 import './Home.scss';
 import { Link } from 'react-router-dom';
 import { listening, quiz, reading, words } from '../../../images/image';
+import { setSeo } from '../../../utils/seo';
 
 export const Home: React.FC = (): JSX.Element => {
+    setSeo(
+        'Deutsch-Turkish App - Home',
+        'Mit unserer App können Sie schnell Deutsch lernen. Wir bieten Ihnen eine umfangreiche Sammlung von 1000 Verben und zahlreichen Substantiven, um Ihren Wortschatz zu erweitern.Unsere interaktive Plattform sorgt für ein intensives Lernerlebnis und macht das Erlernen der deutschen Sprache zu einer angenehmen Reis'
+    );
     return (
         <div className="home-container">
             <div className="home-banner">

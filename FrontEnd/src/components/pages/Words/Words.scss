@@ -1,3 +1,4 @@
+@import '../../../_commonstyle/flexbox.scss';
 .words-page {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -89,6 +90,21 @@
         }
         .info-label-modal {
             background-color: #2651ff;
+        }
+    }
+
+    .popup-info {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        .btn-wrapper {
+            @include flexContRows;
+            width: 100%;
+            padding: 0.5em;
+            .button-secondary {
+                margin-right: 0.5em;
+            }
         }
     }
 }

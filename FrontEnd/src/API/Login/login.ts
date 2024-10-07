@@ -1,7 +1,6 @@
 import { Login, LoginWithToken } from '../../modules/login/login.type';
 import { SentenceQuestion } from '../../modules/verbs/verbs.type';
-
-const baseApiPath = 'http://localhost:5000/api/';
+const baseApiPath = process.env.REACT_APP_API_URL;
 
 export const loginWithToken = async ({
     token

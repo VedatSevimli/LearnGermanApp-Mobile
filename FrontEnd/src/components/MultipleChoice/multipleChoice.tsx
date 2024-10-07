@@ -71,7 +71,9 @@ export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
                     !quizResult.quizFinished && (
                         <Trivia
                             question={
-                                quiz[questionType][tense][questionNumber - 1]
+                                quiz[questionType][tense]?.[
+                                    questionNumber - 1
+                                ] as SentenceQuestion
                             }
                             setQuestionNumber={setQuestionNumber}
                             setTimeOut={setTimeOut}

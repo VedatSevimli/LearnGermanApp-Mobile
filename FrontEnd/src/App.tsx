@@ -19,6 +19,7 @@ import { VerbDetails } from './components/pages/Worddetails/Worddetails';
 import { sortVerbsOrderLerning } from './utils/util';
 import { TextDetails } from './components/pages/TextDetails/TextDetails';
 import { UserProvider } from './context/userContext/userContext';
+import { setSeo } from './utils/seo';
 
 export type UserInfo = {
     name: string;
@@ -38,6 +39,11 @@ function App(): JSX.Element {
         } catch (error) {
             console.log(error);
         }
+
+        setSeo(
+            'Deutsch-Turkish App',
+            'Lerne Deutsch mit verschiedenen Übungen'
+        );
     }, []);
 
     return (

@@ -4,6 +4,8 @@ import { Verb } from '../../../../modules/verbs/verbs.type';
 import { useNavigate } from 'react-router-dom';
 import ProgressBar from '../../../ProgressBar/progressBar';
 import { UserData } from '../../../../modules/login/login.type';
+import { Popup } from '../../../Popup/popup';
+import { Button } from '../../../Button/button';
 
 type WordProps = {
     wordData: Verb;
@@ -25,61 +27,97 @@ export const WordCard: React.FC<WordProps> = ({
         isModalVerb
     } = wordData;
     const navigate = useNavigate();
+    const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
     const handleCardClick = () => {
-        navigate(`/wordDetails/${word}`);
+        if (!props.userData) {
+            setIsOpen(true);
+        } else {
+            navigate(`/wordDetails/${word}`);
+        }
     };
 
     const learnProgress =
         props.userData?.progress.find((p) => p.word === word)?.progress ?? 0;
 
     return (
-        <div
-            className={`word-card ${
-                isModalVerb ? 'modal-verb' : ''
-            } ${classes.join(' ')}`}
-            onClick={handleCardClick}
-        >
-            <h2>{word}</h2>
-            <p>{def?.tr}</p>
-            <p>{def?.en}</p>
-            <div className="bottom-section">
-                {hasAkkObject && (
-                    <div className="info-label info-label-akk">
-                        Has Akk Object
-                    </div>
-                )}
-                {hasDativObject && (
-                    <div className="info-label info-label-dativ">
-                        Has Dativ Object
-                    </div>
-                )}
-                {isReflexiv && (
-                    <div className="info-label info-label-reflexiv">
-                        Reflexiv
-                    </div>
-                )}
-                {isSeparable && (
-                    <div className="info-label info-label-separable">
-                        Separable
-                    </div>
-                )}
-                {isModalVerb && (
-                    <div className="info-label info-label-modal">
-                        Modal Verb
-                    </div>
-                )}
+        <>
+            <div
+                className={`word-card ${
+                    isModalVerb ? 'modal-verb' : ''
+                } ${classes.join(' ')}`}
+                onClick={handleCardClick}
+            >
+                <h2>{word}</h2>
+                <p>{def?.tr}</p>
+                <p>{def?.en}</p>
+                <div className="bottom-section">
+                    {hasAkkObject && (
+                        <div className="info-label info-label-akk">
+                            Has Akk Object
+                        </div>
+                    )}
+                    {hasDativObject && (
+                        <div className="info-label info-label-dativ">
+                            Has Dativ Object
+                        </div>
+                    )}
+                    {isReflexiv && (
+                        <div className="info-label info-label-reflexiv">
+                            Reflexiv
+                        </div>
+                    )}
+                    {isSeparable && (
+                        <div className="info-label info-label-separable">
+                            Separable
+                        </div>
+                    )}
+                    {isModalVerb && (
+                        <div className="info-label info-label-modal">
+                            Modal Verb
+                        </div>
+                    )}
+                </div>
+
+                {wordData.imageUrl ? (
+                    <img
+                        src={wordData.imageUrl}
+                        alt="test"
+                        className="verbImg"
+                    />
+                ) : null}
+
+                <div className="progress-bar-wrapper">
+                    <ProgressBar
+                        percentage={
+                            classes.includes('disable') ? 0 : learnProgress
+                        }
+                    />
+                </div>
             </div>
 
-            {wordData.imageUrl ? (
-                <img src={wordData.imageUrl} alt="test" className="verbImg" />
-            ) : null}
-
-            <div className="progress-bar-wrapper">
-                <ProgressBar
-                    percentage={classes.includes('disable') ? 0 : learnProgress}
-                />
-            </div>
-        </div>
+            {isOpen && (
+                <Popup isOpen={isOpen} onClose={() => setIsOpen(false)}>
+                    <div className="popup-info">
+                        Wenn Sie sich nicht einloggen, dann wird Ihre
+                        Lernprozess nicht gespeichert!
+                        <div className="btn-wrapper">
+                            <Button
+                                type="secondary"
+                                onClick={() => navigate(`/wordDetails/${word}`)}
+                            >
+                                Weiter
+                            </Button>
+                            <Button
+                                type="primary"
+                                onClick={() => navigate('/login')}
+                            >
+                                Logg in
+                            </Button>
+                        </div>
+                    </div>
+                </Popup>
+            )}
+        </>
     );
 };

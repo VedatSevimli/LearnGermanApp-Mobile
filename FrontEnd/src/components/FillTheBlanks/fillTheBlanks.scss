@@ -5,7 +5,7 @@
     padding: 1em;
     width: 50%;
     h1 {
-        color: $primary-color;
+        color: var(--primary-color);
     }
 
     p {
@@ -17,7 +17,7 @@
         max-width: 8em;
         max-height: 1em;
         text-align: center;
-        border: 1px solid $primary-color;
+        border: 1px solid var(--primary-color);
         border-radius: 3px;
         font-size: 14px;
         margin: 0.25em;
@@ -32,24 +32,24 @@
     }
 
     input[style*='border-color: green'] {
-        border-color: $success-color;
+        border-color: var(--success-color);
     }
 
     input[style*='border-color: red'] {
-        border-color: $error-color;
+        border-color: var(--error-color);
     }
 
     button {
         padding: 8px 15px;
         margin-top: 10px;
-        background-color: $primary-color;
+        background-color: var(--primary-color);
         color: white;
         border: none;
         border-radius: 3px;
         cursor: pointer;
 
         &:hover {
-            background-color: darken($primary-color, 10%);
+            background-color: darken(#3498db, 10%);
         }
 
         &:focus {

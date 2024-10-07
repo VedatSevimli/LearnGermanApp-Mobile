@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Listening.scss';
+const baseApiPath = process.env.REACT_APP_API_URL;
 
 export const Listening: React.FC = (): JSX.Element => {
     const [responseMessage, setResponseMessage] = useState<string>();
@@ -21,7 +22,7 @@ export const Listening: React.FC = (): JSX.Element => {
 
         try {
             const response = await fetch(
-                `http://localhost:5000/api/update-verb-image-url?word=${wordInput?.value}`,
+                `${baseApiPath}update-verb-image-url?word=${wordInput?.value}`,
                 {
                     method: 'POST',
                     headers: {

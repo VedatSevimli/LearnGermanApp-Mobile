@@ -92,3 +92,17 @@
         }
     }
 }
+
+@media (max-width: 768px) {
+    .home-container {
+        padding: 0.5em;
+        .features-section {
+            flex-direction: column;
+            .feature {
+                width: calc(100% - 16px);
+                padding: 0.5em;
+                margin-bottom: 1em;
+            }
+        }
+    }
+}
