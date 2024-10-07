@@ -25,3 +25,29 @@
         background: linear-gradient(45deg, rgb(197, 197, 197), #363336);
     }
 }
+
+@media (max-width: 768px) {
+    .App {
+        .main {
+            margin: 3em 0 4em 0;
+            .reading {
+                width: calc(100% - 11px);
+                margin: 1em 0;
+                .text-card-wrapper {
+                    width: auto;
+                }
+            }
+
+            .verb-details {
+                .conjugation-section {
+                    .conjugation-content {
+                        flex-direction: column;
+                        .conjugation-table {
+                            width: auto;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

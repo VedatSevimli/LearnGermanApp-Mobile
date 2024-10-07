@@ -5,6 +5,7 @@ import LoadingSpinner from '../../LoadingSpinner/LoadingSpinner';
 import { Button } from '../../Button/button';
 import { useUser } from '../../../context/userContext/userContext';
 import { doLogin, register } from '../../../API/Login/login';
+import { setSeo } from '../../../utils/seo';
 
 type LoginPorps = {
     //
@@ -18,7 +19,10 @@ export const Login = (props: LoginPorps): JSX.Element => {
     const [email, setEmail] = useState('');
     const [lastName, setLastName] = useState('');
     const [errorMessage, setErrorMessage] = useState<string>(''); // State for error message
-
+    setSeo(
+        `Deutsch-Turkish App -${isLogin ? 'Anmelden' : 'Registrieren'}`,
+        `${isLogin ? 'Anmelden' : 'Kostenlos registrieren'}`
+    );
     const handleLogin = async (
         e?: React.FormEvent<HTMLFormElement>
     ): Promise<void> => {

@@ -20,3 +20,23 @@
     height: auto;
     margin-right: 10px;
 }
+
+@media (max-width: 768px) {
+    .header-wrapper {
+        width: calc(100% - 16px);
+        padding: 0.5em;
+
+        .company {
+            .logo {
+                max-width: 32px;
+            }
+        }
+
+        nav {
+            a {
+                margin: 0 0.5em;
+                font-size: 12px;
+            }
+        }
+    }
+}

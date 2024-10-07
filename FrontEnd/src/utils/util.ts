@@ -50,6 +50,7 @@ export const generateQuiz = (
 
     function shuffleOptions(options: Option[]) {
         if (!options) {
+            // eslint-disable-next-line no-console
             console.log('Error! No Options');
         }
         //mix the question answers
@@ -147,6 +148,7 @@ export const generateQuiz = (
         const num = Math.floor(Math.random() * sentenceAr.length);
         const stc = sentenceAr.splice(num, 1);
         if (!sentenceAr[0]?.def) {
+            // eslint-disable-next-line no-console
             console.log('Error! Word has no definition', obj.word);
         }
         return stc[0] ?? { def: { tr: 'Alle sind richtig' } };

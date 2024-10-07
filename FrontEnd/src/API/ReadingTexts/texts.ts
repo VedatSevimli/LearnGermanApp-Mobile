@@ -1,10 +1,9 @@
 import { ITextData } from '../../modules/texts/texts.type';
+const baseApiPath = process.env.REACT_APP_API_URL;
 
-export const getReadingTexts = async (
-    textId: string = 'all'
-): Promise<ITextData[]> => {
+export const getReadingTexts = async (textId = 'all'): Promise<ITextData[]> => {
     const response = await fetch(
-        `http://localhost:5000/api/get-reading-text?textId=${textId}`,
+        `${baseApiPath}get-reading-text?textId=${textId}`,
         {
             method: 'GET',
             headers: {

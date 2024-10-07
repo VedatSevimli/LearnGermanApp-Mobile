@@ -7,7 +7,7 @@ type Timerprops = {
 export const Timer: React.FC<Timerprops> = ({
     setTimeOut,
     questionNumber
-}): JSX.Element => {
+}: Timerprops): JSX.Element => {
     const [timer, setTimer] = useState(30);
 
     useEffect(() => {
