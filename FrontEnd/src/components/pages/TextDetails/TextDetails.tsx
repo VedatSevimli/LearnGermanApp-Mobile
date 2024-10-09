@@ -12,6 +12,7 @@ import { speakSentence } from '../../../utils/speech';
 import { speaker } from '../../../images/image';
 import { getReadingTexts } from '../../../API/ReadingTexts/texts';
 import { LoadingOverlay } from '../../LoadingOverlay/LoadingOverlay';
+import { useTranslation } from 'react-i18next';
 
 type MultipleChoiceQuestionP = {
     questionData: TextDataQuestion;
@@ -91,6 +92,7 @@ type TextDetailsProps = {
 export const TextDetails: React.FC<TextDetailsProps> = () => {
     const isMounted = useRef<boolean>(false);
     const { textId } = useParams();
+    const { t } = useTranslation();
 
     const [textData, setText] = useState<ITextData>();
     const [score, setScore] = useState<number>(0);
@@ -182,7 +184,7 @@ export const TextDetails: React.FC<TextDetailsProps> = () => {
                         })
                     ) : (
                         <div>
-                            <h3>Quiz Completed!</h3>
+                            <h3>{t('Reading.TextDetails.Text')}</h3>
                             <p>
                                 {`Your Score: ${score} out of ${textData?.questions?.length}`}
                             </p>

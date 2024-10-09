@@ -9,6 +9,7 @@ import { ITextData } from '../../../modules/texts/texts.type';
 import { LoadingOverlay } from '../../LoadingOverlay/LoadingOverlay';
 import { useUser } from '../../../context/userContext/userContext';
 import { setSeo } from '../../../utils/seo';
+import { useTranslation } from 'react-i18next';
 
 type ReadingProps = {
     verbList?: Verb[];
@@ -19,6 +20,7 @@ export const Reading: React.FC<ReadingProps> = ({
 }: ReadingProps): JSX.Element => {
     const navigate = useNavigate();
     const { userData } = useUser();
+    const { t } = useTranslation();
 
     const [texts, setTexts] = useState<ITextData[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -91,12 +93,9 @@ export const Reading: React.FC<ReadingProps> = ({
                         }
                         <div className="text-card">
                             {!showText ? (
-                                <h3>
-                                    Metni açmak için kırmızı fiiller
-                                    öğrenilmelidir..
-                                </h3>
+                                <h3>{t('Reading.TextHeader.Text')}</h3>
                             ) : (
-                                <h3>Metinde kullanilan fiiller</h3>
+                                <h3>{t('Reading.TextHeader.Used.Verbs')}</h3>
                             )}
                             <div className="used-verbs-wrapper">
                                 {gt.usedVerbs.map((uv, idx) => {

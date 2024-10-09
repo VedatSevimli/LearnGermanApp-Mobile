@@ -6,7 +6,7 @@ export enum verbLevelE {
     'B1' = 'B1'
 }
 const baseApiPath = process.env.REACT_APP_API_URL;
-const allowedOrigins = ['http://localhost:3000', 'http://192.168.2.44'];
+const allowedOrigins = ['http://localhost:3000', 'http://84.133.27.172'];
 
 console.log({ baseApiPath });
 

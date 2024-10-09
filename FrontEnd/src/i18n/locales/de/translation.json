@@ -1,0 +1,18 @@
+{
+    "Header.MenuItems.Home": "Home",
+    "Header.MenuItems.Reading": "Lesen",
+    "Header.MenuItems.Listening": "Hören",
+    "Header.MenuItems.Quiz": "Übung",
+    "Header.MenuItems.Words": "Verben",
+    "Header.MenuItems.Login": "Anmelden",
+    "Header.MenuItems.Logout": "Abmelden",
+    "Footer.MenuItems.Home": "Home",
+    "Footer.MenuItems.Reading": "Lesen",
+    "Footer.MenuItems.Listening": "Hören",
+    "Footer.MenuItems.Quiz": "Übung",
+    "Footer.MenuItems.Words": "Verben",
+    "Reading.TextHeader.Text": "Alle Verben müssen gelernt werden, um den Text zu öffnen.",
+    "Reading.TextHeader.Used.Verbs": "Im Text benutzte Verben",
+    "Reading.FillTheBlanks.Text": "Füllen Sie die Lücken ",
+    "Reading.TextDetails.Text": "Das Quiz ist abgeschlossen!"
+}
