@@ -1,0 +1,18 @@
+{
+    "Header.MenuItems.Home": "Anasayfa",
+    "Header.MenuItems.Reading": "Okuma",
+    "Header.MenuItems.Listening": "Dinleme",
+    "Header.MenuItems.Quiz": "Alistirma",
+    "Header.MenuItems.Words": "Fiiller",
+    "Header.MenuItems.Login": "Giriş",
+    "Header.MenuItems.Logout": "Çıkış",
+    "Footer.MenuItems.Home": "Anasayfa",
+    "Footer.MenuItems.Reading": "Okuma",
+    "Footer.MenuItems.Listening": "Dinleme",
+    "Footer.MenuItems.Quiz": "Alistirma",
+    "Footer.MenuItems.Words": "Fiiller",
+    "Reading.TextHeader.Text": "Metni açmak için tüm fiiller öğrenilmelidir.",
+    "Reading.FillTheBlanks.Used.Verbs": "Metin içinde kullanılan fiiller ",
+    "Reading.FillTheBlanks.Text": "Boşlukları doldurun",
+    "Reading.TextDetails.Text": "Test Tamamlandı!"
+}

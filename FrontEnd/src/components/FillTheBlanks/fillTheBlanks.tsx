@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 
 import './fillTheBlanks.scss';
 import { ITextData } from '../../modules/texts/texts.type';
+import { useTranslation } from 'react-i18next';
 
 type FillBlankProps = {
     textData: ITextData;
 };
 export const FillBlanksApp: React.FC<FillBlankProps> = ({ textData }) => {
+    const { t } = useTranslation();
+
     const initialUserInputs = Array(
         textData.fillTheBlank?.sentences.length
     ).fill('');
@@ -39,7 +42,7 @@ export const FillBlanksApp: React.FC<FillBlankProps> = ({ textData }) => {
         <div>
             {textData.fillTheBlank?.sentences && (
                 <>
-                    <h1>Füllen Sie die Lücken</h1>
+                    <h1>{t('Reading.FillTheBlanks.Text')}</h1>
                     <div>
                         {textData.fillTheBlank?.sentences.map(
                             (sentence, index) => (

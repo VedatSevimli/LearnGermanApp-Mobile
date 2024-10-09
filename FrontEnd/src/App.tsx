@@ -2,6 +2,7 @@ import './App.scss';
 import { useEffect, useState } from 'react';
 import { Header } from '../src/components/header/Header';
 import { Route, Routes } from 'react-router-dom';
+import '././i18n/i18n'; // Initialize i18n
 
 import { Reading } from './components/pages/Reading/Reading';
 import { Listening } from './components/pages/Listening/Listening';

@@ -1,0 +1,18 @@
+{
+    "Header.MenuItems.Home": "Home",
+    "Header.MenuItems.Reading": "Reading",
+    "Header.MenuItems.Listening": "Listening",
+    "Header.MenuItems.Quiz": "Exercise",
+    "Header.MenuItems.Words": "Verbs",
+    "Header.MenuItems.Login": "Logg in",
+    "Header.MenuItems.Logout": "Logg out",
+    "Footer.MenuItems.Home": "Home",
+    "Footer.MenuItems.Reading": "Reading",
+    "Footer.MenuItems.Listening": "Listening",
+    "Footer.MenuItems.Quiz": "Exercise",
+    "Footer.MenuItems.Words": "Verbs",
+    "Reading.TextHeader.Text": "All verbs must be learned in order to open the text.",
+    "Reading.TextHeader.Used.Verbs": "Verbs used in the text ",
+    "Reading.FillTheBlanks.Text": "Fill in the blanks",
+    "Reading.TextDetails.Text": "Quiz Completed!"
+}
