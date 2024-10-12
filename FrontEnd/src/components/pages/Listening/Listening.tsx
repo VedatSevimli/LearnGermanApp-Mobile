@@ -5,7 +5,7 @@ const baseApiPath = process.env.REACT_APP_API_URL;
 export const Listening: React.FC = (): JSX.Element => {
     const [responseMessage, setResponseMessage] = useState<string>();
 
-    //i need it sometimes it is better to push images into db instead of using postman
+    //i need it sometimes. it is better to push images into db instead of using postman
     async function uploadImageUrl() {
         const fileInput = document.getElementById(
             'imageInput2'
@@ -41,6 +41,7 @@ export const Listening: React.FC = (): JSX.Element => {
 
     return (
         <div className="listening">
+            <p>comming soon...</p>
             {/* Listening page
             <div
                 className="upload-image"

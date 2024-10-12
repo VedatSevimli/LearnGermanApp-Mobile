@@ -2,7 +2,6 @@
 @import '../../../_commonstyle/color.scss';
 .text-details {
     @include flexContainerColumns;
-    justify-content: center;
     align-items: center;
     padding: 0.5em;
 

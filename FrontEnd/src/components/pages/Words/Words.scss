@@ -1,7 +1,8 @@
 @import '../../../_commonstyle/flexbox.scss';
 .words-page {
+    width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     grid-auto-rows: 1fr;
     gap: 32px;
     justify-items: center;
@@ -44,6 +45,7 @@
             font-size: 1rem;
             margin-bottom: 4px;
             flex-grow: 1;
+            max-width: 200px;
         }
 
         .bottom-section {
@@ -55,8 +57,8 @@
         .verbImg {
             position: absolute;
             right: 3px;
-            max-height: 4em;
-            max-width: 4em;
+            max-height: 7em;
+            max-width: 6em;
             border-radius: 4px;
         }
 

@@ -14,5 +14,17 @@
     "Reading.TextHeader.Text": "Metni açmak için tüm fiiller öğrenilmelidir.",
     "Reading.FillTheBlanks.Used.Verbs": "Metin içinde kullanılan fiiller ",
     "Reading.FillTheBlanks.Text": "Boşlukları doldurun",
-    "Reading.TextDetails.Text": "Test Tamamlandı!"
+    "Reading.TextDetails.Text": "Test Tamamlandı!",
+    "Home.Word.Info.Text.Header": "Filler",
+    "Home.Word.Info.Text.Content": "İnteraktif alıştırmalar ve kelime öğrenme modülleri ile kelime dağarcığınızı genişletin.",
+    "Home.Word.Info.Text.Footer": "Fiileri öğrenin",
+    "Home.Quiz.Info.Text.Header": "Quiz",
+    "Home.Quiz.Info.Text.Content": "Öğrenmenizi geliştirecek ilgi çekici sınav sorularıyla bilginizi test edin.",
+    "Home.Quiz.Info.Text.Footer": "Quiz başlat",
+    "Home.Reading.Info.Text.Header": "Okuma",
+    "Home.Reading.Info.Text.Content": "Farklı yetenek seviyeleri için tasarlanmış farklı metinlerle okuma becerilerinizi geliştirin.",
+    "Home.Reading.Info.Text.Footer": "Okumaya başla",
+    "Home.Listening.Info.Text.Header": "Dinleme",
+    "Home.Listening.Info.Text.Content": "Verbessern Sie Ihr Hörverstehen mit einer Vielzahl von Audiomaterialien.",
+    "Home.Listening.Info.Text.Footer": "Dinlemeye başla"
 }

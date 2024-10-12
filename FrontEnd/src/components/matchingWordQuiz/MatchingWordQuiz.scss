@@ -73,7 +73,8 @@
 
 @media (max-width: 768px) {
     .matching-quiz {
-        min-width: 350px;
+        min-width: 300px;
+        padding: 0.25em;
         .wrapper {
             flex-direction: column;
             justify-content: start;
@@ -81,6 +82,7 @@
             .definition-cards {
                 width: 95%;
                 margin-left: 0;
+                padding: 0.25em;
             }
         }
     }
