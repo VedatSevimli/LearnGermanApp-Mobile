@@ -22,7 +22,7 @@ async function initI18n() {
             }
         },
         lng: savedLanguage,
-        fallbackLng: 'en',
+        fallbackLng: 'de',
         interpolation: {
             escapeValue: false
         }

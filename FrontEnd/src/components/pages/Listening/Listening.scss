@@ -1,9 +1,8 @@
 .listening {
-    width: 100%;
-    height: 100%;
-
-    // BookDistribution.scss
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
     $primaryColor: #3498db;
     $background: #ecf0f1;
     $borderColor: #bdc3c7;

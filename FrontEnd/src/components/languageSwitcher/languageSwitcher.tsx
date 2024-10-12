@@ -21,7 +21,6 @@ export const LanguageSwitcher = () => {
 
     return (
         <div className="language-switcher" ref={containerRef}>
-            {/* Circular select button */}
             <select onClick={toggleDropdown} value={i18n.language}>
                 <option value="en">EN</option>
                 <option value="de">DE</option>

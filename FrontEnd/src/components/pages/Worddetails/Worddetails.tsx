@@ -23,9 +23,7 @@ import DialogBody from '../../Dialog/DialogBody/dialogBody';
 import { DraggQuiz } from '../../DraggDropp/dragDropp';
 import MatchingWordQuiz from '../../matchingWordQuiz/MatchingWordQuiz';
 import { Trivia } from '../../MultipleChoice/triva';
-import { UserInfo } from '../../../App';
 import { saveUserProccess } from '../../../API/Login/login';
-import { UserData } from '../../../modules/login/login.type';
 import { useUser } from '../../../context/userContext/userContext';
 import { setSeo } from '../../../utils/seo';
 

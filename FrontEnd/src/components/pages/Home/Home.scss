@@ -2,7 +2,6 @@
 .home-container {
     height: 100%;
     @include flexContainerColumns;
-    padding: 1em;
     text-align: center;
 
     .home-banner {

@@ -1,25 +1,20 @@
 .header-wrapper {
-    position: fixed;
-    width: 100%;
-    top: 0;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding: 1em;
-    background-color: #ffffff;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    z-index: 5;
-}
-
-.company {
-    display: flex;
     align-items: center;
-}
+    background-color: #007bff;
+    padding: 1em;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 
-.logo {
-    width: 50px;
-    height: auto;
-    margin-right: 10px;
+    .company {
+        display: flex;
+        align-items: center;
+
+        .logo {
+            width: 50px;
+            height: auto;
+        }
+    }
 }
 
 @media (max-width: 768px) {
@@ -34,9 +29,26 @@
         }
 
         nav {
+            gap: 0.25em;
             a {
-                margin: 0 0.5em;
+                margin: 0 0.25em;
                 font-size: 12px;
+                padding: 0.25em;
+            }
+            .language-switcher {
+                margin-left: 0;
+                select {
+                    width: 1.75em;
+                    height: 1.75em;
+                    padding: 0;
+                    font-size: 12px;
+                }
+            }
+            .user-info {
+                .user-icon {
+                    width: 2em;
+                    height: 2em;
+                }
             }
         }
     }

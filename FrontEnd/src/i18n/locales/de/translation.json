@@ -14,5 +14,17 @@
     "Reading.TextHeader.Text": "Alle Verben müssen gelernt werden, um den Text zu öffnen.",
     "Reading.TextHeader.Used.Verbs": "Im Text benutzte Verben",
     "Reading.FillTheBlanks.Text": "Füllen Sie die Lücken ",
-    "Reading.TextDetails.Text": "Das Quiz ist abgeschlossen!"
+    "Reading.TextDetails.Text": "Das Quiz ist abgeschlossen!",
+    "Home.Word.Info.Text.Header": "Verben",
+    "Home.Word.Info.Text.Content": "Erweitern Sie Ihren Wortschatz durch interaktive Übungen und Vokabel-Lernmodule.",
+    "Home.Word.Info.Text.Footer": "Verben erkunden",
+    "Home.Quiz.Info.Text.Header": "Übung",
+    "Home.Quiz.Info.Text.Content": "Testen Sie Ihr Wissen mit fesselnden Quizfragen, die das Ihr Lernen.",
+    "Home.Quiz.Info.Text.Footer": "Übung starten",
+    "Home.Reading.Info.Text.Header": "Lesen",
+    "Home.Reading.Info.Text.Content": "Verbessern Sie Ihre Lesekompetenz mit verschiedenen Texten, die für unterschiedliche Leistungsniveaus.",
+    "Home.Reading.Info.Text.Footer": "Lesen beginnen",
+    "Home.Listening.Info.Text.Header": "Hören",
+    "Home.Listening.Info.Text.Content": "Verbessern Sie Ihr Hörverstehen mit einer Vielzahl von Audiomaterialien.",
+    "Home.Listening.Info.Text.Footer": "Hören beginnen"
 }
