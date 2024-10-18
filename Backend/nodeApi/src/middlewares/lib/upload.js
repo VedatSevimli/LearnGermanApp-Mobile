@@ -11,7 +11,6 @@ const fileFilter = (req, file, callback) => {
         'image/jgep',
         'image/png'
     ];
-    console.log('mimetype', file.mimetype);
     if (!acceptedExtensions.includes(file.mimetype)) {
         callback(new APIError('this file is not supported'), false);
     }
@@ -23,7 +22,6 @@ const storage = multer.diskStorage({
     destination: function (req, file, callback) {
         // const rootDir = path.dirname(require.main.filename);
         const rootDir = path.dirname(require.main.filename);
-        console.log({ dirPath: require.main.filename });
 
         fs.mkdirSync(path.join(rootDir, 'public/uploads'), { recursive: true });
 

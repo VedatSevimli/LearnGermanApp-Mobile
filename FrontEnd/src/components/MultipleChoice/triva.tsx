@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Option, SentenceQuestion } from '../../modules/verbs/verbs.type';
+import { Option, Question } from '../../modules/verbs/verbs.type';
 import { quizResult } from './multipleChoice';
 import './triva.scss';
 
@@ -7,7 +7,7 @@ type TrivaProps = {
     setQuestionNumber?: React.Dispatch<React.SetStateAction<number>>;
     setTimeOut?: React.Dispatch<React.SetStateAction<boolean>>;
     setQuizResult?: React.Dispatch<React.SetStateAction<quizResult>>;
-    question: SentenceQuestion;
+    question: Question;
     enableClikEvent?: boolean;
     userAnswer?: number;
 };

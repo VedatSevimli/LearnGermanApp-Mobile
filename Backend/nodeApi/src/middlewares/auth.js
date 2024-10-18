@@ -51,7 +51,6 @@ export const checkToken = async (req, res, next) => {
         const userInfo = await User.findById(decoded.sub).select(
             '_id name lastName email progress'
         );
-        console.log({ userInfo });
 
         if (!userInfo) throw new APIError('invalid token', 401);
         req.user = userInfo;

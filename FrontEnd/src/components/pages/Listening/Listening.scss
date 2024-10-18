@@ -1,8 +1,11 @@
 .listening {
     display: flex;
-    align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 1em;
     flex-grow: 1;
+    padding: 1em;
+
     $primaryColor: #3498db;
     $background: #ecf0f1;
     $borderColor: #bdc3c7;
@@ -46,5 +49,45 @@
 
     tr:hover {
         background-color: #f5f5f5;
+    }
+
+    .video-container {
+        display: flex;
+        flex-direction: column;
+        width: 46%;
+        border: 1px solid #007bff;
+        border-radius: 4px;
+        padding: 1em;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        h2 {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            margin-bottom: 0.5em;
+        }
+
+        .iframe-container {
+            display: flex;
+            flex-grow: 1;
+            border-radius: 5px;
+            iframe {
+                width: 100%;
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .listening {
+        width: 92%;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: unset;
+        .video-container {
+            width: 92%;
+            h2 {
+                max-width: 400px;
+            }
+        }
     }
 }

@@ -17,4 +17,5 @@ export type defaultConfigProps = {
         tense: TensesE;
         quizOpt: quizOptE;
     }[];
+    learnedVerbsExample: string[];
 };

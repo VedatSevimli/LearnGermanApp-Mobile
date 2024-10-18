@@ -8,7 +8,6 @@ export const corsOptions = (req, callback) => {
     } else {
         corsoptions = { origin: false };
     }
-    console.log({ corsoptions });
 
     callback(null, corsOptions);
 };

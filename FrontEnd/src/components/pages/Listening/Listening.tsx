@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
 import './Listening.scss';
+import {
+    getYoutubeVideoByQParam,
+    videoDataType
+} from '../../../API/Listening/fetchYouTubeVideos';
+import { VideoPlayerYouTube } from './youtubeVideoPlayer';
+import { LoadingOverlay } from '../../LoadingOverlay/LoadingOverlay';
 const baseApiPath = process.env.REACT_APP_API_URL;
 
 export const Listening: React.FC = (): JSX.Element => {
     const [responseMessage, setResponseMessage] = useState<string>();
+    const [videoData, setVideoData] = useState<videoDataType[]>();
+    const [isVideoDataLoading, setIsVideoDataLoading] = useState<boolean>();
 
     //i need it sometimes. it is better to push images into db instead of using postman
     async function uploadImageUrl() {
@@ -39,9 +47,37 @@ export const Listening: React.FC = (): JSX.Element => {
         }
     }
 
+    React.useEffect(() => {
+        const videoData = async () => {
+            setIsVideoDataLoading(true);
+            const query = 'A1 deutsche Geschihte';
+            // const currLang = localStorage.getItem('language');
+            // if (currLang === 'en') {
+            //     query = 'german a1 story';
+            // } else if (currLang === 'tr') {
+            //     query = 'almanca a1 hikayeler';
+            // }
+            const videoData = await getYoutubeVideoByQParam(query);
+            setVideoData(videoData);
+            setIsVideoDataLoading(false);
+        };
+        void videoData();
+    }, []);
+
     return (
         <div className="listening">
-            <p>comming soon...</p>
+            {isVideoDataLoading ? (
+                <LoadingOverlay></LoadingOverlay>
+            ) : (
+                videoData?.map((data) => (
+                    <VideoPlayerYouTube
+                        key={data.id.videoId}
+                        id={data.id}
+                        snippet={data.snippet}
+                    ></VideoPlayerYouTube>
+                ))
+            )}
+
             {/* Listening page
             <div
                 className="upload-image"

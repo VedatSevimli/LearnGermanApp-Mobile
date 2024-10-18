@@ -6,7 +6,7 @@
     place-items: center;
     background-color: #f0f0f0;
     background-image: url('../../../images/quiz.jpg');
-    background-size: cover;
+    background-size: contain;
     background-position: center;
 
     .quiz-section-wrapper {
@@ -14,6 +14,7 @@
         grid-template-columns: repeat(3, 1fr);
         grid-auto-rows: auto;
         gap: 1em;
+        padding: 0.5em;
 
         .quiz-opt {
             position: relative;
@@ -59,5 +60,10 @@
                 opacity: 1;
             }
         }
+    }
+
+    .quiz-dialog {
+        height: 86vh;
+        margin-top: 2em;
     }
 }

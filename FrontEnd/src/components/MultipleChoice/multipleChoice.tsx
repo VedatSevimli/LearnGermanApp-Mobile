@@ -6,7 +6,7 @@ import {
     SentencesAndConjugation,
     TensesE,
     Verb,
-    SentenceQuestion,
+    Question,
     Quiz
 } from '../../modules/verbs/verbs.type';
 import { Timer } from './timer';
@@ -17,11 +17,13 @@ export type MultipleChoiceProps = {
     verbList: Verb[];
     tense: TensesE;
     questionType: SentencesAndConjugation;
+    showTimer?: boolean;
+    mixedQuestions?: Question[];
     onQuizFinsih?: (quizResult?: quizResult) => void;
 };
 export type quizResult = {
     correctAnswers: number[];
-    wrongAnswers: { question: SentenceQuestion; userAnswer: number }[];
+    wrongAnswers: { question: Question; userAnswer: number }[];
     quizFinished: boolean;
 };
 export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
@@ -31,8 +33,8 @@ export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
 }): JSX.Element => {
     const [quiz] = useState<Quiz>(() => {
         const definitions = props.verbList.map((verb) => verb.def.tr);
-        const quiz = generateQuiz(props.verb, definitions);
-        return quiz.quizQuestions;
+        const quiz = props.verb && generateQuiz(props.verb, definitions);
+        return quiz?.quizQuestions;
     });
     const [timeOut, setTimeOut] = useState<boolean>(false);
     const [questionNumber, setQuestionNumber] = useState<number>(1);
@@ -73,7 +75,7 @@ export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
                             question={
                                 quiz[questionType][tense]?.[
                                     questionNumber - 1
-                                ] as SentenceQuestion
+                                ] as Question
                             }
                             setQuestionNumber={setQuestionNumber}
                             setTimeOut={setTimeOut}

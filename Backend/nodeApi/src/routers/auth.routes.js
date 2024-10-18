@@ -26,9 +26,7 @@ auth.post('/save-user-proccess', saveUserProccess);
 
 auth.post('/uploads', (req, res) => {
     // * TODO:check it
-    console.log('/uploads');
     upload(req, res, (err) => {
-        console.log(err);
         if (err instanceof multer.MulterError) {
             throw new APIError('error while uploading multer problem', err);
         } else if (err) {

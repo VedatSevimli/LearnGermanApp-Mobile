@@ -1,5 +1,5 @@
 import { Login, LoginWithToken } from '../../modules/login/login.type';
-import { SentenceQuestion } from '../../modules/verbs/verbs.type';
+import { Question } from '../../modules/verbs/verbs.type';
 const baseApiPath = process.env.REACT_APP_API_URL;
 
 export const loginWithToken = async ({
@@ -59,7 +59,7 @@ export const register = async (userData: Register) => {
 export const saveUserProccess = async (userProgress: {
     email: string;
     word: string;
-    wrongAnswers: { question: SentenceQuestion; userAnswer: number }[];
+    wrongAnswers: { question: Question; userAnswer: number }[];
     progressValue: string;
 }) => {
     const response = await fetch(`${baseApiPath}save-user-proccess`, {

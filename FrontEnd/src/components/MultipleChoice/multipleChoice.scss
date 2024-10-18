@@ -11,22 +11,7 @@
         width: 100%;
         margin-bottom: 1em;
         .timer {
-            width: 70px;
-            height: 70px;
             margin-right: 2em;
-            border-radius: 50%;
-            border: 5px solid #50be21;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            font-weight: 700;
-            &.warn {
-                border-color: rgb(249, 236, 46);
-            }
-            &.less {
-                border-color: rgb(249, 72, 72);
-            }
         }
     }
 
