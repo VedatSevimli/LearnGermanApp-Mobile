@@ -24,15 +24,15 @@ import { useUser } from '../../../context/userContext/userContext';
 import { setSeo } from '../../../utils/seo';
 import { Trivia } from '../../MultipleChoice/triva';
 import { Popup } from '../../Popup/popup';
-// import {
-//     generateDraggDroppQuiz,
-//     generateMatchWordQuiz,
-//     generateMultChoiceQuests
-// } from './quizUtils';
+import { QuizDetails } from './quizDetails';
+import {
+    generateDraggDroppQuiz,
+    generateMatchWordQuiz,
+    generateMultChoiceQuests
+} from './quizUtils';
 import { DraggQuiz } from '../../DraggDropp/dragDropp';
 import { Timer } from '../../MultipleChoice/timer';
 import { useMediaQuery } from 'react-responsive';
-import { QuizDetails } from './quizDetails';
 
 type QuizProps = {
     verbList: Verb[];
@@ -98,24 +98,24 @@ export const Quiz: React.FC<QuizProps> = (props): JSX.Element => {
     useEffect(() => {
         if (learnedVerbs?.length && activeQuiz && quizDetailsOpt) {
             if (activeQuiz === 'Multiple Choice') {
-                // setMultipleChoiceQustion(
-                //     // generateMultChoiceQuests(
-                //     //     props.verbList,
-                //     //     learnedVerbs,
-                //     //     quizDetailsOpt
-                //     // )
-                // );
+                setMultipleChoiceQustion(
+                    generateMultChoiceQuests(
+                        props.verbList,
+                        learnedVerbs,
+                        quizDetailsOpt
+                    )
+                );
             } else if (activeQuiz === 'Match the Words') {
-                // const data = generateMatchWordQuiz(
-                //     quizDetailsOpt,
-                //     learnedVerbs,
-                //     isTabletOrMobile ? 6 : 10
-                // );
-                // setMatchingWords(data);
+                const data = generateMatchWordQuiz(
+                    quizDetailsOpt,
+                    learnedVerbs,
+                    isTabletOrMobile ? 6 : 10
+                );
+                setMatchingWords(data);
             } else if (activeQuiz === 'Drag and Drop') {
-                // setDragDroppQuestions(
-                //      generateDraggDroppQuiz(learnedVerbs, quizDetailsOpt)
-                // );
+                setDragDroppQuestions(
+                    generateDraggDroppQuiz(learnedVerbs, quizDetailsOpt)
+                );
             }
         }
     }, [learnedVerbs, quizDetailsOpt]);
@@ -159,7 +159,6 @@ export const Quiz: React.FC<QuizProps> = (props): JSX.Element => {
                 <Trivia
                     question={multipleChoiceQustion[qNumber]}
                     setQuestionNumber={setQNumber}
-                    setTimeOut={setTimeOut}
                 ></Trivia>
             </>
         );

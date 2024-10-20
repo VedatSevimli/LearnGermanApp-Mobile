@@ -90,29 +90,14 @@ export type QuizSection = {
     imperativ?: Question[];
 };
 
-export type SentenceQuestion = {
-    id: number;
-    question: string;
-    options: Option[];
-};
-
-export type SentencesQuestions = {
-    presens: SentenceQuestion[];
-    perfect: SentenceQuestion[];
-    pastTense: SentenceQuestion[];
-    konjuktiv?: SentenceQuestion[];
-    imperativ?: SentenceQuestion[];
-};
-
 export type MainQuestion = {
     question: string;
     options: Option[];
 };
 
 export type Quiz = {
-    // mainQuestion: MainQuestion;
     conjugation: QuizSection;
-    sentences: SentencesQuestions;
+    sentences: QuizSection;
 };
 
 export type QuizKeys = keyof Quiz;

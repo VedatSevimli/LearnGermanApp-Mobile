@@ -7,6 +7,10 @@
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     font-family: 'Arial', sans-serif;
 
+    &:last-child {
+        margin-bottom: 0;
+    }
+
     &__title {
         font-size: 24px;
         color: #333;
@@ -68,7 +72,7 @@
             height: 16px;
             width: 16px;
             left: 4px;
-            bottom: 4px;
+            bottom: 2px;
             background-color: white;
             transition: 0.4s;
             border-radius: 50%;
@@ -93,41 +97,52 @@
             display: flex;
             gap: 20px;
             justify-content: center;
-        }
 
-        &__time-unit {
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            .quiz-options__time-unit {
+                display: flex;
+                align-items: center;
+                gap: 5px;
 
-            .quiz-options__input {
-                width: 50px;
-                text-align: center;
-                padding: 5px;
-                font-size: 16px;
-                border: 1px solid #ddd;
-                border-radius: 4px;
-            }
-
-            .quiz-options__btn {
-                background-color: #4caf50;
-                color: white;
-                border: none;
-                padding: 5px 10px;
-                border-radius: 5px;
-                font-size: 16px;
-                cursor: pointer;
-                transition: background-color 0.3s ease;
-
-                &:hover {
-                    background-color: #45a049;
+                span {
+                    font-size: 14px;
+                    color: #333;
                 }
             }
-
-            span {
-                font-size: 14px;
-                color: #333;
-            }
         }
+    }
+
+    .quiz-options__input {
+        width: 50px;
+        text-align: center;
+        padding: 5px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .quiz-options__btn {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: #45a049;
+        }
+    }
+
+    &__start {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+    }
+
+    input[type='number']::-webkit-outer-spin-button,
+    input[type='number']::-webkit-inner-spin-button {
+        display: none;
     }
 }

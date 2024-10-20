@@ -82,14 +82,14 @@ export const defaultConfig = (): defaultConfigProps => {
         learnedVerbsExample: [
             'haben',
             'sein',
+            'arbeiten',
             'essen',
-            'kommen',
             'gehen',
-            'nehmen',
+            'kommen',
+            'lesen',
+            'sehen',
             'geben',
-            'sagen',
-            'sprechen',
-            'höre'
+            'nehmen'
         ]
     };
 };

@@ -34,18 +34,14 @@ export type videoDataType = {
 };
 
 const apiKey = process.env.REACT_APP_API_YOUTUBE_API_KEY;
-let _videoData: videoDataType[];
 
 export const getYoutubeVideoByQParam = async (
     query = 'deutsch a1 geschichte',
-    maxResult = 12
+    maxResult = 10
 ): Promise<videoDataType[]> => {
-    if (!_videoData) {
-        const resposne = await fetch(
-            `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&q=${query}&type=video&part=snippet&maxResults=${maxResult}&videoEmbeddable=true&relevanceLanguage=de&videoDuration=medium`
-        );
-        const videoData = await resposne.json();
-        _videoData = videoData.items;
-    }
-    return _videoData;
+    const resposne = await fetch(
+        `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&q=${query}&type=video&part=snippet&maxResults=${maxResult}&videoEmbeddable=true&relevanceLanguage=de&videoDuration=medium`
+    );
+    const videoData = await resposne.json();
+    return videoData.items;
 };

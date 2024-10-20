@@ -1,36 +1,42 @@
 import React, { useState } from 'react';
 import './quizDetails.scss';
-import { QuizKeys, QuizSection } from '../../../modules/verbs/verbs.type';
-import { QuizOptions } from '../../../config/configProps';
-import { QuestionType } from './Quiz';
 import { Button } from '../../Button/button';
+import {
+    Quiz,
+    QuizKeys,
+    QuizSection,
+    TensesE
+} from '../../../modules/verbs/verbs.type';
+import { QuestionType } from './Quiz';
+import { QuizOptions } from '../../../config/configProps';
 
-type QuizDetailsP = {
+type quizDetailsP = {
     activeQuiz: QuizOptions;
     onQuizDetailsClick: (
         questionNumber: number,
-        questionType: QuizKeys,
+        questionType: QuestionType,
         tense: keyof QuizSection,
         withTimer: boolean,
         timerCount: number
     ) => void;
 };
+export const QuizDetails: React.FC<quizDetailsP> = ({
+    onQuizDetailsClick,
+    activeQuiz
+}: quizDetailsP) => {
+    const [questionNumber, setQuestionNumber] = useState(5);
+    const [questionType, setQuestionType] =
+        useState<QuestionType>('conjugation');
+    const [tense, setTense] = useState<keyof QuizSection>('presens');
+    const [withTimer, setWithTimer] = useState<boolean>(false);
 
-export const QuizDetails: React.FC<QuizDetailsP> = ({
-    onQuizDetailsClick
-}: QuizDetailsP) => {
-    const [questionNumber, setQuestionNumber] = useState(5); // default question number
-    const [questionType, setQuestionType] = useState<QuestionType>('sentences'); // default question type
-    const [withTimer, setWithTimer] = useState(false); // default timer setting
-
-    const [minutes, setMinutes] = useState(0);
-    const [seconds, setSeconds] = useState(0);
+    const [minutes, setMinutes] = useState<number>(0);
+    const [seconds, setSeconds] = useState<number>(30);
 
     const handleMinutesChange = (amount: number) => {
         setMinutes((prev) => Math.max(0, prev + amount));
     };
 
-    // Function to handle increasing and decreasing seconds
     const handleSecondsChange = (amount: number) => {
         setSeconds((prev) => {
             if (prev + amount >= 60) {
@@ -44,27 +50,24 @@ export const QuizDetails: React.FC<QuizDetailsP> = ({
         });
     };
 
-    // Function to handle manual input for minutes
     const handleMinutesInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = Math.max(0, parseInt(e.target.value) || 0);
         setMinutes(value);
     };
 
-    // Function to handle manual input for seconds
     const handleSecondsInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = Math.max(0, Math.min(59, parseInt(e.target.value) || 0));
         setSeconds(value);
     };
 
     const handleOptionChange = () => {
-        // Update the options in parent component
-        const timerCount = minutes * 60 + seconds;
+        const time = minutes * 60 + seconds;
         onQuizDetailsClick(
             questionNumber,
             questionType,
-            'presens',
+            tense,
             withTimer,
-            timerCount
+            time
         );
     };
 
@@ -74,13 +77,25 @@ export const QuizDetails: React.FC<QuizDetailsP> = ({
 
             <div className="quiz-options__group">
                 <label htmlFor="question-number">Number of Questions:</label>
+                <button
+                    className="quiz-options__btn"
+                    onClick={() => setQuestionNumber((prev) => prev - 1)}
+                >
+                    -
+                </button>
                 <input
-                    type="number"
                     id="question-number"
+                    type="number"
                     value={questionNumber}
                     onChange={(e) => setQuestionNumber(Number(e.target.value))}
                     className="quiz-options__input"
                 />
+                <button
+                    className="quiz-options__btn"
+                    onClick={() => setQuestionNumber((prev) => prev + 1)}
+                >
+                    +
+                </button>
             </div>
 
             <div className="quiz-options__group">
@@ -88,13 +103,28 @@ export const QuizDetails: React.FC<QuizDetailsP> = ({
                 <select
                     value={questionType}
                     onChange={(e) =>
-                        setQuestionType(e.target.value as QuestionType)
+                        setQuestionType(
+                            e.target.value.toLowerCase() as QuizKeys
+                        )
                     }
                     className="quiz-options__select"
                 >
-                    <option value="sentences">Sentence</option>
+                    <option value="sentences">Sentences</option>
                     <option value="conjugation">Conjugation</option>
-                    <option value="mixed">Mixed</option>
+                    <option value="both">Mixed</option>
+                </select>
+            </div>
+
+            <div className="quiz-options__group">
+                <label>Tensees:</label>
+                <select
+                    value={tense}
+                    onChange={(e) => setTense(e.target.value as TensesE)}
+                    className="quiz-options__select"
+                >
+                    <option value="presens">{TensesE.presens}</option>
+                    <option value="perfect">{TensesE.perfect}</option>
+                    <option value="pastTense">{TensesE.pastTense}</option>
                 </select>
             </div>
 
@@ -117,66 +147,65 @@ export const QuizDetails: React.FC<QuizDetailsP> = ({
             </div>
 
             {withTimer && (
-                <div className="quiz-options__timer">
-                    <label>Set Timer:</label>
-                    <div className="quiz-options__timer-controls">
-                        <div className="quiz-options__time-unit">
-                            <button
-                                className="quiz-options__btn"
-                                onClick={() => handleMinutesChange(1)}
-                            >
-                                +
-                            </button>
-                            <input
-                                type="number"
-                                value={minutes}
-                                onChange={handleMinutesInput}
-                                className="quiz-options__input"
-                            />
-                            <button
-                                className="quiz-options__btn"
-                                onClick={() => handleMinutesChange(-1)}
-                            >
-                                -
-                            </button>
-                            <span>min</span>
-                        </div>
+                <div className="quiz-options__group">
+                    <div className="quiz-options__timer">
+                        <label>Set Timer:</label>
+                        <div className="quiz-options__timer-controls">
+                            <div className="quiz-options__time-unit">
+                                <button
+                                    className="quiz-options__btn"
+                                    onClick={() => handleMinutesChange(-1)}
+                                >
+                                    -
+                                </button>
+                                <input
+                                    type="number"
+                                    value={minutes}
+                                    onChange={handleMinutesInput}
+                                    className="quiz-options__input"
+                                />
+                                <button
+                                    className="quiz-options__btn"
+                                    onClick={() => handleMinutesChange(1)}
+                                >
+                                    +
+                                </button>
 
-                        <div className="quiz-options__time-unit">
-                            <button
-                                className="quiz-options__btn"
-                                onClick={() => handleSecondsChange(1)}
-                            >
-                                +
-                            </button>
-                            <input
-                                type="number"
-                                value={seconds}
-                                onChange={handleSecondsInput}
-                                className="quiz-options__input"
-                            />
-                            <button
-                                className="quiz-options__btn"
-                                onClick={() => handleSecondsChange(-1)}
-                            >
-                                -
-                            </button>
-                            <span>sec</span>
+                                <span>min</span>
+                            </div>
+
+                            <div className="quiz-options__time-unit">
+                                <button
+                                    className="quiz-options__btn"
+                                    onClick={() => handleSecondsChange(-1)}
+                                >
+                                    -
+                                </button>
+                                <input
+                                    type="number"
+                                    value={seconds}
+                                    onChange={handleSecondsInput}
+                                    className="quiz-options__input"
+                                />
+                                <button
+                                    className="quiz-options__btn"
+                                    onClick={() => handleSecondsChange(1)}
+                                >
+                                    +
+                                </button>
+
+                                <span>sec</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             )}
 
             <div className="quiz-options__group">
-                <label>With Timer:</label>
-                <div className="quiz-options__accept">
+                <div className="quiz-options__start">
                     <Button type="primary" onClick={handleOptionChange}>
-                        Start Quiz
+                        Start
                     </Button>
-                    <label
-                        htmlFor="with-timer"
-                        className="quiz-options__accept"
-                    ></label>
                 </div>
             </div>
         </div>
