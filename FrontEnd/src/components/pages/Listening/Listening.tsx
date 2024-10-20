@@ -55,9 +55,7 @@ export const Listening: React.FC = (): JSX.Element => {
         }
     }
 
-    if (!videoData.length) {
-        <LoadingOverlay />;
-    }
+  
 
     return (
         <div className="listening">
