@@ -1,27 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import './Quiz.scss';
 import MatchingWordQuiz, {
-    matchingWords
+    MatchingWords
 } from '../../matchingWordQuiz/MatchingWordQuiz';
 import { useParams } from 'react-router-dom';
-import { getWord, getWords } from '../../../API/VerbList/verb';
+import { getWords } from '../../../API/VerbList/verb';
 import {
-    Conjugation,
+    QuizKeys,
+    Question,
+    QuizSection,
     TensesE,
     Verb,
     VerbKeys
 } from '../../../modules/verbs/verbs.type';
-import { LoadingOverlay } from '../../LoadingOverlay/LoadingOverlay';
-import { MultipleChoice } from '../../MultipleChoice/multipleChoice';
+
 import { defaultConfig } from '../../../config/defaultConfig';
 import { Quizoption } from '../../Quiz/QuizOptions/quizoption';
 import { QuizOptions } from '../../../config/configProps';
 import Dialog from '../../Dialog/dialog';
 import DialogHeader from '../../Dialog/DialogHeader/dialogHeader';
 import DialogBody from '../../Dialog/DialogBody/dialogBody';
-import { UserData } from '../../../modules/login/login.type';
 import { useUser } from '../../../context/userContext/userContext';
 import { setSeo } from '../../../utils/seo';
+import { Trivia } from '../../MultipleChoice/triva';
+import { Popup } from '../../Popup/popup';
+// import {
+//     generateDraggDroppQuiz,
+//     generateMatchWordQuiz,
+//     generateMultChoiceQuests
+// } from './quizUtils';
+import { DraggQuiz } from '../../DraggDropp/dragDropp';
+import { Timer } from '../../MultipleChoice/timer';
+import { useMediaQuery } from 'react-responsive';
+import { QuizDetails } from './quizDetails';
 
 type QuizProps = {
     verbList: Verb[];
@@ -30,187 +41,194 @@ export type WithoutConjugationAndSentences<T extends VerbKeys> = Omit<
     T,
     'conjugation' | 'sentences'
 >;
+export type QuestionType = 'conjugation' | 'sentences';
+
+export type QuizDetailsOptions = {
+    questionNumber: number;
+    questionType: QuestionType;
+    tense: keyof QuizSection;
+    withTimer: boolean;
+    timerCount?: number;
+};
+
+export type DragDroppQuestion = {
+    question: string;
+    definition: string;
+    mixedConj?: string[];
+};
 
 export const Quiz: React.FC<QuizProps> = (props): JSX.Element => {
-    const { word, qtype, tense, quizOpt } = useParams();
+    //#region MiscHook
+    const { word } = useParams();
     const { userData } = useUser();
-
-    const { options } = defaultConfig();
-    const learnedWords = userData?.progress.map((p) => p.word) ?? [];
-
-    const [isLoading, setIsLoading] = useState(false);
-    const [activeQuiz, setActiveQuiz] =
-        useState<QuizOptions>('Multiple Choice');
+    const { options, learnedVerbsExample } = defaultConfig();
+    const learnedWords =
+        userData?.progress.map((p) => p.word) ?? learnedVerbsExample;
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
+    //#region useState Hook
+    const [timeOut, setTimeOut] = useState<boolean>(false);
+    const [activeQuiz, setActiveQuiz] = useState<QuizOptions>();
     const [openDialog, setOpenDialog] = useState<boolean>(false);
-    const [verb, setVerb] = useState<Verb>({} as Verb);
     const [learnedVerbs, setLearnedVerbs] = useState<Verb[]>([]);
-    const [matchingWords, setMatchingWords] = useState<matchingWords[]>([]);
-    const [selectedConj, setSelectedConj] = useState<TensesE>(
-        TensesE[tense as TensesE]
-    );
-    const [qnumber, setQNumber] = useState<number>(0);
-    const [questionsArr, setQuestionsArr] = useState();
-    const [matchingWordsArr, setMatchingWordsArr] = useState();
+    const [multipleChoiceQustion, setMultipleChoiceQustion] = useState<
+        Question[]
+    >([]);
+    const [qNumber, setQNumber] = useState<number>(0);
+    const [matchingWords, setMatchingWords] = useState<MatchingWords[][]>([]);
+    const [dragDroppQuestions, setDragDroppQuestions] = useState<
+        DragDroppQuestion[]
+    >([]);
+    const [openQuizDetailsPopover, setOpenQuizDetailsPopover] =
+        useState<boolean>(false);
+    const [quizDetailsOpt, setQuizDetailsOpt] = useState<QuizDetailsOptions>();
 
+    //#region UseEffect Hook
     useEffect(() => {
         const getLearnedWords = async () => {
             const learnedVerbs = await getWords({
                 words: learnedWords
             });
             setLearnedVerbs(learnedVerbs);
-            const matchingVerbs = learnedVerbs[
-                Math.round(Math.random() * learnedVerbs?.length - 1)
-            ].conjugation['presens'].map((pc) => {
-                const [subj, verb, verb2] = pc.split(' ');
-                return {
-                    word: subj,
-                    def: verb + ' ' + (verb2 ?? '')
-                };
-            });
-            setMatchingWords(matchingVerbs);
         };
-        void getLearnedWords();
+        learnedWords?.length && void getLearnedWords();
 
         setSeo('Deutsch-Turkish App - Quiz', 'Verben Übunen , Verben Übungen');
     }, []);
 
     useEffect(() => {
-        const getVerbListA1 = async (): Promise<void> => {
-            try {
-                setIsLoading(true);
-                const verb = await getWord({
-                    word: word as string
-                });
-                setVerb(verb);
-
-                const mw = (verb?.conjugation as Conjugation)?.presens?.map(
-                    (pc) => {
-                        const [subj, verb, verb2] = pc.split(' ');
-                        return {
-                            word: subj,
-                            def: verb + ' ' + (verb2 ?? '')
-                        };
-                    }
-                );
-                setMatchingWords(mw);
-                setIsLoading(false);
-            } catch (error) {
-                setIsLoading(false);
+        if (learnedVerbs?.length && activeQuiz && quizDetailsOpt) {
+            if (activeQuiz === 'Multiple Choice') {
+                // setMultipleChoiceQustion(
+                //     // generateMultChoiceQuests(
+                //     //     props.verbList,
+                //     //     learnedVerbs,
+                //     //     quizDetailsOpt
+                //     // )
+                // );
+            } else if (activeQuiz === 'Match the Words') {
+                // const data = generateMatchWordQuiz(
+                //     quizDetailsOpt,
+                //     learnedVerbs,
+                //     isTabletOrMobile ? 6 : 10
+                // );
+                // setMatchingWords(data);
+            } else if (activeQuiz === 'Drag and Drop') {
+                // setDragDroppQuestions(
+                //      generateDraggDroppQuiz(learnedVerbs, quizDetailsOpt)
+                // );
             }
-        };
-        word && void getVerbListA1();
-    }, [word]);
-
-    {
-        /*useEffect(() => {
-        if (learnedVerbs.length) {
-            //this code is just to test
-            const tenses: ConjugationKeys[] = [
-                'presens',
-                'pastTense',
-                'perfect'
-            ];
-            const tense = tenses[Math.round(Math.random() * 2)];
-            const conjorSentence: WithoutConjugationAndSentences<VerbKeys> = [
-                'conjugation',
-                'sentences'
-            ][Math.round(Math.random() * 1)];
-
-            const randomSelected10Versb = new Array(10)
-                .fill(0)
-                .map(
-                    (_) =>
-                        learnedVerbs[Math.round(Math.random() * (learnedVerbs?.length - 2))]
-                )
-                .map((verb) => {
-                    if (conjorSentence === 'conjugation') {
-                        return verb.conjugation[tense]?.map((c, _, arr) => ({
-                            sentence: c,
-                            mixConj: arr.map((w) => w.split(' ')[1])
-                        }));
-                    }
-                    return verb.sentences[tense];
-                })
-                .flat();
-            setQuestionsArr(shuffleArray(randomSelected10Versb));
-
-            const randomSelected10VersbMQ = new Array(10)
-                .fill(0)
-                .map(
-                    () => learnedVerbs[Math.round(Math.random() * (learnedVerbs?.length - 1))]
-                )
-                .map((verb) => {
-                    return verb.conjugation[tense]?.map((c) => ({
-                        word: c.split(' ')[0],
-                        def: c.split(' ')[1]
-                    }));
-                });
-
-            setMatchingWordsArr(randomSelected10VersbMQ);
         }
-    }, [learnedVerbs]);*/
-    }
+    }, [learnedVerbs, quizDetailsOpt]);
 
+    useEffect(() => {
+        if (timeOut && quizDetailsOpt?.withTimer) {
+            setQNumber(() => qNumber + 1);
+            setTimeOut(false);
+        }
+    }, [timeOut]);
+
+    //#region Event Handler
     const handleOptionClick = (option: QuizOptions) => {
+        setOpenQuizDetailsPopover(true);
         setActiveQuiz(option);
+    };
+
+    const handleQuizDetailsClick = (
+        questionNumber: number,
+        questionType: QuizKeys,
+        tense: keyof QuizSection,
+        withTimer: boolean,
+        timerCount: number
+    ) => {
+        setQuizDetailsOpt({
+            questionNumber,
+            questionType,
+            withTimer,
+            tense,
+            timerCount
+        });
+        setOpenQuizDetailsPopover(false);
         setOpenDialog(true);
     };
 
-    const renderActiveQuiz = (activeQuiz: QuizOptions) => {
-        if (activeQuiz === 'Multiple Choice') {
-            return (
-                <MultipleChoice
-                    verb={
-                        learnedVerbs[
-                            Math.round(Math.random() * learnedVerbs?.length - 1)
-                        ]
-                    }
-                    verbList={props.verbList}
-                    tense={TensesE.presens}
-                    questionType={'sentences'}
-                />
-            );
-        } else if (activeQuiz === 'Match the Words') {
-            //the learned learnedVerbs question should come from API then
-            //i will give the component the one by one matchingWords={matchingWordsArr?.[qnumber]}
-            return (
-                <MatchingWordQuiz
-                    key={matchingWords.length}
-                    // matchingWords={matchingWordsArr?.[qnumber]}
-                    matchingWords={matchingWords}
-                    onQuizFinish={setQNumber}
-                    tense={TensesE.presens}
-                ></MatchingWordQuiz>
-            );
-        } else if (activeQuiz === 'Drag and Drop') {
-            //same here
-            return (
-                <></>
-                // <DraggQuiz
-                //     key={qnumber}
-                //     question={questionsArr?.[qnumber]?.sentence ?? ''}
-                //     definition={questionsArr?.[qnumber]?.def?.tr ?? ''}
-                //     mixConj={questionsArr?.[qnumber]?.mixConj ?? []}
-                //     setNext={setQNumber}
-                // ></DraggQuiz>
-            );
-        }
-
-        return <></>;
+    //#region Render Helper
+    const renderMultipleChoice = (): JSX.Element => {
+        return (
+            <>
+                {showTimer()}
+                <Trivia
+                    question={multipleChoiceQustion[qNumber]}
+                    setQuestionNumber={setQNumber}
+                    setTimeOut={setTimeOut}
+                ></Trivia>
+            </>
+        );
     };
 
-    if (isLoading) {
-        return <LoadingOverlay></LoadingOverlay>;
-    }
+    const renderMatchginWordQuiz = () => {
+        if (matchingWords[qNumber]) {
+            return (
+                <>
+                    {showTimer()}
+                    <MatchingWordQuiz
+                        matchingWords={matchingWords[qNumber]}
+                        onQuizFinish={setQNumber}
+                        tense={TensesE.presens}
+                    ></MatchingWordQuiz>
+                </>
+            );
+        }
+    };
 
+    const renderDraggDroppQuiz = () => {
+        if (
+            dragDroppQuestions[qNumber]?.question &&
+            dragDroppQuestions.length
+        ) {
+            return (
+                <>
+                    {showTimer()}
+                    <DraggQuiz
+                        question={dragDroppQuestions[qNumber].question ?? []}
+                        definition={dragDroppQuestions[qNumber].question ?? []}
+                        mixConj={dragDroppQuestions[qNumber].mixedConj ?? []}
+                        setNext={setQNumber}
+                    ></DraggQuiz>
+                </>
+            );
+        }
+    };
+
+    const showTimer = () => {
+        if (quizDetailsOpt?.withTimer) {
+            return (
+                <Timer
+                    setTimeOut={setTimeOut}
+                    questionNumber={qNumber}
+                    timerCount={quizDetailsOpt.timerCount ?? 30}
+                />
+            );
+        }
+    };
+
+    //#region Render
     return (
         <div className="quiz">
-            {openDialog && learnedWords?.length > 0 ? (
+            {openDialog &&
+            learnedWords?.length > 0 &&
+            learnedVerbs?.length > 0 ? (
                 <Dialog className="quiz-dialog">
                     <DialogHeader onDismiss={() => setOpenDialog(false)}>
                         <h3>{activeQuiz}</h3>
                     </DialogHeader>
-                    <DialogBody>{renderActiveQuiz(activeQuiz)}</DialogBody>
+                    <DialogBody>
+                        {activeQuiz === 'Multiple Choice' &&
+                            renderMultipleChoice()}
+                        {activeQuiz === 'Match the Words' &&
+                            renderMatchginWordQuiz()}
+                        {activeQuiz === 'Drag and Drop' &&
+                            renderDraggDroppQuiz()}
+                    </DialogBody>
                 </Dialog>
             ) : (
                 <div className="quiz-section-wrapper">
@@ -225,55 +243,19 @@ export const Quiz: React.FC<QuizProps> = (props): JSX.Element => {
                                 ></Quizoption>
                             );
                         })}
+                    <Popup
+                        isOpen={openQuizDetailsPopover}
+                        onClose={() => setOpenQuizDetailsPopover(false)}
+                    >
+                        {activeQuiz && (
+                            <QuizDetails
+                                activeQuiz={activeQuiz}
+                                onQuizDetailsClick={handleQuizDetailsClick}
+                            ></QuizDetails>
+                        )}
+                    </Popup>
                 </div>
             )}
-
-            {/* {quizOpt === quizOptE.MatchWords && matchingWords && (
-                <MatchingWordQuiz
-                    words={matchingWords}
-                    verb={verb}
-                    tense={TensesE[tense as TensesE]}
-                    key={matchingWords.length}
-                ></MatchingWordQuiz>
-            )}
-
-            {quizOpt === quizOptE.MultipleChoice && verb && (
-                <MultipleChoice
-                    verb={verb}
-                    verbList={props.verbList}
-                    tense={TensesE[tense as TensesE]}
-                    questionType={qtype as SentencesAndConjugation}
-                />
-            )}
-
-            {/*{quizOpt === quizOptE.DragDrop &&
-                qtype &&
-                verb &&
-                verb[qtype as SentencesAndConjugation][selectedConj].map(
-                    (question: any, index: number, arr: any) => {
-                        if (qtype === 'sentences') {
-                            return (
-                                <DraggQuiz
-                                    key={index}
-                                    question={question.sentence}
-                                    definition={question.def.tr}
-                                    mixConj={[]}
-                                ></DraggQuiz>
-                            );
-                        } else {
-                            return (
-                                <DraggQuiz
-                                    key={index}
-                                    question={question}
-                                    mixConj={arr.map(
-                                        (w: string) => w.split(' ')[1]
-                                    )}
-                                    definition={verb.def.tr}
-                                ></DraggQuiz>
-                            );
-                        }
-                    }
-                )}*/}
         </div>
     );
 };

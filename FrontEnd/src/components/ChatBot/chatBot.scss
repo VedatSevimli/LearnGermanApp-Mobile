@@ -1,0 +1,36 @@
+.chat-bot-wrapper {
+    position: relative;
+    max-width: 75vw;
+    min-width: 30vw;
+    height: 600px;
+
+    &.hidden {
+        display: none;
+    }
+    .my-chat-container {
+        background-color: plum;
+        .avatar-space {
+            margin-left: 0px;
+        }
+
+        .close-chat {
+            width: 1.5em;
+            height: 1.5em;
+            cursor: pointer;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .App {
+        .chatBot {
+            bottom: 0;
+            right: 0;
+            .chat-bot-wrapper {
+                width: 100vw;
+                height: 100vh;
+                max-width: 100vw;
+            }
+        }
+    }
+}

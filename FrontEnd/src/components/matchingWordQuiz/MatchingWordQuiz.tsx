@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import './MatchingWordQuiz.scss';
 import { TensesE } from '../../modules/verbs/verbs.type';
 
-export type matchingWords = {
+export type MatchingWords = {
     word: string;
     def: string;
 };
 
 export type MatchingWordQuizProps = {
     tense: TensesE;
-    matchingWords: matchingWords[];
+    matchingWords: MatchingWords[];
     onQuizFinish?: React.Dispatch<React.SetStateAction<number>>;
 };
 
@@ -17,14 +17,14 @@ const MatchingWordQuiz: React.FC<MatchingWordQuizProps> = ({
     onQuizFinish,
     ...props
 }) => {
-    const [shuffledWords, setShuffledWords] = useState<matchingWords[]>([]);
-    const [shuffledDefs, setShuffledDefs] = useState<matchingWords[]>([]);
+    const [shuffledWords, setShuffledWords] = useState<MatchingWords[]>([]);
+    const [shuffledDefs, setShuffledDefs] = useState<MatchingWords[]>([]);
     const [selectedWord, setSelectedWord] = useState<string>('');
     const [selectedDefinition, setSelectedDefinition] = useState<string>('');
     const [matchedPairs, setMatchedPairs] = useState<
         { word?: string; definition?: string }[]
     >([]);
-    const [matchingWords, setMatchingWords] = useState<matchingWords[]>(
+    const [matchingWords, setMatchingWords] = useState<MatchingWords[]>(
         props.matchingWords ?? []
     );
 
@@ -79,7 +79,7 @@ const MatchingWordQuiz: React.FC<MatchingWordQuizProps> = ({
         }
     };
 
-    const ismatched = (wordObj: matchingWords): string => {
+    const ismatched = (wordObj: MatchingWords): string => {
         if (matchedPairs.filter((mp) => mp.word && mp.definition).length) {
             const matchedPair = matchedPairs.find(
                 (pair) =>

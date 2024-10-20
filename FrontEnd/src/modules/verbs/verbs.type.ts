@@ -110,7 +110,7 @@ export type MainQuestion = {
 };
 
 export type Quiz = {
-    mainQuestion: MainQuestion;
+    // mainQuestion: MainQuestion;
     conjugation: QuizSection;
     sentences: SentencesQuestions;
 };

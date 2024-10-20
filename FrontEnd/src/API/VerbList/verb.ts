@@ -8,25 +8,30 @@ export enum verbLevelE {
 const baseApiPath = process.env.REACT_APP_API_URL;
 const allowedOrigins = ['http://localhost:3000', 'http://84.133.27.172'];
 
-console.log({ baseApiPath });
-
+let _level = '';
+let _verbList: Verb[];
 export const getVerbList = async ({
     level
 }: {
     level: verbLevelE;
 }): Promise<Verb[]> => {
-    const response = await fetch(
-        `${baseApiPath}get-verbs-with-level?level=${level}`,
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': allowedOrigins.join('')
+    if (_level !== level) {
+        _level = level;
+        const response = await fetch(
+            `${baseApiPath}get-verbs-with-level?level=${level}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': allowedOrigins.join('')
+                }
             }
-        }
-    );
-    const verbList = await response.json();
-    return verbList.data;
+        );
+        const verbList = await response.json();
+        _verbList = verbList.data;
+        return _verbList;
+    }
+    return _verbList;
 };
 
 export const getWord = async ({ word }: { word: string }): Promise<Verb> => {

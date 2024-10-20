@@ -1,9 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Listening.scss';
+import {
+    getYoutubeVideoByQParam,
+    videoDataType
+} from '../../../API/Listening/fetchYouTubeVideos';
+import VideoPlayer from './videoPlayer';
+import { LoadingOverlay } from '../../LoadingOverlay/LoadingOverlay';
 const baseApiPath = process.env.REACT_APP_API_URL;
 
 export const Listening: React.FC = (): JSX.Element => {
     const [responseMessage, setResponseMessage] = useState<string>();
+    const [videoData, setVideoData] = useState<videoDataType[]>([]);
+
+    useEffect(() => {
+        const fetchVideo = async () => {
+            const response = await getYoutubeVideoByQParam();
+            setVideoData(response);
+        };
+
+        void fetchVideo();
+    }, []);
 
     //i need it sometimes. it is better to push images into db instead of using postman
     async function uploadImageUrl() {
@@ -39,9 +55,16 @@ export const Listening: React.FC = (): JSX.Element => {
         }
     }
 
+    if (!videoData.length) {
+        <LoadingOverlay />;
+    }
+
     return (
         <div className="listening">
-            <p>comming soon...</p>
+            {videoData.map((vData, i) => (
+                <VideoPlayer key={i} videoData={vData} />
+            ))}
+
             {/* Listening page
             <div
                 className="upload-image"

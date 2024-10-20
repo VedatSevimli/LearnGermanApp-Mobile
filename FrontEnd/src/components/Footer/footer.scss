@@ -37,6 +37,7 @@
 
 @media (max-width: 768px) {
     .footer {
+        display: none;
         padding: 0.5em;
         .footer-links {
             flex-wrap: wrap;

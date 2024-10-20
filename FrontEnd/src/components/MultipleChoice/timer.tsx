@@ -3,12 +3,14 @@ import { useEffect, useState } from 'react';
 type Timerprops = {
     setTimeOut: React.Dispatch<React.SetStateAction<boolean>>;
     questionNumber: number;
+    timerCount?: number;
 };
 export const Timer: React.FC<Timerprops> = ({
     setTimeOut,
-    questionNumber
+    questionNumber,
+    timerCount
 }: Timerprops): JSX.Element => {
-    const [timer, setTimer] = useState(30);
+    const [timer, setTimer] = useState(timerCount ?? 30);
 
     useEffect(() => {
         if (timer === 0) return setTimeOut(true);
@@ -19,7 +21,7 @@ export const Timer: React.FC<Timerprops> = ({
     }, [timer, setTimeOut]);
 
     useEffect(() => {
-        setTimer(30);
+        setTimer(timerCount ?? 30);
     }, [questionNumber]);
     return (
         <div

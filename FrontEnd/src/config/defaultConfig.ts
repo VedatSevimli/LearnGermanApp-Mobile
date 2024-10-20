@@ -19,10 +19,10 @@ export const defaultConfig = (): defaultConfigProps => {
                 image: multiple_choice_question
             },
             { name: 'Drag and Drop', image: dragg_dropp },
-            { name: 'Fill the blanks', image: fillTheBlanks },
-            { name: 'Match the Words', image: match_words },
-            { name: 'Speak', image: speaking_quiz },
-            { name: 'Write', image: writing_quiz }
+            { name: 'Match the Words', image: match_words }
+            // { name: 'Fill the blanks', image: fillTheBlanks },
+            // { name: 'Speak', image: speaking_quiz },
+            // { name: 'Write', image: writing_quiz }
         ],
 
         learnMode: [
@@ -78,6 +78,18 @@ export const defaultConfig = (): defaultConfigProps => {
                 QuestionType: 'sentences',
                 tense: TensesE.perfect
             }
+        ],
+        learnedVerbsExample: [
+            'haben',
+            'sein',
+            'essen',
+            'kommen',
+            'gehen',
+            'nehmen',
+            'geben',
+            'sagen',
+            'sprechen',
+            'höre'
         ]
     };
 };

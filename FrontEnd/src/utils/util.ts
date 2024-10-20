@@ -8,6 +8,7 @@ import {
     TensesE,
     Verb
 } from '../modules/verbs/verbs.type';
+import { QuestionType } from '../components/pages/Quiz/Quiz';
 
 export const sortedVerbObjects = (
     verbObjects: Verb[],
@@ -42,11 +43,15 @@ type QuizQuestions = { verb: Verb; quizQuestions: Quiz };
 export const generateQuiz = (
     obj: Verb,
     verbdefintions: string[],
-    numberOfOptions = 4
+    numberOfOptions = 4,
+    questionType: QuestionType | 'both' = 'both'
 ): QuizQuestions => {
     const arrWithoutSelected = verbdefintions.filter(
         (verb) => verb !== obj.word
     );
+    if (questionType) {
+        //
+    }
 
     function shuffleOptions(options: Option[]) {
         if (!options) {
@@ -123,20 +128,22 @@ export const generateQuiz = (
         });
     };
 
-    // *add present tense question to the quiz array
-    obj.conjugation.presens.forEach((...p) =>
-        generateConjunctionQuestion(...p, TensesE.presens)
-    );
+    if (questionType === 'both' || questionType === 'conjugation') {
+        // *add present tense question to the quiz array
+        obj.conjugation.presens.forEach((...p) =>
+            generateConjunctionQuestion(...p, TensesE.presens)
+        );
 
-    // add pastTense tense question to the quiz array
-    obj.conjugation.pastTense.forEach((...p) =>
-        generateConjunctionQuestion(...p, TensesE.pastTense)
-    );
+        // add pastTense tense question to the quiz array
+        obj.conjugation.pastTense.forEach((...p) =>
+            generateConjunctionQuestion(...p, TensesE.pastTense)
+        );
 
-    // add perfect conj questions to the quiz array
-    obj.conjugation.perfect.forEach((...p) =>
-        generateConjunctionQuestion(...p, TensesE.perfect)
-    );
+        // add perfect conj questions to the quiz array
+        obj.conjugation.perfect.forEach((...p) =>
+            generateConjunctionQuestion(...p, TensesE.perfect)
+        );
+    }
 
     const sentencesQuestions: SentencesQuestions = {
         presens: [],
@@ -186,23 +193,25 @@ export const generateQuiz = (
         });
     };
 
-    // *add sentence translation questions to the quiz array
-    obj.sentences.presens.forEach((...p) =>
-        generateSentenceQuestion(...p, TensesE.presens)
-    );
+    if (questionType === 'both' || questionType === 'sentences') {
+        // *add sentence translation questions to the quiz array
+        obj.sentences.presens.forEach((...p) => {
+            return generateSentenceQuestion(...p, TensesE.presens);
+        });
 
-    obj.sentences.perfect.forEach((...p) =>
-        generateSentenceQuestion(...p, TensesE.perfect)
-    );
+        obj.sentences.perfect.forEach((...p) => {
+            return generateSentenceQuestion(...p, TensesE.perfect);
+        });
 
-    obj.sentences.pastTense.forEach((...p) =>
-        generateSentenceQuestion(...p, TensesE.pastTense)
-    );
+        obj.sentences.pastTense.forEach((...p) => {
+            return generateSentenceQuestion(...p, TensesE.pastTense);
+        });
+    }
 
     return {
         verb: obj,
         quizQuestions: {
-            mainQuestion,
+            // mainQuestion,
             conjugation: conjugationQuestions,
             sentences: sentencesQuestions
         }
