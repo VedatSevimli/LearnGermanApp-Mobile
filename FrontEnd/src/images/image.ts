@@ -12,6 +12,13 @@ import multiple_choice_question from './multiple_choice_question.png';
 import match_words from './match_words.webp';
 import writing_quiz from './writing_quiz.avif';
 import noMatch from './noMatch.jpg';
+import chatBot from './chatBotAvatar.jpg';
+import bot_with_bard from './bot-with-bard.jpeg';
+import kid_bot from './kid-bot.jpg';
+import woman_bot_1 from './woman-bot-1.jpg';
+import teeneger_bot from './teeneger-bot.jpg';
+import message_icon from './messages-icon.svg';
+import chat_icon from './chat-icon-2.svg';
 
 export {
     quiz,
@@ -27,5 +34,12 @@ export {
     multiple_choice_question,
     match_words,
     writing_quiz,
-    noMatch
+    noMatch,
+    chatBot,
+    bot_with_bard,
+    kid_bot,
+    teeneger_bot,
+    woman_bot_1,
+    message_icon,
+    chat_icon
 };
