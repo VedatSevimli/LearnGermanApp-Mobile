@@ -161,7 +161,6 @@ export const resetPassword = async (req, res) => {
 
 export const saveUserProccess = async (req, res) => {
     const { word, email, progressValue, wrongAnswers } = req.body;
-    console.log({ email });
 
     try {
         const userCheck = await User.findOne({ email });
@@ -173,7 +172,6 @@ export const saveUserProccess = async (req, res) => {
         const existingProgress = userCheck.progress.find(
             (p) => p.word === word
         );
-        console.log({ existingProgress });
 
         if (existingProgress) {
             await User.updateOne(

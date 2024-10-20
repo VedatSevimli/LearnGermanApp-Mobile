@@ -122,6 +122,7 @@ export const VerbDetails: React.FC<VerbDetailsP> = ({
         setOptions({ QuestionType, quizOpt, tense });
         handleOptionClick(quizOpt);
     };
+
     const generateMatchingWords = () => {
         return verb.conjugation[options.tense]?.map((c) => {
             const [word, def, def2] = c.split(' ');
@@ -161,6 +162,7 @@ export const VerbDetails: React.FC<VerbDetailsP> = ({
                     tense={options.tense}
                     questionType={options.QuestionType}
                     onQuizFinsih={handleQuizFinsih}
+                    showTimer={false}
                 />
             );
         } else if (activeQuiz === quizOptE.MatchWords) {
@@ -242,10 +244,7 @@ export const VerbDetails: React.FC<VerbDetailsP> = ({
                     Sie haben den Verb gelernt. Gratulation!!!!
                 </div>
                 <span>weiter lernen</span>
-                <div
-                    style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}
-                    className="wrong-answer-review"
-                >
+                <div className="wrong-answer-review">
                     {quizResult
                         .map((qr) => ({ wrongAnswers: qr.wrongAnswers }))
                         .map((wa) => {

@@ -13,7 +13,6 @@ import { appiLimiter } from './src/middlewares/rateLimit.js';
 import moment from 'moment-timezone';
 import multer from 'multer';
 import { ImageUpload } from './src/models/image.model.js';
-import { Response } from './src/utils/response.js';
 
 dotenv.config();
 
