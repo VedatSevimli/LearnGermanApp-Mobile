@@ -10,8 +10,11 @@ export const LanguageSwitcher = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
     const changeLanguage = async (lng: string): Promise<void> => {
-        localStorage.setItem('language', lng);
-        await i18n.changeLanguage(lng);
+        if (lng !== localStorage.getItem('language')) {
+            localStorage.setItem('language', lng);
+            await i18n.changeLanguage(lng);
+            window.location.reload();
+        }
         setDropdownOpen(false);
     };
 

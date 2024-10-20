@@ -1,8 +1,8 @@
-import { SentenceQuestion } from '../verbs/verbs.type';
+import { Question } from '../verbs/verbs.type';
 
 export {};
 type Progress = {
-    wrongAnswers: { question: SentenceQuestion; userAnswer: number }[];
+    wrongAnswers: { question: Question; userAnswer: number }[];
     word: string;
     progress: number;
 };

@@ -1,5 +1,4 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
-import { SentenceQuestion } from '../../modules/verbs/verbs.type';
 import { Login, UserData } from '../../modules/login/login.type';
 import { doLogin, loginWithToken } from '../../API/Login/login';
 

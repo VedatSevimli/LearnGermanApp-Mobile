@@ -2,9 +2,9 @@ import { ElementType } from 'react';
 import {
     Option,
     Quiz,
+    QuizKeys,
     QuizSection,
     Sentence,
-    SentencesQuestions,
     TensesE,
     Verb
 } from '../modules/verbs/verbs.type';
@@ -42,7 +42,9 @@ type QuizQuestions = { verb: Verb; quizQuestions: Quiz };
 export const generateQuiz = (
     obj: Verb,
     verbdefintions: string[],
-    numberOfOptions = 4
+    numberOfOptions = 4,
+    questionType: QuizKeys | 'both' = 'both',
+    specificTense?: keyof QuizSection
 ): QuizQuestions => {
     const arrWithoutSelected = verbdefintions.filter(
         (verb) => verb !== obj.word
@@ -123,22 +125,24 @@ export const generateQuiz = (
         });
     };
 
-    // *add present tense question to the quiz array
-    obj.conjugation.presens.forEach((...p) =>
-        generateConjunctionQuestion(...p, TensesE.presens)
-    );
+    if (questionType === 'both' || questionType === 'conjugation') {
+        // *add present tense question to the quiz array
+        obj.conjugation[specificTense ?? 'presens']?.forEach((...p) =>
+            generateConjunctionQuestion(...p, TensesE.presens)
+        );
 
-    // add pastTense tense question to the quiz array
-    obj.conjugation.pastTense.forEach((...p) =>
-        generateConjunctionQuestion(...p, TensesE.pastTense)
-    );
+        // add pastTense tense question to the quiz array
+        obj.conjugation[specificTense ?? 'pastTense']?.forEach((...p) =>
+            generateConjunctionQuestion(...p, TensesE.pastTense)
+        );
 
-    // add perfect conj questions to the quiz array
-    obj.conjugation.perfect.forEach((...p) =>
-        generateConjunctionQuestion(...p, TensesE.perfect)
-    );
+        // add perfect conj questions to the quiz array
+        obj.conjugation[specificTense ?? 'perfect']?.forEach((...p) =>
+            generateConjunctionQuestion(...p, TensesE.perfect)
+        );
+    }
 
-    const sentencesQuestions: SentencesQuestions = {
+    const sentencesQuestions: QuizSection = {
         presens: [],
         perfect: [],
         pastTense: []
@@ -186,23 +190,24 @@ export const generateQuiz = (
         });
     };
 
-    // *add sentence translation questions to the quiz array
-    obj.sentences.presens.forEach((...p) =>
-        generateSentenceQuestion(...p, TensesE.presens)
-    );
+    if (questionType === 'both' || questionType === 'sentences') {
+        // *add sentence translation questions to the quiz array
+        obj.sentences[specificTense ?? 'presens']?.forEach((...p) =>
+            generateSentenceQuestion(...p, TensesE.presens)
+        );
 
-    obj.sentences.perfect.forEach((...p) =>
-        generateSentenceQuestion(...p, TensesE.perfect)
-    );
+        obj.sentences[specificTense ?? 'perfect']?.forEach((...p) =>
+            generateSentenceQuestion(...p, TensesE.perfect)
+        );
 
-    obj.sentences.pastTense.forEach((...p) =>
-        generateSentenceQuestion(...p, TensesE.pastTense)
-    );
+        obj.sentences[specificTense ?? 'pastTense']?.forEach((...p) =>
+            generateSentenceQuestion(...p, TensesE.pastTense)
+        );
+    }
 
     return {
         verb: obj,
         quizQuestions: {
-            mainQuestion,
             conjugation: conjugationQuestions,
             sentences: sentencesQuestions
         }
@@ -396,4 +401,37 @@ export function shuffleArray<T>(array: ElementType<T>[]): ElementType<T>[] {
     }
 
     return array;
+}
+
+export function getRandomElementsFromArray<T>(arr: T[], count: number): T[] {
+    // Handle cases where count is greater than the length of the array
+    if (count > arr.length) {
+        return [];
+    }
+
+    // Create a shallow copy of the array to avoid modifying the original array
+    const arrCopy = [...arr];
+
+    // Randomly pick elements
+    const result: T[] = [];
+    for (let i = 0; i < count; i++) {
+        const randomIndex = Math.floor(Math.random() * arrCopy.length);
+        result.push(arrCopy[randomIndex]);
+
+        // Remove the selected element to avoid picking it again
+        arrCopy.splice(randomIndex, 1);
+    }
+
+    return result;
+}
+
+export function groupItemsWithReduce<T>(array: T[], groupSize: number): T[][] {
+    return array.reduce((result: T[][], item, index) => {
+        const groupIndex = Math.floor(index / groupSize);
+        if (!result[groupIndex]) {
+            result[groupIndex] = [];
+        }
+        result[groupIndex].push(item);
+        return result;
+    }, []);
 }
