@@ -14,5 +14,7 @@
     "Reading.TextHeader.Text": "All verbs must be learned in order to open the text.",
     "Reading.TextHeader.Used.Verbs": "Verbs used in the text ",
     "Reading.FillTheBlanks.Text": "Fill in the blanks",
-    "Reading.TextDetails.Text": "Quiz Completed!"
+    "Reading.TextDetails.Text": "Quiz Completed!",
+    "Listening.Used.Verbs.Header": "Video da kullanilan fiiller",
+    "Listening.Used.Verbs.Loading": "Videoda kullanilan fiiller bulunuyor.."
 }

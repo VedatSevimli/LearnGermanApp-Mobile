@@ -19,6 +19,7 @@ import woman_bot_1 from './woman-bot-1.jpg';
 import teeneger_bot from './teeneger-bot.jpg';
 import message_icon from './messages-icon.svg';
 import chat_icon from './chat-icon-2.svg';
+import play_circle from './play-icon-circle.svg';
 
 export {
     quiz,
@@ -41,5 +42,6 @@ export {
     teeneger_bot,
     woman_bot_1,
     message_icon,
-    chat_icon
+    chat_icon,
+    play_circle
 };

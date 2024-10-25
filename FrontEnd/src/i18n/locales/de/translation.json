@@ -26,5 +26,7 @@
     "Home.Reading.Info.Text.Footer": "Lesen beginnen",
     "Home.Listening.Info.Text.Header": "Hören",
     "Home.Listening.Info.Text.Content": "Verbessern Sie Ihr Hörverstehen mit einer Vielzahl von Audiomaterialien.",
-    "Home.Listening.Info.Text.Footer": "Hören beginnen"
+    "Home.Listening.Info.Text.Footer": "Hören beginnen",
+    "Listening.Used.Verbs.Header": "Im Video verwendete Verben",
+    "Listening.Used.Verbs.Loading": "Vewendete Verben werden geladen.."
 }

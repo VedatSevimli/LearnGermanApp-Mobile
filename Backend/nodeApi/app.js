@@ -2,7 +2,12 @@ import {} from 'express-async-error';
 import express from 'express';
 import dotenv from 'dotenv';
 import {} from './src/db/dbConnetction.js';
-import { aiRouter, crudRouter, router } from './src/routers/index.js';
+import {
+    aiRouter,
+    crudRouter,
+    mixRouter,
+    router
+} from './src/routers/index.js';
 import { errorHandlerMiddleware } from './src/middlewares/errorHandler.js';
 import cors from 'cors';
 import { corsOptions } from './src/helpers/corsOprions.js';
@@ -78,6 +83,7 @@ app.post('/uploadImages', upload.array('images', 10), async (req, res) => {
 app.use('/api', router);
 app.use('/api', crudRouter);
 app.use('/api', aiRouter);
+app.use('/api', mixRouter);
 
 // catch erros
 app.use(errorHandlerMiddleware);

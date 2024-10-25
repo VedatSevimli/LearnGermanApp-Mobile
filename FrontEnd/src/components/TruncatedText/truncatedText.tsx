@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, CSSProperties } from 'react';
 type TruncatedTextP = {
     text: string;
     linesToShow: number;
-    style: CSSProperties;
+    style?: CSSProperties;
 };
 export const TruncatedText: React.FC<TruncatedTextP> = ({
     text,
