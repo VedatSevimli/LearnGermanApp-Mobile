@@ -81,3 +81,28 @@
         }
     }
 }
+
+@media (max-width: 768px) {
+    .main {
+        .text-details {
+            .text-content {
+                width: 100%;
+                .speaker {
+                    margin-top: 0;
+                    padding: 0;
+                }
+            }
+
+            .questions-container {
+                flex-direction: column;
+                .multiple-choice-question {
+                    width: auto;
+                }
+            }
+
+            .fill-the-blanks {
+                width: auto;
+            }
+        }
+    }
+}

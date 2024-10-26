@@ -26,5 +26,7 @@
     "Home.Reading.Info.Text.Footer": "Okumaya başla",
     "Home.Listening.Info.Text.Header": "Dinleme",
     "Home.Listening.Info.Text.Content": "Verbessern Sie Ihr Hörverstehen mit einer Vielzahl von Audiomaterialien.",
-    "Home.Listening.Info.Text.Footer": "Dinlemeye başla"
+    "Home.Listening.Info.Text.Footer": "Dinlemeye başla",
+    "Listening.Used.Verbs.Header": "Video da kullanilan fiiller",
+    "Listening.Used.Verbs.Loading": "Videoda kullanilan fiiller bulunuyor.."
 }

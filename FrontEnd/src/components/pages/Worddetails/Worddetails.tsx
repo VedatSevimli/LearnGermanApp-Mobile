@@ -233,8 +233,18 @@ export const VerbDetails: React.FC<VerbDetailsP> = ({
         setOpenDialog(true);
     };
 
-    if (isLoading && !verb) {
+    if (isLoading) {
         return <LoadingOverlay />;
+    }
+
+    if (typeof verb === 'string') {
+        return (
+            <div className="verb-details">
+                <span style={{ alignSelf: 'center' }}>
+                    {`"${verb}" wurde nicht gefunden!`}
+                </span>
+            </div>
+        );
     }
 
     const renderLearnedResult = (): JSX.Element => {

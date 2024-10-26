@@ -23,14 +23,14 @@
             overflow: hidden;
             cursor: pointer;
             transition: transform 0.3s ease;
+            align-content: center;
 
             img {
                 width: 100%;
                 height: auto;
                 display: block;
                 transition: opacity 0.3s ease;
-                max-width: 200px;
-                max-height: 200px;
+                max-height: 300px;
             }
 
             span {
@@ -65,5 +65,19 @@
     .quiz-dialog {
         height: 86vh;
         margin-top: 2em;
+    }
+}
+
+@media (max-width: 768px) {
+    .quiz {
+        background-size: cover;
+        .quiz-section-wrapper {
+            grid-template-columns: repeat(1, 1fr);
+            .quiz-opt {
+                img {
+                    max-height: 200px;
+                }
+            }
+        }
     }
 }

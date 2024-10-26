@@ -20,6 +20,12 @@ import teeneger_bot from './teeneger-bot.jpg';
 import message_icon from './messages-icon.svg';
 import chat_icon from './chat-icon-2.svg';
 import play_circle from './play-icon-circle.svg';
+import home_svg from './home-svg.svg';
+import reading_svg from './reading-svg.svg';
+import listening_svg from './listening-svg.svg';
+import quiz_svg from './quiz-svg.svg';
+import verb_svg from './verb-svg.svg';
+import login_svg from './login-svg.svg';
 
 export {
     quiz,
@@ -43,5 +49,11 @@ export {
     woman_bot_1,
     message_icon,
     chat_icon,
-    play_circle
+    play_circle,
+    home_svg,
+    reading_svg,
+    listening_svg,
+    quiz_svg,
+    verb_svg,
+    login_svg
 };

@@ -7,7 +7,7 @@ export const ai = express.Router();
 
 ai.post('/ai/gemini/chat', async (req, res) => {
     const { message, history } = req.body;
-    console.log(message);
+
     const model = genAI.getGenerativeModel({
         model: 'gemini-1.5-flash',
         generationConfig: { maxOutputTokens: 1000 }

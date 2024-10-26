@@ -14,7 +14,7 @@
         right: 9px;
         z-index: 99;
         display: flex;
-        justify-content: end;
+        justify-content: flex-end;
         .button-secondary {
             border: none;
             border-radius: 50%;
@@ -49,6 +49,11 @@
     ::-webkit-scrollbar-thumb:hover {
         background: linear-gradient(45deg, rgb(77, 126, 251), #007bff);
     }
+
+    /* Hide scrollbar */
+    // ::-webkit-scrollbar {
+    //     display: none;
+    // }
 }
 
 @media (max-width: 768px) {
