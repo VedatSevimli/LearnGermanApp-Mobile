@@ -5,9 +5,9 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 export const ai = express.Router();
 
-ai.post('/ai/gemini', async (req, res) => {
+ai.post('/ai/gemini/chat', async (req, res) => {
     const { message, history } = req.body;
-    console.log(message);
+
     const model = genAI.getGenerativeModel({
         model: 'gemini-1.5-flash',
         generationConfig: { maxOutputTokens: 1000 }
@@ -16,6 +16,19 @@ ai.post('/ai/gemini', async (req, res) => {
     let result = await chat.sendMessage(message);
     const data = await result.response.text();
     return new Response(data, 'Data is there').success(res);
+});
+
+ai.post('/ai/gemini', async (req, res) => {
+    try {
+        const { prompt } = req.body;
+        const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+        const result = await model.generateContent(prompt);
+        const data = await result.response.text();
+
+        return new Response(data, 'Data is there').success(res);
+    } catch (error) {
+        return new Response(null, 'No data is avaliable!').erro500(res);
+    }
 });
 
 ai.post('/ai/gpt', async (req, res) => {

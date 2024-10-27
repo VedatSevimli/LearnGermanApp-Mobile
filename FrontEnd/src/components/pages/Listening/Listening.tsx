@@ -6,9 +6,16 @@ import {
 } from '../../../API/Listening/fetchYouTubeVideos';
 import { VideoPlayerYouTube } from './youtubeVideoPlayer';
 import { LoadingOverlay } from '../../LoadingOverlay/LoadingOverlay';
+import { Verb } from '../../../modules/verbs/verbs.type';
+import { useUser } from '../../../context/userContext/userContext';
+
 const baseApiPath = process.env.REACT_APP_API_URL;
 
-export const Listening: React.FC = (): JSX.Element => {
+export const Listening: React.FC<{ verbList: Verb[] }> = (props: {
+    verbList: Verb[];
+}): JSX.Element => {
+    const { userData } = useUser();
+
     const [responseMessage, setResponseMessage] = useState<string>();
     const [videoData, setVideoData] = useState<videoDataType[]>();
     const [isVideoDataLoading, setIsVideoDataLoading] = useState<boolean>();
@@ -51,18 +58,14 @@ export const Listening: React.FC = (): JSX.Element => {
         const videoData = async () => {
             setIsVideoDataLoading(true);
             const query = 'A1 deutsche Geschihte';
-            // const currLang = localStorage.getItem('language');
-            // if (currLang === 'en') {
-            //     query = 'german a1 story';
-            // } else if (currLang === 'tr') {
-            //     query = 'almanca a1 hikayeler';
-            // }
             const videoData = await getYoutubeVideoByQParam(query);
             setVideoData(videoData);
             setIsVideoDataLoading(false);
         };
         void videoData();
     }, []);
+
+    const learnedWords = userData?.progress.map((p) => p.word);
 
     return (
         <div className="listening">
@@ -72,8 +75,9 @@ export const Listening: React.FC = (): JSX.Element => {
                 videoData?.map((data) => (
                     <VideoPlayerYouTube
                         key={data.id.videoId}
-                        id={data.id}
-                        snippet={data.snippet}
+                        videoData={data}
+                        verbList={props.verbList}
+                        learnedWords={learnedWords}
                     ></VideoPlayerYouTube>
                 ))
             )}

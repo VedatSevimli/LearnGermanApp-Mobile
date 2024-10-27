@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './chatBot.scss';
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import {
@@ -26,6 +26,7 @@ import {
     woman_bot_1
 } from '../../images/image';
 import { getDefConv } from './chatBotUtils';
+import useClickOutside from '../common/hooks/useClickOutside';
 
 type ChatBotP = {
     setShowChat: React.Dispatch<React.SetStateAction<boolean>>;
@@ -34,6 +35,8 @@ type ChatBotP = {
 
 export const ChatBot: React.FC<ChatBotP> = (props: ChatBotP) => {
     const { learnedVerbsExample } = defaultConfig();
+    const chatBotRef = useRef<HTMLDivElement>(null);
+    useClickOutside(() => props.setShowChat(false), [chatBotRef]);
     const [typing, setTyping] = useState(false);
     const [messages, setMessages] = useState<MessageModel[]>([
         {
@@ -106,7 +109,7 @@ export const ChatBot: React.FC<ChatBotP> = (props: ChatBotP) => {
     };
 
     return (
-        <div className={`chat-bot-wrapper ${props.className}`}>
+        <div ref={chatBotRef} className={`chat-bot-wrapper ${props.className}`}>
             <MainContainer className="my-chat-container">
                 <ChatContainer>
                     <ConversationHeader>

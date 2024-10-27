@@ -57,6 +57,9 @@ export type DragDroppQuestion = {
     mixedConj?: string[];
 };
 
+const BIG_SCREEN_QUESTION_NUMBER = 10;
+const MOBILE_QUESTION_NUMBER = 6;
+
 export const Quiz: React.FC<QuizProps> = (props): JSX.Element => {
     //#region MiscHook
     const { word } = useParams();
@@ -109,7 +112,9 @@ export const Quiz: React.FC<QuizProps> = (props): JSX.Element => {
                 const data = generateMatchWordQuiz(
                     quizDetailsOpt,
                     learnedVerbs,
-                    isTabletOrMobile ? 6 : 10
+                    isTabletOrMobile
+                        ? MOBILE_QUESTION_NUMBER
+                        : BIG_SCREEN_QUESTION_NUMBER
                 );
                 setMatchingWords(data);
             } else if (activeQuiz === 'Drag and Drop') {
@@ -154,27 +159,21 @@ export const Quiz: React.FC<QuizProps> = (props): JSX.Element => {
     //#region Render Helper
     const renderMultipleChoice = (): JSX.Element => {
         return (
-            <>
-                {showTimer()}
-                <Trivia
-                    question={multipleChoiceQustion[qNumber]}
-                    setQuestionNumber={setQNumber}
-                ></Trivia>
-            </>
+            <Trivia
+                question={multipleChoiceQustion[qNumber]}
+                setQuestionNumber={setQNumber}
+            ></Trivia>
         );
     };
 
     const renderMatchginWordQuiz = () => {
         if (matchingWords[qNumber]) {
             return (
-                <>
-                    {showTimer()}
-                    <MatchingWordQuiz
-                        matchingWords={matchingWords[qNumber]}
-                        onQuizFinish={setQNumber}
-                        tense={TensesE.presens}
-                    ></MatchingWordQuiz>
-                </>
+                <MatchingWordQuiz
+                    matchingWords={matchingWords[qNumber]}
+                    onQuizFinish={setQNumber}
+                    tense={TensesE.presens}
+                ></MatchingWordQuiz>
             );
         }
     };
@@ -185,15 +184,12 @@ export const Quiz: React.FC<QuizProps> = (props): JSX.Element => {
             dragDroppQuestions.length
         ) {
             return (
-                <>
-                    {showTimer()}
-                    <DraggQuiz
-                        question={dragDroppQuestions[qNumber].question ?? []}
-                        definition={dragDroppQuestions[qNumber].question ?? []}
-                        mixConj={dragDroppQuestions[qNumber].mixedConj ?? []}
-                        setNext={setQNumber}
-                    ></DraggQuiz>
-                </>
+                <DraggQuiz
+                    question={dragDroppQuestions[qNumber].question ?? []}
+                    definition={dragDroppQuestions[qNumber].question ?? []}
+                    mixConj={dragDroppQuestions[qNumber].mixedConj ?? []}
+                    setNext={setQNumber}
+                ></DraggQuiz>
             );
         }
     };
@@ -217,10 +213,16 @@ export const Quiz: React.FC<QuizProps> = (props): JSX.Element => {
             learnedWords?.length > 0 &&
             learnedVerbs?.length > 0 ? (
                 <Dialog className="quiz-dialog">
-                    <DialogHeader onDismiss={() => setOpenDialog(false)}>
+                    <DialogHeader
+                        onDismiss={() => {
+                            setOpenDialog(false);
+                            setQNumber(0);
+                        }}
+                    >
                         <h3>{activeQuiz}</h3>
                     </DialogHeader>
                     <DialogBody>
+                        {showTimer()}
                         {activeQuiz === 'Multiple Choice' &&
                             renderMultipleChoice()}
                         {activeQuiz === 'Match the Words' &&

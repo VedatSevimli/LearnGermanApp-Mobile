@@ -13,7 +13,7 @@ import { Timer } from './timer';
 import { Trivia } from './triva';
 
 export type MultipleChoiceProps = {
-    verb: Verb;
+    verb?: Verb | undefined;
     verbList: Verb[];
     tense: TensesE;
     questionType: SentencesAndConjugation;
@@ -31,10 +31,12 @@ export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     tense,
     ...props
 }): JSX.Element => {
-    const [quiz] = useState<Quiz>(() => {
-        const definitions = props.verbList.map((verb) => verb.def.tr);
-        const quiz = props.verb && generateQuiz(props.verb, definitions);
-        return quiz?.quizQuestions;
+    const [quiz] = useState<Quiz | undefined>(() => {
+        if (!props.mixedQuestions) {
+            const definitions = props.verbList?.map((verb) => verb.def.tr);
+            const quiz = props.verb && generateQuiz(props.verb, definitions);
+            return quiz?.quizQuestions;
+        }
     });
     const [timeOut, setTimeOut] = useState<boolean>(false);
     const [questionNumber, setQuestionNumber] = useState<number>(1);
@@ -52,7 +54,10 @@ export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     }, [timeOut]);
 
     useEffect(() => {
-        if (quiz && !quiz[questionType][tense]?.[questionNumber - 1]) {
+        if (
+            (quiz && !quiz?.[questionType]?.[tense]?.[questionNumber - 1]) ||
+            (props.mixedQuestions && props.mixedQuestions?.[questionNumber - 1])
+        ) {
             setQuizResult({ ...quizResult, quizFinished: true });
             props.onQuizFinsih?.(quizResult);
         }
@@ -69,7 +74,7 @@ export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
                 )}
             </div>
             <div className="bottom">
-                {quiz[questionType][tense]?.[questionNumber - 1] &&
+                {quiz?.[questionType][tense]?.[questionNumber - 1] &&
                     !quizResult.quizFinished && (
                         <Trivia
                             question={
@@ -82,6 +87,12 @@ export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
                             setQuizResult={setQuizResult}
                         />
                     )}
+                {props.mixedQuestions && (
+                    <Trivia
+                        setQuestionNumber={setQuestionNumber}
+                        question={props.mixedQuestions[questionNumber - 1]}
+                    ></Trivia>
+                )}
                 {quizResult.quizFinished && (
                     <div className="quizResult">
                         <span>

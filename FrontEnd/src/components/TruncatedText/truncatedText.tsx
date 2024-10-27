@@ -2,12 +2,14 @@ import React, { useState, useRef, useEffect, CSSProperties } from 'react';
 type TruncatedTextP = {
     text: string;
     linesToShow: number;
-    style: CSSProperties;
+    lineHeight?: string;
+    style?: CSSProperties;
 };
 export const TruncatedText: React.FC<TruncatedTextP> = ({
     text,
     linesToShow,
-    style
+    style,
+    lineHeight = '1.5em'
 }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const [isTruncated, setIsTruncated] = useState(false);
@@ -35,8 +37,8 @@ export const TruncatedText: React.FC<TruncatedTextP> = ({
                 WebkitBoxOrient: 'vertical',
                 textOverflow: 'ellipsis',
                 WebkitLineClamp: linesToShow,
-                maxHeight: `calc(${linesToShow} * var(--line-height))`,
-                lineHeight: 'var(--line-height)',
+                maxHeight: `calc(${linesToShow} * ${lineHeight}`,
+                lineHeight: `${lineHeight}`,
                 ...style
             }}
         >

@@ -8,6 +8,32 @@
         overflow-y: auto;
     }
 
+    .chatBot {
+        position: fixed;
+        bottom: 45px;
+        right: 9px;
+        z-index: 99;
+        display: flex;
+        justify-content: flex-end;
+        .button-secondary {
+            border: none;
+            border-radius: 50%;
+            width: 4em;
+            height: 4em;
+            background-color: #25d366;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+            &:hover {
+                transform: scale(1.05);
+                background-color: #06c34b;
+            }
+            img {
+                width: 2em;
+                height: 2em;
+            }
+        }
+    }
+
     /* Track */
     ::-webkit-scrollbar {
         width: 8px;
@@ -22,5 +48,16 @@
     /* Handle on hover */
     ::-webkit-scrollbar-thumb:hover {
         background: linear-gradient(45deg, rgb(77, 126, 251), #007bff);
+    }
+
+    /* Hide scrollbar */
+    // ::-webkit-scrollbar {
+    //     display: none;
+    // }
+}
+
+@media (max-width: 768px) {
+    .App {
+        flex-direction: column-reverse;
     }
 }

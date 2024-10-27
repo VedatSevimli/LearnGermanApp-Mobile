@@ -111,7 +111,9 @@ export const QuizDetails: React.FC<quizDetailsP> = ({
                 >
                     <option value="sentences">Sentences</option>
                     <option value="conjugation">Conjugation</option>
-                    <option value="both">Mixed</option>
+                    {activeQuiz !== 'Drag and Drop' && (
+                        <option value="both">Mixed</option>
+                    )}
                 </select>
             </div>
 

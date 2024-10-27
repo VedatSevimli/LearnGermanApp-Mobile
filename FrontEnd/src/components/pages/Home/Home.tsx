@@ -30,7 +30,12 @@ export const Home: React.FC = (): JSX.Element => {
             <section className="features-section">
                 <div className="feature">
                     <div className="img-container">
-                        <img src={words} alt="Word" />
+                        <img
+                            src={words}
+                            alt="Word"
+                            loading="lazy"
+                            decoding="async"
+                        />
                     </div>
                     <h2> {t('Home.Word.Info.Text.Header')}</h2>
                     <p>{t('Home.Word.Info.Text.Content')}</p>
@@ -39,7 +44,12 @@ export const Home: React.FC = (): JSX.Element => {
 
                 <div className="feature">
                     <div className="img-container">
-                        <img src={quiz} alt="Quiz" />
+                        <img
+                            src={quiz}
+                            alt="Quiz"
+                            loading="lazy"
+                            decoding="async"
+                        />
                     </div>
                     <h2> {t('Home.Quiz.Info.Text.Header')}</h2>
                     <p>{t('Home.Quiz.Info.Text.Content')}</p>
@@ -48,7 +58,12 @@ export const Home: React.FC = (): JSX.Element => {
 
                 <div className="feature">
                     <div className="img-container">
-                        <img src={reading} alt="Reading" />
+                        <img
+                            src={reading}
+                            alt="Reading"
+                            loading="lazy"
+                            decoding="async"
+                        />
                     </div>
                     <h2>{t('Home.Reading.Info.Text.Header')}</h2>
                     <p>{t('Home.Reading.Info.Text.Content')}</p>
@@ -59,7 +74,12 @@ export const Home: React.FC = (): JSX.Element => {
 
                 <div className="feature">
                     <div className="img-container">
-                        <img src={listening} alt="Listening" />
+                        <img
+                            src={listening}
+                            alt="Listening"
+                            loading="lazy"
+                            decoding="async"
+                        />
                     </div>
                     <h2>{t('Home.Listening.Info.Text.Header')}</h2>
                     <p>{t('Home.Listening.Info.Text.Content')}</p>

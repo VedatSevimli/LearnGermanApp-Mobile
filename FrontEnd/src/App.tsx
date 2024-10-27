@@ -37,7 +37,7 @@ function App(): JSX.Element {
     useEffect(() => {
         const getVerbListA = async (): Promise<void> => {
             const verbs = await getVerbList({ level: verbLevelE.A1 });
-            setVerbList(sortVerbsOrderLerning(verbs));
+            verbs && setVerbList(sortVerbsOrderLerning(verbs));
         };
         try {
             void getVerbListA();
@@ -63,7 +63,10 @@ function App(): JSX.Element {
                             path="/reading"
                             element={<Reading verbList={verbList} />}
                         />
-                        <Route path="/listening" element={<Listening />} />
+                        <Route
+                            path="/listening"
+                            element={<Listening verbList={verbList} />}
+                        />
                         <Route
                             path="/words"
                             element={<Words words={verbList} />}
