@@ -28,5 +28,15 @@
     "Home.Listening.Info.Text.Content": "Verbessern Sie Ihr Hörverstehen mit einer Vielzahl von Audiomaterialien.",
     "Home.Listening.Info.Text.Footer": "Hören beginnen",
     "Listening.Used.Verbs.Header": "Im Video verwendete Verben",
-    "Listening.Used.Verbs.Loading": "Vewendete Verben werden geladen.."
+    "Listening.Used.Verbs.Loading": "Vewendete Verben werden geladen..",
+    "WordCard.Login.Info.Text": "Wenn Sie sich nicht einloggen, dann wird Ihre Lernprozess nicht gespeichert!",
+    "WordCard.Login.Info.Continue": "Weiter",
+    "WordCard.Login.Info.LoggIn": "Anmelden",
+    "WordCard.Verb.Info.Akk": " Has Akk Object",
+    "WordCard.Verb.Info.Dativ": " Has Dativ Object",
+    "WordCard.Verb.Info.Sperable": "Trennbar",
+    "WordCard.Verb.Info.ModalVerb": "Modal Verb",
+    "WordCard.Verb.Info.Reflexiv": "Reflexiv",
+    "WordCard.Verb.Info.Popover.Btn.Text": "Der Verb '{{verb}}' Lernen",
+    "WordCard.Verb.Info.Popover.Loading.Txt": "Grammer wird geladen..."
 }

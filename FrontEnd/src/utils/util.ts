@@ -435,3 +435,36 @@ export function groupItemsWithReduce<T>(array: T[], groupSize: number): T[][] {
         return result;
     }, []);
 }
+
+const languageMap: { [key: string]: string } = {
+    en: 'English',
+    de: 'German',
+    fr: 'French',
+    es: 'Spanish',
+    it: 'Italian',
+    pt: 'Portuguese',
+    ru: 'Russian',
+    ja: 'Japanese',
+    zh: 'Chinese',
+    ar: 'Arabic',
+    ko: 'Korean',
+    hi: 'Hindi',
+    nl: 'Dutch',
+    sv: 'Swedish',
+    no: 'Norwegian',
+    da: 'Danish',
+    fi: 'Finnish',
+    el: 'Greek',
+    tr: 'Turkish',
+    pl: 'Polish',
+    cs: 'Czech',
+    th: 'Thai',
+    hu: 'Hungarian',
+    ro: 'Romanian',
+    he: 'Hebrew'
+};
+export const getLanguageFromISO = (lang: string): string => {
+    const languageName = languageMap[lang.toLowerCase()];
+
+    return languageName || 'de';
+};

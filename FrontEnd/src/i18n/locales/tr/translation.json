@@ -28,5 +28,15 @@
     "Home.Listening.Info.Text.Content": "Verbessern Sie Ihr Hörverstehen mit einer Vielzahl von Audiomaterialien.",
     "Home.Listening.Info.Text.Footer": "Dinlemeye başla",
     "Listening.Used.Verbs.Header": "Video da kullanilan fiiller",
-    "Listening.Used.Verbs.Loading": "Videoda kullanilan fiiller bulunuyor.."
+    "Listening.Used.Verbs.Loading": "Videoda kullanilan fiiller bulunuyor..",
+    "WordCard.Login.Info.Text": "Eğer giriş yapmazsanız, öğrenme süreciniz kaydedilmeyecektir!",
+    "WordCard.Login.Info.Continue": "Devam",
+    "WordCard.Login.Info.LoggIn": "Giriş",
+    "WordCard.Verb.Info.Akk": "Akkusativ obje alır",
+    "WordCard.Verb.Info.Dativ": "Dativ  obje alır",
+    "WordCard.Verb.Info.Sperable": "Ayrılabilir fiil",
+    "WordCard.Verb.Info.ModalVerb": "Modal fiil",
+    "WordCard.Verb.Info.Reflexiv": "İşteş fiil",
+    "WordCard.Verb.Info.Popover.Btn.Text": "'{{verb}}' fiilini Öğren",
+    "WordCard.Verb.Info.Popover.Loading.Txt": "Konu anlatimi yükleniyor.."
 }

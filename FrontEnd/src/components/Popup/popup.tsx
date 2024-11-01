@@ -5,16 +5,22 @@ export type PopupProps = {
     isOpen: boolean;
     onClose: () => void;
     children: ReactNode;
+    className?: string;
 };
 
-export const Popup: React.FC<PopupProps> = ({ isOpen, onClose, children }) => {
+export const Popup: React.FC<PopupProps> = ({
+    isOpen,
+    onClose,
+    children,
+    ...props
+}) => {
     if (!isOpen) {
         return null;
     }
 
     return (
         <div className="popup-overlay">
-            <div className="popup">
+            <div className={`popup ${props.className}`}>
                 <button className="close-button" onClick={onClose}>
                     X
                 </button>
