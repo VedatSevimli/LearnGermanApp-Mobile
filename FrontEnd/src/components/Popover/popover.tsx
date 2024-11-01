@@ -38,7 +38,9 @@ export const Popover: React.FC<PopoverProps> = ({
     style = {},
     children
 }) => {
-    const containerRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement | null>(
+        null
+    ) as React.MutableRefObject<HTMLDivElement | null>;
     const size = useWindowSize();
 
     // Set the horizontal and vertical dock states
@@ -133,7 +135,7 @@ export const Popover: React.FC<PopoverProps> = ({
             ...style
         };
     }, [horizontalDock, verticalDock, size, style]);
-    console.log(style);
+
     return isOpen ? (
         <div
             ref={callbackRef}
