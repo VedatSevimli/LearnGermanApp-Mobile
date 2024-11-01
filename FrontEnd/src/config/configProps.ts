@@ -18,4 +18,5 @@ export type defaultConfigProps = {
         quizOpt: quizOptE;
     }[];
     learnedVerbsExample: string[];
+    youTubeVideoCount?: number;
 };

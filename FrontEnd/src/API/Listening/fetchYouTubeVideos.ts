@@ -1,3 +1,5 @@
+import { defaultConfig } from '../../config/defaultConfig';
+
 export type videoDataType = {
     kind?: string;
     etag?: string;
@@ -41,7 +43,7 @@ let _query = '';
 let _videoData: videoDataType[];
 export const getYoutubeVideoByQParam = async (
     query = 'deutsche geschichten A1',
-    maxResult = 2
+    maxResult = defaultConfig().youTubeVideoCount
 ): Promise<videoDataType[]> => {
     if (_query !== query) {
         _query = query;

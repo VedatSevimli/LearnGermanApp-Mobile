@@ -5,6 +5,7 @@ import { WordCard } from './Word/WordCard ';
 import { UserData } from '../../../modules/login/login.type';
 import { useUser } from '../../../context/userContext/userContext';
 import { setSeo } from '../../../utils/seo';
+import { LoadingOverlay } from '../../LoadingOverlay/LoadingOverlay';
 
 type WordsProps = {
     words: Verb[];
@@ -23,7 +24,7 @@ export const Words: React.FC<WordsProps> = ({ words }): JSX.Element => {
         return false;
     };
 
-    return (
+    return words.length > 0 ? (
         <div className="words-page">
             {words.map((wordData, idx) => (
                 <WordCard
@@ -34,5 +35,7 @@ export const Words: React.FC<WordsProps> = ({ words }): JSX.Element => {
                 />
             ))}
         </div>
+    ) : (
+        <LoadingOverlay></LoadingOverlay>
     );
 };

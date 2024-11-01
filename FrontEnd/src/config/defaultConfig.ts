@@ -90,6 +90,7 @@ export const defaultConfig = (): defaultConfigProps => {
             'sehen',
             'geben',
             'nehmen'
-        ]
+        ],
+        youTubeVideoCount: 10
     };
 };

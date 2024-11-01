@@ -178,6 +178,7 @@ export const ChatBot: React.FC<ChatBotP> = (props: ChatBotP) => {
                     <MessageInput
                         placeholder="type message here.."
                         onSend={handleSend}
+                        autoFocus={true}
                     />
                 </ChatContainer>
             </MainContainer>
