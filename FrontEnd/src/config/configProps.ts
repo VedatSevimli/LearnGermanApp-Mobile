@@ -7,7 +7,7 @@ export type QuizOptions =
     | 'Fill the blanks'
     | 'Match the Words'
     | 'Speak'
-    | 'Write';
+    | 'Writing';
 
 export type defaultConfigProps = {
     siteBackground: string;

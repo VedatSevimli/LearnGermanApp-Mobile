@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const useWindowSize = (): { width: number; height: number } => {
     const [windowSize, setWindowSize] = useState({

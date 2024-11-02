@@ -1,4 +1,9 @@
-import { Question, Sentence, Verb } from '../../../modules/verbs/verbs.type';
+import {
+    Question,
+    QuizSection,
+    Sentence,
+    Verb
+} from '../../../modules/verbs/verbs.type';
 import {
     generateQuiz,
     getRandomElementsFromArray,
@@ -6,6 +11,7 @@ import {
 } from '../../../utils/util';
 import { MatchingWords } from '../../matchingWordQuiz/MatchingWordQuiz';
 import { DragDroppQuestion, QuizDetailsOptions } from './Quiz';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  *
@@ -30,7 +36,8 @@ export const generateMatchWordQuiz = (
 
             return {
                 word,
-                def
+                def,
+                id: uuidv4()
             };
         });
     }
@@ -38,9 +45,11 @@ export const generateMatchWordQuiz = (
     function sentencesQuestions(sentences: Sentence[]): MatchingWords[] {
         return sentences.map((st) => ({
             word: st.sentence,
-            def: st.def.tr ?? ''
+            def: st.def.tr ?? '',
+            id: uuidv4()
         }));
     }
+
     for (let i = 0; i < learnedVerbs.length; i++) {
         const conjugations = learnedVerbs[i].conjugation[tense];
         const sentences = learnedVerbs[i].sentences[tense];
@@ -153,4 +162,72 @@ export const generateDraggDroppQuiz = (
     }
 
     return getRandomElementsFromArray(questionsArray, questionNumber);
+};
+
+/**
+ *
+ * @param learnedVerbs
+ * @param quizDetailsOpt
+ * @returns
+ */
+export const generateWriteQuiz = (
+    learnedVerbs: Verb[],
+    quizDetailsOpt: QuizDetailsOptions,
+    questionsCount = 7
+): { sentence: string; tense: keyof QuizSection }[][] => {
+    const questions: { sentence: string; tense: keyof QuizSection }[][] = [];
+
+    learnedVerbs.map((verb) => {
+        const conjugations = verb.conjugation[quizDetailsOpt.tense];
+        const sentences = verb.sentences[quizDetailsOpt.tense];
+        if (quizDetailsOpt.questionType === 'conjugation' && conjugations) {
+            const conjQuestions = [
+                ...conjugations.map((p) => ({
+                    sentence: p,
+                    tense: quizDetailsOpt.tense
+                }))
+            ];
+            questions.push(conjQuestions);
+        } else if (quizDetailsOpt.questionType === 'sentences' && sentences) {
+            const sentencesQuestions = [
+                ...sentences.map((s) => ({
+                    sentence: s.sentence,
+                    tense: quizDetailsOpt.tense
+                }))
+            ];
+
+            questions.push(sentencesQuestions);
+        } else if (sentences && conjugations) {
+            const conjQuests = [
+                ...conjugations.map((p) => ({
+                    sentence: p,
+                    tense: quizDetailsOpt.tense
+                }))
+            ];
+            const {
+                pastTense: pastT,
+                perfect: perfectT,
+                presens: presensT
+            } = verb.sentences;
+            const sentencesQuests = [
+                ...sentences.map((s) => ({
+                    sentence: s.sentence,
+                    tense: quizDetailsOpt.tense
+                }))
+            ];
+            const mixedQ = [...conjQuests, ...sentencesQuests];
+
+            questions.push(mixedQ);
+        }
+    });
+
+    const mixQuestions = getRandomElementsFromArray(
+        questions.flat(),
+        questions.flat().length
+    ).flat();
+
+    return getRandomElementsFromArray(
+        groupItemsWithReduce(mixQuestions, questionsCount),
+        quizDetailsOpt.questionNumber
+    );
 };

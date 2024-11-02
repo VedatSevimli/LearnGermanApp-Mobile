@@ -38,5 +38,18 @@
     "WordCard.Verb.Info.ModalVerb": "Modal fiil",
     "WordCard.Verb.Info.Reflexiv": "İşteş fiil",
     "WordCard.Verb.Info.Popover.Btn.Text": "'{{verb}}' fiilini Öğren",
-    "WordCard.Verb.Info.Popover.Loading.Txt": "Konu anlatimi yükleniyor.."
+    "WordCard.Verb.Info.Popover.Loading.Txt": "Konu anlatimi yükleniyor..",
+    "WordDetails.Verb.Details.Header": "Fiil Ayrıntıları",
+    "WordDetails.Verb.Details.Conjugation": "Fiil Çekimi",
+    "WordDetails.Verb.Details.Sentences": "Cümleler",
+    "WordDetails.LearnMode.End.Text": "Tebrikler! Fiili öğrendiniz.",
+    "WordDetails.LearnMode.End.Continue.Text": "Öğrenmeye devam et",
+    "Conjugation.Table.Person": "Kişi",
+    "Conjugation.Table.Conjugation": "Çekim",
+    "Quiz.Sections.Header.Text": "Alıştırma seçenekleri",
+    "Quiz.Sections.Button.Text": "Öğrenme Modu",
+    "Page.Quiz.Quiz.End.Txt": "Sınav bitti! Tebrikler!",
+    "Page.Quiz.Quiz.End.Wrong.Answers.Txt": "Yanlış cevaplanan sorular:",
+    "Page.Quiz.Quiz.End.Btn.Close": "Kapat",
+    "Page.Quiz.Quiz.End.Btn.NewQuiz": "Yeni Quiz"
 }

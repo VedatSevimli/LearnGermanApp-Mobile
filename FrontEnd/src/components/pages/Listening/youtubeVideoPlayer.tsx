@@ -171,7 +171,7 @@ export const VideoPlayerYouTube: React.FC<VideoPlayerYouTubeP> = (
     );
 };
 
-const findVerbsInText = (text: string, verbs: Verb[]): Verb[] => {
+export const findVerbsInText = (text: string, verbs: Verb[]): Verb[] => {
     const wordsInText = text.split(/\s+/);
     const foundVerbs: Verb[] = [];
 

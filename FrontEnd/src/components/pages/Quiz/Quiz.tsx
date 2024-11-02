@@ -28,11 +28,16 @@ import { QuizDetails } from './quizDetails';
 import {
     generateDraggDroppQuiz,
     generateMatchWordQuiz,
-    generateMultChoiceQuests
+    generateMultChoiceQuests,
+    generateWriteQuiz
 } from './quizUtils';
 import { DraggQuiz } from '../../DraggDropp/dragDropp';
 import { Timer } from '../../MultipleChoice/timer';
 import { useMediaQuery } from 'react-responsive';
+import { Button } from '../../Button/button';
+import { useTranslation } from 'react-i18next';
+import { quizResult } from '../../MultipleChoice/multipleChoice';
+import { WritingQuiz } from '../../writingQuiz/writingQuiz';
 
 type QuizProps = {
     verbList: Verb[];
@@ -62,6 +67,7 @@ const MOBILE_QUESTION_NUMBER = 6;
 
 export const Quiz: React.FC<QuizProps> = (props): JSX.Element => {
     //#region MiscHook
+    const { t } = useTranslation();
     const { word } = useParams();
     const { userData } = useUser();
     const { options, learnedVerbsExample } = defaultConfig();
@@ -81,9 +87,18 @@ export const Quiz: React.FC<QuizProps> = (props): JSX.Element => {
     const [dragDroppQuestions, setDragDroppQuestions] = useState<
         DragDroppQuestion[]
     >([]);
+    const [writeQuestions, setWriteQuestions] = useState<
+        { sentence: string; tense: keyof QuizSection }[][]
+    >([]);
+
     const [openQuizDetailsPopover, setOpenQuizDetailsPopover] =
         useState<boolean>(false);
     const [quizDetailsOpt, setQuizDetailsOpt] = useState<QuizDetailsOptions>();
+    const [quizResult, setQuizResult] = useState<quizResult>({
+        correctAnswers: [],
+        wrongAnswers: [],
+        quizFinished: false
+    });
 
     //#region UseEffect Hook
     useEffect(() => {
@@ -121,6 +136,16 @@ export const Quiz: React.FC<QuizProps> = (props): JSX.Element => {
                 setDragDroppQuestions(
                     generateDraggDroppQuiz(learnedVerbs, quizDetailsOpt)
                 );
+            } else if (activeQuiz === 'Fill the blanks') {
+                setWriteQuestions(
+                    generateWriteQuiz(
+                        learnedVerbs,
+                        quizDetailsOpt,
+                        isTabletOrMobile
+                            ? MOBILE_QUESTION_NUMBER
+                            : BIG_SCREEN_QUESTION_NUMBER
+                    )
+                );
             }
         }
     }, [learnedVerbs, quizDetailsOpt]);
@@ -156,44 +181,94 @@ export const Quiz: React.FC<QuizProps> = (props): JSX.Element => {
         setOpenDialog(true);
     };
 
-    //#region Render Helper
-    const renderMultipleChoice = (): JSX.Element => {
-        return (
-            <Trivia
-                question={multipleChoiceQustion[qNumber]}
-                setQuestionNumber={setQNumber}
-            ></Trivia>
-        );
+    const hanldeDialogClose = () => {
+        setOpenDialog(false);
+        setQNumber(0);
+        setQuizResult({
+            correctAnswers: [],
+            quizFinished: false,
+            wrongAnswers: []
+        });
     };
 
-    const renderMatchginWordQuiz = () => {
-        if (matchingWords[qNumber]) {
+    //#region Render Helper
+    const renderMultipleChoice = (): JSX.Element => {
+        if (multipleChoiceQustion[qNumber]) {
             return (
-                <MatchingWordQuiz
-                    matchingWords={matchingWords[qNumber]}
-                    onQuizFinish={setQNumber}
-                    tense={TensesE.presens}
-                ></MatchingWordQuiz>
+                <>
+                    {showTimer()}
+
+                    <Trivia
+                        question={multipleChoiceQustion[qNumber]}
+                        setQuestionNumber={setQNumber}
+                        setTimeOut={
+                            quizDetailsOpt?.withTimer ? setTimeOut : undefined
+                        }
+                        setQuizResult={setQuizResult}
+                    ></Trivia>
+                </>
             );
+        } else {
+            return renderQuizEnd(quizResult);
         }
     };
 
-    const renderDraggDroppQuiz = () => {
+    const renderMatchginWordQuiz = (): JSX.Element => {
+        if (matchingWords[qNumber]) {
+            return (
+                <>
+                    {showTimer()}
+
+                    <MatchingWordQuiz
+                        matchingWords={matchingWords[qNumber]}
+                        onQuizFinish={setQNumber}
+                        tense={TensesE.presens}
+                    ></MatchingWordQuiz>
+                </>
+            );
+        } else {
+            return renderQuizEnd();
+        }
+    };
+
+    const renderDraggDroppQuiz = (): JSX.Element => {
         if (
             dragDroppQuestions[qNumber]?.question &&
             dragDroppQuestions.length
         ) {
             return (
-                <DraggQuiz
-                    question={dragDroppQuestions[qNumber].question ?? []}
-                    definition={dragDroppQuestions[qNumber].question ?? []}
-                    mixConj={dragDroppQuestions[qNumber].mixedConj ?? []}
-                    setNext={setQNumber}
-                ></DraggQuiz>
+                <>
+                    {showTimer()}
+
+                    <DraggQuiz
+                        question={dragDroppQuestions[qNumber].question ?? []}
+                        definition={dragDroppQuestions[qNumber].question ?? []}
+                        mixConj={dragDroppQuestions[qNumber].mixedConj ?? []}
+                        setNext={setQNumber}
+                    ></DraggQuiz>
+                </>
             );
+        } else {
+            return renderQuizEnd();
         }
     };
 
+    const renderFillTheBlankQuiz = (): JSX.Element => {
+        if (writeQuestions[qNumber]) {
+            return (
+                <>
+                    {showTimer()}
+                    <WritingQuiz
+                        verbList={props.verbList}
+                        data={writeQuestions[qNumber]}
+                        onQuizFinish={setQNumber}
+                    ></WritingQuiz>
+                </>
+            );
+        } else {
+            return renderQuizEnd();
+        }
+    };
     const showTimer = () => {
         if (quizDetailsOpt?.withTimer) {
             return (
@@ -206,6 +281,59 @@ export const Quiz: React.FC<QuizProps> = (props): JSX.Element => {
         }
     };
 
+    const renderQuizEnd = (quizResult?: quizResult): JSX.Element => {
+        const handleNewQuizClick = () => {
+            setOpenDialog(false);
+            setQNumber(0);
+            handleOptionClick(activeQuiz ?? 'Multiple Choice');
+            setQuizResult({
+                correctAnswers: [],
+                quizFinished: false,
+                wrongAnswers: []
+            });
+        };
+
+        const handleCloseClick = () => {
+            setOpenDialog(false);
+            setQuizResult({
+                correctAnswers: [],
+                quizFinished: false,
+                wrongAnswers: []
+            });
+            setQNumber(0);
+            setActiveQuiz(undefined);
+        };
+
+        return (
+            <div className="quiz-end">
+                <span>{t('Page.Quiz.Quiz.End.Txt')}</span>
+                <p>
+                    {' '}
+                    {activeQuiz === 'Multiple Choice' &&
+                        t('Page.Quiz.Quiz.End.Wrong.Answers.Txt')}
+                </p>
+                <div className="wrong-answers">
+                    {quizResult?.wrongAnswers.map((w) => (
+                        <Trivia
+                            key={w.question.id}
+                            question={w.question}
+                            enableClikEvent={true}
+                            userAnswer={w.userAnswer}
+                        ></Trivia>
+                    ))}
+                </div>
+                <div className="btn-wrapper">
+                    <Button type="secondary" onClick={handleCloseClick}>
+                        {t('Page.Quiz.Quiz.End.Btn.Close')}
+                    </Button>
+                    <Button type="primary" onClick={handleNewQuizClick}>
+                        {t('Page.Quiz.Quiz.End.Btn.NewQuiz')}
+                    </Button>
+                </div>
+            </div>
+        );
+    };
+
     //#region Render
     return (
         <div className="quiz">
@@ -213,22 +341,18 @@ export const Quiz: React.FC<QuizProps> = (props): JSX.Element => {
             learnedWords?.length > 0 &&
             learnedVerbs?.length > 0 ? (
                 <Dialog className="quiz-dialog">
-                    <DialogHeader
-                        onDismiss={() => {
-                            setOpenDialog(false);
-                            setQNumber(0);
-                        }}
-                    >
+                    <DialogHeader onDismiss={hanldeDialogClose}>
                         <h3>{activeQuiz}</h3>
                     </DialogHeader>
                     <DialogBody>
-                        {showTimer()}
                         {activeQuiz === 'Multiple Choice' &&
                             renderMultipleChoice()}
                         {activeQuiz === 'Match the Words' &&
                             renderMatchginWordQuiz()}
                         {activeQuiz === 'Drag and Drop' &&
                             renderDraggDroppQuiz()}
+                        {activeQuiz === 'Fill the blanks' &&
+                            renderFillTheBlankQuiz()}
                     </DialogBody>
                 </Dialog>
             ) : (

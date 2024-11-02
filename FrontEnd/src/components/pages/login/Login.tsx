@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import './Login.scss';
 import { useNavigate } from 'react-router-dom';
-import LoadingSpinner from '../../LoadingSpinner/LoadingSpinner';
-import { Button } from '../../Button/button';
 import { useUser } from '../../../context/userContext/userContext';
-import { doLogin, register } from '../../../API/Login/login';
+import { register } from '../../../API/Login/login';
 import { setSeo } from '../../../utils/seo';
 
 type LoginPorps = {

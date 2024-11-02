@@ -19,10 +19,10 @@ export const defaultConfig = (): defaultConfigProps => {
                 image: multiple_choice_question
             },
             { name: 'Drag and Drop', image: dragg_dropp },
-            { name: 'Match the Words', image: match_words }
-            // { name: 'Fill the blanks', image: fillTheBlanks },
+            { name: 'Match the Words', image: match_words },
+            { name: 'Fill the blanks', image: fillTheBlanks }
+            // { name: 'Writing', image: writing_quiz }
             // { name: 'Speak', image: speaking_quiz },
-            // { name: 'Write', image: writing_quiz }
         ],
 
         learnMode: [
@@ -34,6 +34,11 @@ export const defaultConfig = (): defaultConfigProps => {
             },
             {
                 quizOpt: quizOptE.DragDrop,
+                QuestionType: 'conjugation',
+                tense: TensesE.presens
+            },
+            {
+                quizOpt: quizOptE.FillTheBlanks,
                 QuestionType: 'conjugation',
                 tense: TensesE.presens
             },
@@ -60,6 +65,11 @@ export const defaultConfig = (): defaultConfigProps => {
             },
             {
                 quizOpt: quizOptE.DragDrop,
+                QuestionType: 'conjugation',
+                tense: TensesE.perfect
+            },
+            {
+                quizOpt: quizOptE.FillTheBlanks,
                 QuestionType: 'conjugation',
                 tense: TensesE.perfect
             },

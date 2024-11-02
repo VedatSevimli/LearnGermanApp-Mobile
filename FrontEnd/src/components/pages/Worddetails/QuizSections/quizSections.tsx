@@ -7,6 +7,7 @@ import {
     TensesE
 } from '../../../../modules/verbs/verbs.type';
 import { Button } from '../../../Button/button';
+import { useTranslation } from 'react-i18next';
 
 export type QuizSectionsProps = {
     onQuizoptClick: (
@@ -32,6 +33,8 @@ export const QuizSections: React.FC<QuizSectionsProps> = ({
     onLearnModeClick,
     ...props
 }) => {
+    const { t } = useTranslation();
+
     const handleQuizoptClicked = (item: string, quizOpt: quizOptE) => {
         const [QuestionType, tense] = item.split('-');
 
@@ -43,7 +46,7 @@ export const QuizSections: React.FC<QuizSectionsProps> = ({
     };
     return (
         <div className="quiz-section">
-            <h2>Übung Optionen</h2>
+            <h2>{t('Quiz.Sections.Header.Text')}</h2>
             <div className="quiz-options">
                 {props.showQuizOptions ? (
                     <>
@@ -78,10 +81,23 @@ export const QuizSections: React.FC<QuizSectionsProps> = ({
                                 dropdownitems.indexOf('----------') + 1
                             )}
                         ></DropDown>
+                        <DropDown
+                            className="quiz-option"
+                            defaultOption={'Fill the blanks'}
+                            onSelect={(item) =>
+                                handleQuizoptClicked(
+                                    item,
+                                    quizOptE.FillTheBlanks
+                                )
+                            }
+                            options={dropdownitems.slice(
+                                dropdownitems.indexOf('----------') + 1
+                            )}
+                        ></DropDown>
                     </>
                 ) : (
                     <Button type="primary" onClick={onLearnModeClick}>
-                        Lernen Modus
+                        {t('Quiz.Sections.Button.Text')}
                     </Button>
                 )}
             </div>
