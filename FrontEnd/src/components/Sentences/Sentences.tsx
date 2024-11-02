@@ -13,7 +13,8 @@ export enum quizOptE {
     MultipleChoice = 'MultipleChoice',
     DragDrop = 'DragDrop',
     MatchWords = 'MatchWords',
-    LearnMode = 'LearnMode'
+    LearnMode = 'LearnMode',
+    FillTheBlanks = 'FillTheBlanks'
 }
 
 export const SentencesComponent: React.FC<SentencesComponentProps> = ({

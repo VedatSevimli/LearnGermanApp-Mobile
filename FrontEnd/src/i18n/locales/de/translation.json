@@ -38,5 +38,18 @@
     "WordCard.Verb.Info.ModalVerb": "Modal Verb",
     "WordCard.Verb.Info.Reflexiv": "Reflexiv",
     "WordCard.Verb.Info.Popover.Btn.Text": "Der Verb '{{verb}}' Lernen",
-    "WordCard.Verb.Info.Popover.Loading.Txt": "Grammer wird geladen..."
+    "WordCard.Verb.Info.Popover.Loading.Txt": "Grammer wird geladen...",
+    "WordDetails.Verb.Details.Header": "Verb Details",
+    "WordDetails.Verb.Details.Conjugation": "Konjugationen",
+    "WordDetails.Verb.Details.Sentences": "Sätze",
+    "WordDetails.LearnMode.End.Text": "Sie haben den Verb gelernt. Gratulation!!!!",
+    "WordDetails.LearnMode.End.Continue.Text": "weiter lernen",
+    "Conjugation.Table.Person": "Der Person",
+    "Conjugation.Table.Conjugation": "Konjugation",
+    "Quiz.Sections.Header.Text": "Übung Optionen",
+    "Quiz.Sections.Button.Text": "Lernen Modus",
+    "Page.Quiz.Quiz.End.Txt": "Das Quiz ist beendet! Gut gemacht!",
+    "Page.Quiz.Quiz.End.Wrong.Answers.Txt": "Falsch geantwortete Fragen:",
+    "Page.Quiz.Quiz.End.Btn.Close": "Schließen",
+    "Page.Quiz.Quiz.End.Btn.NewQuiz": "Neue Quiz"
 }

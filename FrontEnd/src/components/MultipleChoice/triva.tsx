@@ -5,7 +5,7 @@ import './triva.scss';
 
 type TrivaProps = {
     setQuestionNumber?: React.Dispatch<React.SetStateAction<number>>;
-    setTimeOut?: React.Dispatch<React.SetStateAction<boolean>>;
+    setTimeOut?: React.Dispatch<React.SetStateAction<boolean>> | undefined;
     setQuizResult?: React.Dispatch<React.SetStateAction<quizResult>>;
     question: Question;
     enableClikEvent?: boolean;
@@ -59,7 +59,9 @@ export const Trivia: React.FC<TrivaProps> = ({
                     ]
                 }));
                 delay(1400, () => {
-                    setTimeOut?.(true);
+                    setTimeOut
+                        ? setTimeOut(true)
+                        : setQuestionNumber?.((prev) => prev + 1);
                     setSelectedAnswer('');
                 });
             }

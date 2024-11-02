@@ -26,6 +26,9 @@ import { Trivia } from '../../MultipleChoice/triva';
 import { saveUserProccess } from '../../../API/Login/login';
 import { useUser } from '../../../context/userContext/userContext';
 import { setSeo } from '../../../utils/seo';
+import { WritingQuiz } from '../../writingQuiz/writingQuiz';
+import { generateWriteQuiz } from '../Quiz/quizUtils';
+import { useTranslation } from 'react-i18next';
 
 type VerbDetailsP = {
     verbList: Verb[];
@@ -34,7 +37,7 @@ export const VerbDetails: React.FC<VerbDetailsP> = ({
     verbList
 }): JSX.Element => {
     const { userData } = useUser();
-
+    const { t } = useTranslation();
     const { word } = useParams();
     const { learnMode } = defaultConfig();
     const [openDialog, setOpenDialog] = useState<boolean>(false);
@@ -124,11 +127,12 @@ export const VerbDetails: React.FC<VerbDetailsP> = ({
     };
 
     const generateMatchingWords = () => {
-        return verb.conjugation[options.tense]?.map((c) => {
+        return verb.conjugation[options.tense]?.map((c, idx) => {
             const [word, def, def2] = c.split(' ');
             return {
                 word,
-                def: `${def ?? ''} ${def2 ?? ''}`
+                def: `${def ?? ''} ${def2 ?? ''}`,
+                id: idx.toString()
             };
         });
     };
@@ -214,6 +218,19 @@ export const VerbDetails: React.FC<VerbDetailsP> = ({
                     ></DraggQuiz>
                 )
             );
+        } else if (activeQuiz === quizOptE.FillTheBlanks) {
+            return (
+                <WritingQuiz
+                    verbList={verbList}
+                    data={generateWriteQuiz([verb], {
+                        tense: options.tense,
+                        questionNumber: 1,
+                        questionType: options.QuestionType,
+                        withTimer: false
+                    }).flat()}
+                    onQuizFinish={() => handleQuizFinsih()}
+                ></WritingQuiz>
+            );
         }
 
         return <></>;
@@ -251,9 +268,9 @@ export const VerbDetails: React.FC<VerbDetailsP> = ({
         return (
             <div className="result">
                 <div className="result-content">
-                    Sie haben den Verb gelernt. Gratulation!!!!
+                    {t('WordDetails.LearnMode.End.Text')}
                 </div>
-                <span>weiter lernen</span>
+                <span> {t('WordDetails.LearnMode.End.Continue.Text')}</span>
                 <div className="wrong-answer-review">
                     {quizResult
                         .map((qr) => ({ wrongAnswers: qr.wrongAnswers }))
@@ -274,9 +291,9 @@ export const VerbDetails: React.FC<VerbDetailsP> = ({
 
     return (
         <div className="verb-details">
-            <h2>Verb Details</h2>
+            <h2> {t('WordDetails.Verb.Details.Header')}</h2>
             <div className="conjugation-section">
-                <h3>Konjugationen</h3>
+                <h3>{t('WordDetails.Verb.Details.Conjugation')}</h3>
                 <div className="conjugation-content">
                     <ConjugationTable
                         tense="Präsens"
@@ -300,7 +317,7 @@ export const VerbDetails: React.FC<VerbDetailsP> = ({
             </div>
             {showSentences && (
                 <div className="sentences-section">
-                    <h3>Sätze</h3>
+                    <h3>{t('WordDetails.Verb.Details.Sentences')}</h3>
                     <div className="sentences">
                         <div className="sentence">
                             {verb.sentences && (

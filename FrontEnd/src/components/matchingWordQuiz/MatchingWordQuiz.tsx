@@ -5,6 +5,7 @@ import { TensesE } from '../../modules/verbs/verbs.type';
 export type MatchingWords = {
     word: string;
     def: string;
+    id: string;
 };
 
 export type MatchingWordQuizProps = {
@@ -22,7 +23,7 @@ const MatchingWordQuiz: React.FC<MatchingWordQuizProps> = ({
     const [selectedWord, setSelectedWord] = useState<string>('');
     const [selectedDefinition, setSelectedDefinition] = useState<string>('');
     const [matchedPairs, setMatchedPairs] = useState<
-        { word?: string; definition?: string }[]
+        { wordId?: string; definitionId?: string }[]
     >([]);
     const [matchingWords, setMatchingWords] = useState<MatchingWords[]>(
         props.matchingWords ?? []
@@ -52,26 +53,26 @@ const MatchingWordQuiz: React.FC<MatchingWordQuizProps> = ({
         setShuffledDefs(shuffledD);
     };
 
-    const handleWordClick = (word: string) => {
-        setSelectedWord(word);
+    const handleWordClick = (word: MatchingWords) => {
+        setSelectedWord(word.id);
         setSelectedDefinition('');
     };
 
-    const handleDefinitionClick = (definition: string) => {
-        setSelectedDefinition(definition);
+    const handleDefinitionClick = (definition: MatchingWords) => {
+        setSelectedDefinition(definition.id);
         if (selectedWord) {
-            checkMatch(selectedWord, definition);
+            checkMatch(selectedWord, definition.id);
         }
     };
 
-    const checkMatch = (word: string, definition: string) => {
+    const checkMatch = (wordId: string, definitionId: string) => {
         const matchingWord = shuffledWords.find(
-            (wordObj) => wordObj.def === definition && wordObj.word === word
+            (word) => word.id === definitionId && word.id === wordId
         );
-        if (matchingWord?.word === word) {
+        if (matchingWord?.id === wordId) {
             setSelectedWord('');
             setSelectedDefinition('');
-            setMatchedPairs((prev) => [...prev, { word, definition }]);
+            setMatchedPairs((prev) => [...prev, { wordId, definitionId }]);
         } else {
             setTimeout(() => {
                 setSelectedDefinition('');
@@ -80,16 +81,16 @@ const MatchingWordQuiz: React.FC<MatchingWordQuizProps> = ({
     };
 
     const ismatched = (wordObj: MatchingWords): string => {
-        if (matchedPairs.filter((mp) => mp.word && mp.definition).length) {
+        if (matchedPairs.filter((mp) => mp.wordId && mp.definitionId).length) {
             const matchedPair = matchedPairs.find(
                 (pair) =>
-                    pair.definition === wordObj.def &&
-                    pair.word === wordObj.word
+                    pair.definitionId === wordObj.id &&
+                    pair.wordId === wordObj.id
             );
             if (matchedPair) {
                 return 'matched';
             } else {
-                if (selectedDefinition && selectedDefinition === wordObj.def) {
+                if (selectedDefinition && selectedDefinition === wordObj.id) {
                     return 'not-matched';
                 }
             }
@@ -103,13 +104,13 @@ const MatchingWordQuiz: React.FC<MatchingWordQuizProps> = ({
             <h2>Matching Word Quiz</h2>
             <div className="wrapper">
                 <div className="word-cards">
-                    {shuffledWords.map((wordObj, index) => (
+                    {shuffledWords.map((wordObj) => (
                         <div
-                            key={index}
+                            key={wordObj.id}
                             className={`word-card ${
-                                selectedWord === wordObj.word ? 'selected' : ''
+                                selectedWord === wordObj.id ? 'selected' : ''
                             } ${ismatched(wordObj)}`}
-                            onClick={() => handleWordClick(wordObj.word)}
+                            onClick={() => handleWordClick(wordObj)}
                         >
                             <p className="german-word">{wordObj.word}</p>
                         </div>
@@ -120,11 +121,11 @@ const MatchingWordQuiz: React.FC<MatchingWordQuizProps> = ({
                         <div
                             key={index}
                             className={`definition-card ${
-                                selectedDefinition === wordObj.def
+                                selectedDefinition === wordObj.id
                                     ? 'selected'
                                     : ''
                             } ${ismatched(wordObj)}`}
-                            onClick={() => handleDefinitionClick(wordObj.def)}
+                            onClick={() => handleDefinitionClick(wordObj)}
                         >
                             <p className="definition-text">{wordObj.def}</p>
                         </div>
