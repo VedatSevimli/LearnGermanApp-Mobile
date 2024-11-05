@@ -49,6 +49,7 @@ export const VideoPlayerYouTube: React.FC<VideoPlayerYouTubeP> = (
                 const usedVerbs = findVerbsInText(transScript, props.verbList);
                 setUsedVerbs({ verbs: usedVerbs, isLoading: false });
             } catch (err) {
+                setUsedVerbs({ verbs: [], isLoading: false });
                 console.error(err);
             }
         };

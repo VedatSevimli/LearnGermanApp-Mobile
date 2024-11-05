@@ -468,3 +468,28 @@ export const getLanguageFromISO = (lang: string): string => {
 
     return languageName || 'de';
 };
+
+export const seperableVerbEndings = [
+    'ein',
+    'aus',
+    'mit',
+    'zu',
+    'an',
+    'über',
+    'auf',
+    'fern',
+    'ab',
+    'bei',
+    'los',
+    'her',
+    'hin',
+    'zu',
+    'um',
+    'über',
+    'unter',
+    'dursch',
+    'hinein',
+    'vor',
+    'weg',
+    'zurück'
+];

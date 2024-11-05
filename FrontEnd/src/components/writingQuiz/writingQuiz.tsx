@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import './writingQuiz.scss';
 import { QuizSection, TensesE, Verb } from '../../modules/verbs/verbs.type';
+import { seperableVerbEndings } from '../../utils/util';
 
 type WritingQuizP = {
     data: { sentence: string; tense: keyof QuizSection }[];
@@ -25,20 +26,43 @@ const findVerbsInSentence = (
 
     verbList.forEach((verb) => {
         const { pastTense, perfect, presens } = verb.conjugation;
-        const allConjugations = [...presens, ...perfect, ...pastTense].map(
-            (conj) => {
-                const conjugation = conj.trim().split(' ');
-                return conjugation.at(-1);
-            }
-        );
+        const allConjugations = [
+            ...presens.map((p) =>
+                verb.isSeparable || verb.isReflexiv
+                    ? p.split(' ').slice(1, 3).join(' ')
+                    : p
+            ),
+            ...perfect,
+            ...pastTense.map((p) =>
+                verb.isSeparable || verb.isReflexiv
+                    ? p.split(' ').slice(1, 3).join(' ')
+                    : p
+            )
+        ].map((conj) => {
+            const conjugation = conj.trim().split(' ');
+            return verb.isSeparable || verb.isReflexiv
+                ? conjugation.join(' ')
+                : conjugation.at(-1);
+        });
+
+        const endOfVerb = words[words.length - 1];
+        const isSeparable = seperableVerbEndings.includes(endOfVerb);
 
         words.forEach((word, index) => {
             if (
-                allConjugations.some(
-                    (cnj) =>
-                        cnj?.toLocaleLowerCase() ===
-                        word.replace(/[.,!?]/g, '').toLowerCase()
-                )
+                allConjugations.some((cnj) => {
+                    const conjunction =
+                        index === 0 ? cnj?.toLocaleLowerCase() : cnj;
+                    word =
+                        index === 0
+                            ? word.replace(/[.,!?]/g, '').toLowerCase()
+                            : word.replace(/[.,!?]/g, '');
+
+                    return isSeparable
+                        ? conjunction ===
+                              word + ' ' + endOfVerb.replace(/[.,!?]/g, '')
+                        : conjunction === word;
+                })
             ) {
                 foundVerbs.push({
                     verb: word,
@@ -56,6 +80,7 @@ export const WritingQuiz: React.FC<WritingQuizP> = ({
     verbList,
     onQuizFinish
 }: WritingQuizP) => {
+    const inputCount = useRef<number>(0);
     const [inputValues, setInputValues] = useState<{ [key: string]: string }>(
         {}
     );
@@ -64,16 +89,30 @@ export const WritingQuiz: React.FC<WritingQuizP> = ({
 
     useEffect(() => {
         if (
-            Object.keys(isCorrect).length === data.length &&
+            Object.keys(isCorrect).length === inputCount.current &&
             Object.values(isCorrect).every((val) => val)
         ) {
             setTimeout(() => {
                 onQuizFinish?.((prev) => (prev = prev + 1));
                 setInputValues({});
                 setIsCorrect({});
-            }, 1000 * 1);
+            }, 750 * 1);
         }
     }, [isCorrect]);
+
+    const newData = useMemo(() => {
+        let _inputCount = 0;
+        const mappedData = data.map((st) => {
+            const verbs = findVerbsInSentence(st.sentence, verbList);
+            _inputCount = _inputCount + verbs.length;
+            return {
+                ...st,
+                verbs
+            };
+        });
+        inputCount.current = _inputCount;
+        return mappedData;
+    }, [data]);
 
     const toggleTooltip = (index: number) => {
         setOpenTooltipIndex((prevIndex) => (prevIndex === index ? -1 : index));
@@ -103,19 +142,16 @@ export const WritingQuiz: React.FC<WritingQuizP> = ({
                 {data[0].tense === TensesE.perfect && 'Perfekt'}
                 {data[0].tense === TensesE.pastTense && 'Präteritum'}
             </h3>
-            {data.map((st, sentenceIndex) => {
-                const verbs = findVerbsInSentence(st.sentence, verbList);
+            {newData.map((st, sentenceIndex) => {
                 const words = st.sentence.trim().split(' ');
                 let lastPosition = 0;
-                let orglVerb = '';
-                const sentenceParts = verbs.map(
+                const sentenceParts = st.verbs.map(
                     ({ verb, position, originalVerb }, verbIndex) => {
                         const beforeVerb = words
                             .slice(lastPosition, position)
                             .join(' ');
 
                         lastPosition = position + 1;
-                        orglVerb = originalVerb;
 
                         return (
                             <React.Fragment
@@ -152,6 +188,11 @@ export const WritingQuiz: React.FC<WritingQuizP> = ({
                                 >
                                     ℹ️
                                 </span>
+                                <span>
+                                    {'('}
+                                    <small>{originalVerb}</small>
+                                    {')'}
+                                </span>
                                 {openTooltipIndex === sentenceIndex && (
                                     <span className="tooltip">
                                         {data[sentenceIndex].sentence}
@@ -166,12 +207,6 @@ export const WritingQuiz: React.FC<WritingQuizP> = ({
                     <div className="quiz-item" key={sentenceIndex}>
                         {sentenceParts}
                         <span>{words.slice(lastPosition).join(' ')}</span>
-
-                        <span>
-                            {'('}
-                            <small>{orglVerb}</small>
-                            {')'}
-                        </span>
                     </div>
                 );
             })}
