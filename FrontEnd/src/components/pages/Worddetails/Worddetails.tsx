@@ -298,7 +298,7 @@ export const VerbDetails: React.FC<VerbDetailsP> = ({
                     <ConjugationTable
                         tense="Präsens"
                         conjugations={verb?.conjugation?.presens}
-                        isSeparable={verb?.isSeparable}
+                        isSeparable={verb?.isSeparable || verb.isReflexiv}
                     />
                     {verb?.word === 'sein' || verb?.word === 'haben' ? (
                         <ConjugationTable

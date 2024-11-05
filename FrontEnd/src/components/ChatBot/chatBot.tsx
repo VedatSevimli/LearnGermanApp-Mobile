@@ -84,22 +84,32 @@ export const ChatBot: React.FC<ChatBotP> = (props: ChatBotP) => {
                 message
             });
 
-            setChatHistory((oldChatHist) => [
-                ...oldChatHist,
-                { parts: [{ text: message }], role: 'user' },
-                { parts: [{ text: response.data }], role: 'model' }
-            ]);
+            if (response.success) {
+                setChatHistory((oldChatHist) => [
+                    ...oldChatHist,
+                    { parts: [{ text: message }], role: 'user' },
+                    { parts: [{ text: response.data }], role: 'model' }
+                ]);
 
-            const newMessage: MessageModel = {
-                message: response.data.replace(
-                    /\*\*(.*?)\*\*/g,
-                    '<strong>$1</strong>'
-                ),
-                sender: 'Bot',
-                direction: 'incoming',
-                position: 'last'
-            };
-            setMessages((oldMessages) => [...oldMessages, newMessage]);
+                const newMessage: MessageModel = {
+                    message: response.data.replace(
+                        /\*\*(.*?)\*\*/g,
+                        '<strong>$1</strong>'
+                    ),
+                    sender: 'Bot',
+                    direction: 'incoming',
+                    position: 'last'
+                };
+                setMessages((oldMessages) => [...oldMessages, newMessage]);
+            } else {
+                const newMessage: MessageModel = {
+                    message: 'Sorry something went wrong! &#128524;',
+                    sender: 'Bot',
+                    direction: 'incoming',
+                    position: 'last'
+                };
+                setMessages((oldMessages) => [...oldMessages, newMessage]);
+            }
         } catch (error) {
             console.log(error);
             setTyping(false);

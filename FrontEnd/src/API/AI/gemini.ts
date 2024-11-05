@@ -1,4 +1,4 @@
-const baseApiPath = 'http://localhost:5000/api/ai/gemini';
+const baseApiPath = process.env.REACT_APP_API_URL;
 const options = {
     method: 'POST',
     headers: {
@@ -19,7 +19,7 @@ export const chatGemini = async ({
     }[];
     message: string;
 }): Promise<any> => {
-    const response = await fetch(`${baseApiPath}/chat`, {
+    const response = await fetch(`${baseApiPath}ai/gemini/chat`, {
         ...options,
         body: JSON.stringify({ history, message })
     });
@@ -35,7 +35,7 @@ export const chatGemini = async ({
 export const geminiPrompt = async (
     prompt: string
 ): Promise<{ output: string }> => {
-    const response = await fetch(`${baseApiPath}`, {
+    const response = await fetch(`${baseApiPath}ai/gemini`, {
         ...options,
         body: JSON.stringify({ prompt })
     });

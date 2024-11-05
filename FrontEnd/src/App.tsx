@@ -24,6 +24,7 @@ import { setSeo } from './utils/seo';
 import { ChatBot } from './components/ChatBot/chatBot';
 import { Button } from './components/Button/button';
 import { chat_icon } from './images/image';
+import { Dashboard } from './components/pages/Dashboard/dashboard';
 
 export type UserInfo = {
     name: string;
@@ -88,6 +89,10 @@ function App(): JSX.Element {
                             element={<TextDetails />}
                         />
                         <Route path="/login" element={<Login />}></Route>
+                        <Route
+                            path="/dashboard"
+                            element={<Dashboard  verbList={verbList}/>}
+                        ></Route>
                         <Route path="*" element={<NoMatch />} />
                     </Routes>
                 </main>
