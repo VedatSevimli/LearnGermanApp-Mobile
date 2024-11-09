@@ -98,13 +98,11 @@ export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
                 {quizResult.quizFinished && (
                     <div className="quizResult">
                         <span>
-                            {t('Components.MultipleChoice.Correct.Answer')}{' '}
-                            Richtig geantwortete Fragen :
+                            {t('Components.MultipleChoice.Correct.Questions')}
                             {quizResult.correctAnswers.length}
                         </span>
                         <span>
-                            {t('Components.MultipleChoice.False.Answer')}Falsch
-                            geantwortete Fragen :
+                            {t('Components.MultipleChoice.False.Questions')}
                             {quizResult.wrongAnswers.length}
                         </span>
                         <div

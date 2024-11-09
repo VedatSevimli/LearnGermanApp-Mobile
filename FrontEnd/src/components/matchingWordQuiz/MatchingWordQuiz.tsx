@@ -103,9 +103,7 @@ const MatchingWordQuiz: React.FC<MatchingWordQuizProps> = ({
 
     return (
         <div className="matching-quiz">
-            <h2>
-                {t('Components.MatchingWord.Header.Text')}Matching Word Quiz
-            </h2>
+            <h2>{t('Components.MatchingWord.Header.Text')}</h2>
             <div className="wrapper">
                 <div className="word-cards">
                     {shuffledWords.map((wordObj) => (

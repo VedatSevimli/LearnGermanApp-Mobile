@@ -98,10 +98,7 @@ export const DraggQuiz: React.FC<DragDroppProps> = (props): JSX.Element => {
 
     return (
         <div className="draggQuestion">
-            <h2>
-                {t('Components.Dragg.Dropp.Header.Text')}Bitte ordnen Sie den
-                Satz zu
-            </h2>
+            <h2>{t('Components.Dragg.Dropp.Header.Text')}</h2>
 
             <div className="definition" onClick={() => setShowDef(!showDef)}>
                 <p>
@@ -167,7 +164,7 @@ export const DraggQuiz: React.FC<DragDroppProps> = (props): JSX.Element => {
                 </div>
                 {widgets.length > 0 && (
                     <Button className="rest-btn" onClick={handleReset}>
-                        Reset{t('Components.Dragg.Dropp.Header.Text')}
+                        {t('Components.Dragg.Dropp.Btn.Text')}
                     </Button>
                 )}
             </div>

@@ -26,7 +26,7 @@ export const SentencesComponent: React.FC<SentencesComponentProps> = ({
     return (
         <div className="sentence-component">
             <div className="sentence-section">
-                <h2>{t('Components.Sentences.Text')}Sentences</h2>
+                <h2>{t('Components.Sentences.Text')}</h2>
                 <div className="sentence-list">
                     {presens.map((sentence, index) => (
                         <Sentence key={index} sentence={sentence}></Sentence>
