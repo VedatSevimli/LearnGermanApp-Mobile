@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import './writingQuiz.scss';
 import { QuizSection, TensesE, Verb } from '../../modules/verbs/verbs.type';
 import { seperableVerbEndings } from '../../utils/util';
+import { useTranslation } from 'react-i18next';
 
 type WritingQuizP = {
     data: { sentence: string; tense: keyof QuizSection }[];
@@ -80,6 +81,7 @@ export const WritingQuiz: React.FC<WritingQuizP> = ({
     verbList,
     onQuizFinish
 }: WritingQuizP) => {
+    const { t } = useTranslation();
     const inputCount = useRef<number>(0);
     const [inputValues, setInputValues] = useState<{ [key: string]: string }>(
         {}
@@ -138,9 +140,12 @@ export const WritingQuiz: React.FC<WritingQuizP> = ({
     return (
         <div className="writing-quiz-container">
             <h3>
-                {data[0].tense === TensesE.presens && 'Präsens'}
-                {data[0].tense === TensesE.perfect && 'Perfekt'}
-                {data[0].tense === TensesE.pastTense && 'Präteritum'}
+                {data[0].tense === TensesE.presens &&
+                    t('Page.Quiz.Quiz.QuizDetails.Tense.Presens')}
+                {data[0].tense === TensesE.perfect &&
+                    t('Page.Quiz.Quiz.QuizDetails.Tense.Perfect')}
+                {data[0].tense === TensesE.pastTense &&
+                    t('Page.Quiz.Quiz.QuizDetails.Tense.Past')}
             </h3>
             {newData.map((st, sentenceIndex) => {
                 const words = st.sentence.trim().split(' ');

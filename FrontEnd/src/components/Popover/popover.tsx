@@ -8,8 +8,8 @@ import React, {
 } from 'react';
 import useResizeObserver from 'use-resize-observer';
 import { useWindowSize } from '../../hooks/useWindowSize';
-import useClickOutside from '../common/hooks/useClickOutside';
 import './popover.scss';
+import useClickOutside from '../../hooks/useClickOutside';
 
 export type BaseProps = {
     style?: CSSProperties;

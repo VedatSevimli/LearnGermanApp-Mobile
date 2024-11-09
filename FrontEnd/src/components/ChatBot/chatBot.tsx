@@ -26,7 +26,7 @@ import {
     woman_bot_1
 } from '../../images/image';
 import { getDefConv } from './chatBotUtils';
-import useClickOutside from '../common/hooks/useClickOutside';
+import useClickOutside from '../../hooks/useClickOutside';
 
 type ChatBotP = {
     setShowChat: React.Dispatch<React.SetStateAction<boolean>>;

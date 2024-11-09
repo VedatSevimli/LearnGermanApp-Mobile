@@ -11,6 +11,7 @@ import {
 } from '../../modules/verbs/verbs.type';
 import { Timer } from './timer';
 import { Trivia } from './triva';
+import { useTranslation } from 'react-i18next';
 
 export type MultipleChoiceProps = {
     verb?: Verb | undefined;
@@ -31,6 +32,7 @@ export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     tense,
     ...props
 }): JSX.Element => {
+    const { t } = useTranslation();
     const [quiz] = useState<Quiz | undefined>(() => {
         if (!props.mixedQuestions) {
             const definitions = props.verbList?.map((verb) => verb.def.tr);
@@ -96,11 +98,13 @@ export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
                 {quizResult.quizFinished && (
                     <div className="quizResult">
                         <span>
+                            {t('Components.MultipleChoice.Correct.Answer')}{' '}
                             Richtig geantwortete Fragen :
                             {quizResult.correctAnswers.length}
                         </span>
                         <span>
-                            Falsch geantwortete Fragen :
+                            {t('Components.MultipleChoice.False.Answer')}Falsch
+                            geantwortete Fragen :
                             {quizResult.wrongAnswers.length}
                         </span>
                         <div

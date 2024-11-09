@@ -9,6 +9,7 @@ import {
 } from '../../../modules/verbs/verbs.type';
 import { QuestionType } from './Quiz';
 import { QuizOptions } from '../../../config/configProps';
+import { useTranslation } from 'react-i18next';
 
 type quizDetailsP = {
     activeQuiz: QuizOptions;
@@ -24,6 +25,8 @@ export const QuizDetails: React.FC<quizDetailsP> = ({
     onQuizDetailsClick,
     activeQuiz
 }: quizDetailsP) => {
+    const { t } = useTranslation();
+
     const [questionNumber, setQuestionNumber] = useState(5);
     const [questionType, setQuestionType] =
         useState<QuestionType>('conjugation');
@@ -73,10 +76,14 @@ export const QuizDetails: React.FC<quizDetailsP> = ({
 
     return (
         <div className="quiz-options">
-            <h2 className="quiz-options__title">Quiz Settings</h2>
+            <h2 className="quiz-options__title">
+                {t('Page.Quiz.Quiz.QuizDetails.Settings.Header')}
+            </h2>
 
             <div className="quiz-options__group">
-                <label htmlFor="question-number">Number of Questions:</label>
+                <label htmlFor="question-number">
+                    {t('Page.Quiz.Quiz.QuizDetails.Settings.Question.Count')}
+                </label>
                 <button
                     className="quiz-options__btn"
                     onClick={() => setQuestionNumber((prev) => prev - 1)}
@@ -99,7 +106,9 @@ export const QuizDetails: React.FC<quizDetailsP> = ({
             </div>
 
             <div className="quiz-options__group">
-                <label>Question Type:</label>
+                <label>
+                    {t('Page.Quiz.Quiz.QuizDetails.Settings.QuestionType')}
+                </label>
                 <select
                     value={questionType}
                     onChange={(e) =>
@@ -109,29 +118,43 @@ export const QuizDetails: React.FC<quizDetailsP> = ({
                     }
                     className="quiz-options__select"
                 >
-                    <option value="sentences">Sentences</option>
-                    <option value="conjugation">Conjugation</option>
+                    <option value="sentences">
+                        {t('Page.Quiz.Quiz.QuizDetails.Settings.Sentences')}
+                    </option>
+                    <option value="conjugation">
+                        {t('Page.Quiz.Quiz.QuizDetails.Settings.Conjugation')}
+                    </option>
                     {activeQuiz !== 'Drag and Drop' && (
-                        <option value="both">Mixed</option>
+                        <option value="both">
+                            {t('Page.Quiz.Quiz.QuizDetails.Settings.Mixed')}
+                        </option>
                     )}
                 </select>
             </div>
 
             <div className="quiz-options__group">
-                <label>Tensees:</label>
+                <label>
+                    Tensees:{t('Page.Quiz.Quiz.QuizDetails.Settings.Tense')}
+                </label>
                 <select
                     value={tense}
                     onChange={(e) => setTense(e.target.value as TensesE)}
                     className="quiz-options__select"
                 >
-                    <option value="presens">{TensesE.presens}</option>
-                    <option value="perfect">{TensesE.perfect}</option>
-                    <option value="pastTense">{TensesE.pastTense}</option>
+                    <option value="presens">
+                        {t('Page.Quiz.Quiz.QuizDetails.Tense.Presens')}
+                    </option>
+                    <option value="perfect">
+                        {t('Page.Quiz.Quiz.QuizDetails.Tense.Perfect')}
+                    </option>
+                    <option value="pastTense">
+                        {t('Page.Quiz.Quiz.QuizDetails.Tense.Past')}
+                    </option>
                 </select>
             </div>
 
             <div className="quiz-options__group">
-                <label>With Timer:</label>
+                <label>{t('Page.Quiz.Quiz.QuizDetails.Settings.Timer')}</label>
                 <div className="quiz-options__switch">
                     <input
                         type="checkbox"
@@ -151,7 +174,9 @@ export const QuizDetails: React.FC<quizDetailsP> = ({
             {withTimer && (
                 <div className="quiz-options__group">
                     <div className="quiz-options__timer">
-                        <label>Set Timer:</label>
+                        <label>
+                            {t('Page.Quiz.Quiz.QuizDetails.Settings.SetTimer')}
+                        </label>
                         <div className="quiz-options__timer-controls">
                             <div className="quiz-options__time-unit">
                                 <button
@@ -173,7 +198,11 @@ export const QuizDetails: React.FC<quizDetailsP> = ({
                                     +
                                 </button>
 
-                                <span>min</span>
+                                <span>
+                                    {t(
+                                        'Page.Quiz.Quiz.QuizDetails.Settings.Timer.Min'
+                                    )}
+                                </span>
                             </div>
 
                             <div className="quiz-options__time-unit">
@@ -196,7 +225,11 @@ export const QuizDetails: React.FC<quizDetailsP> = ({
                                     +
                                 </button>
 
-                                <span>sec</span>
+                                <span>
+                                    {t(
+                                        'Page.Quiz.Quiz.QuizDetails.Settings.Timer.Secnd'
+                                    )}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -206,6 +239,7 @@ export const QuizDetails: React.FC<quizDetailsP> = ({
             <div className="quiz-options__group">
                 <div className="quiz-options__start">
                     <Button type="primary" onClick={handleOptionChange}>
+                        {t('Page.Quiz.Quiz.QuizDetails.Settings.Button.Start')}{' '}
                         Start
                     </Button>
                 </div>
