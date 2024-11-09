@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './MatchingWordQuiz.scss';
 import { TensesE } from '../../modules/verbs/verbs.type';
+import { useTranslation } from 'react-i18next';
 
 export type MatchingWords = {
     word: string;
@@ -18,6 +19,7 @@ const MatchingWordQuiz: React.FC<MatchingWordQuizProps> = ({
     onQuizFinish,
     ...props
 }) => {
+    const { t } = useTranslation();
     const [shuffledWords, setShuffledWords] = useState<MatchingWords[]>([]);
     const [shuffledDefs, setShuffledDefs] = useState<MatchingWords[]>([]);
     const [selectedWord, setSelectedWord] = useState<string>('');
@@ -101,7 +103,7 @@ const MatchingWordQuiz: React.FC<MatchingWordQuizProps> = ({
 
     return (
         <div className="matching-quiz">
-            <h2>Matching Word Quiz</h2>
+            <h2>{t('Components.MatchingWord.Header.Text')}</h2>
             <div className="wrapper">
                 <div className="word-cards">
                     {shuffledWords.map((wordObj) => (

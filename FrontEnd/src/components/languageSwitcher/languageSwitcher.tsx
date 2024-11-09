@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './languageSwitcher.scss';
-import useClickOutside from '../common/hooks/useClickOutside';
+import useClickOutside from '../../hooks/useClickOutside';
 
 export const LanguageSwitcher = () => {
-    const { i18n } = useTranslation();
+    const { i18n, t } = useTranslation();
     const containerRef = useRef<HTMLDivElement>(null);
     useClickOutside(() => setDropdownOpen(false), [containerRef]);
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -33,13 +33,13 @@ export const LanguageSwitcher = () => {
             {/* Custom dropdown menu */}
             <div className={`custom-options ${dropdownOpen ? 'active' : ''}`}>
                 <div className="option" onClick={() => changeLanguage('en')}>
-                    English
+                    {t('Components.language.Switcher.Language.English')}English
                 </div>
                 <div className="option" onClick={() => changeLanguage('de')}>
-                    Deutsch
+                    Deutsch{t('Components.language.Switcher.Language.English')}
                 </div>
                 <div className="option" onClick={() => changeLanguage('tr')}>
-                    Türkçe
+                    Türkçe{t('Components.language.Switcher.Language.English')}
                 </div>
             </div>
         </div>

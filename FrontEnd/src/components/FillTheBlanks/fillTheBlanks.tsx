@@ -73,7 +73,9 @@ export const FillBlanksApp: React.FC<FillBlankProps> = ({ textData }) => {
                         )}
                     </div>
                     <div>
-                        <button onClick={resetForm}>Reset</button>
+                        <button onClick={resetForm}>
+                            {t('Components.FillBlank.Btn.Text')}
+                        </button>
                     </div>
                 </>
             )}

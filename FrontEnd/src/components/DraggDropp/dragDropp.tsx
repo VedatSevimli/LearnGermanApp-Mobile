@@ -4,6 +4,7 @@ import './dragDropp.scss';
 import { speakSentence } from '../../utils/speech';
 import { speaker } from '../../images/image';
 import { Button } from '../Button/button';
+import { useTranslation } from 'react-i18next';
 
 export type DragDroppProps = {
     question: string;
@@ -13,6 +14,7 @@ export type DragDroppProps = {
 };
 
 export const DraggQuiz: React.FC<DragDroppProps> = (props): JSX.Element => {
+    const { t } = useTranslation();
     const { question, definition, mixConj } = props;
     const isMounted = useRef<boolean>(false);
     const [widgets, setWidgets] = useState<string[]>([]);
@@ -96,7 +98,7 @@ export const DraggQuiz: React.FC<DragDroppProps> = (props): JSX.Element => {
 
     return (
         <div className="draggQuestion">
-            <h2>Bitte ordnen Sie den Satz zu</h2>
+            <h2>{t('Components.Dragg.Dropp.Header.Text')}</h2>
 
             <div className="definition" onClick={() => setShowDef(!showDef)}>
                 <p>
@@ -162,7 +164,7 @@ export const DraggQuiz: React.FC<DragDroppProps> = (props): JSX.Element => {
                 </div>
                 {widgets.length > 0 && (
                     <Button className="rest-btn" onClick={handleReset}>
-                        Reset
+                        {t('Components.Dragg.Dropp.Btn.Text')}
                     </Button>
                 )}
             </div>
