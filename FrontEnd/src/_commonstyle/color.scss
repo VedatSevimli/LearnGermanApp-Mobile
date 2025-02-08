@@ -1,3 +1,9 @@
+@use 'sass:color';
+
+@function darken($color, $amount) {
+    @return color.adjust($color, $lightness: -$amount);
+}
+
 :root {
     --primary-color: #3498db;
     --secondary-color: #2ecc71;

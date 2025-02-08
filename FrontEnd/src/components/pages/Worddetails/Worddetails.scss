@@ -1,4 +1,4 @@
-@import '../../../_commonstyle/flexbox.scss';
+@use '../../../_commonstyle/flexbox.scss' as flex;
 .verb-details {
     display: flex;
     flex-direction: column;
@@ -31,7 +31,7 @@
         }
 
         .conjugation-content {
-            @include flexContRows;
+            @include flex.flexContRows;
             justify-content: center;
             .conjugation-table {
                 width: 33%;

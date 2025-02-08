@@ -1,4 +1,4 @@
-@import '../../../_commonstyle/flexbox.scss';
+@use '../../../_commonstyle/flexbox.scss' as flex;
 .words-page {
     width: 100%;
     display: grid;
@@ -101,7 +101,7 @@
         align-items: center;
         flex-direction: column;
         .btn-wrapper {
-            @include flexContRows;
+            @include flex.flexContRows;
             width: 100%;
             padding: 0.5em;
             .button-secondary {

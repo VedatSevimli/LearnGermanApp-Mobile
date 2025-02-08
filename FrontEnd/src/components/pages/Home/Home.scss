@@ -1,7 +1,7 @@
-@import '../../../_commonstyle/flexbox.scss';
+@use '../../../_commonstyle/flexbox.scss' as flex;
 .home-container {
     height: 100%;
-    @include flexContainerColumns;
+    @include flex.flexContainerColumns;
     text-align: center;
 
     .home-banner {

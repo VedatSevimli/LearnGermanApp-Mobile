@@ -91,7 +91,7 @@ function App(): JSX.Element {
                         <Route path="/login" element={<Login />}></Route>
                         <Route
                             path="/dashboard"
-                            element={<Dashboard  verbList={verbList}/>}
+                            element={<Dashboard verbList={verbList} />}
                         ></Route>
                         <Route path="*" element={<NoMatch />} />
                     </Routes>

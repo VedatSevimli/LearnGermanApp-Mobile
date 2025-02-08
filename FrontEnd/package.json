@@ -25,8 +25,9 @@
         "web-vitals": "^2.1.4"
     },
     "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
+        "start": "webpack serve --config webpack.dev.js --open --hot",
+        "watch": "webpack --watch --config webpack.dev.js",
+        "build": "webpack --config webpack.prod.js",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "i18n:scan": "i18next-scanner --config ./src/i18next-scanner.config.js 'src/**/*.{ts,tsx}'"
@@ -50,8 +51,16 @@
         ]
     },
     "devDependencies": {
+        "@babel/core": "^7.26.7",
+        "@babel/preset-env": "^7.26.7",
+        "@babel/preset-react": "^7.26.3",
         "@typescript-eslint/eslint-plugin": "^5.58.0",
         "@typescript-eslint/parser": "^5.58.0",
+        "babel-loader": "^9.2.1",
+        "clean-webpack-plugin": "^4.0.0",
+        "copy-webpack-plugin": "^12.0.2",
+        "css-loader": "^7.1.2",
+        "dotenv-webpack": "^8.1.0",
         "eslint": "^8.38.0",
         "eslint-config-prettier": "^8.8.0",
         "eslint-config-standard-with-typescript": "^34.0.0",
@@ -59,7 +68,16 @@
         "eslint-plugin-n": "^15.6.1",
         "eslint-plugin-promise": "^6.1.1",
         "eslint-plugin-react": "^7.32.2",
+        "file-loader": "^6.2.0",
+        "html-webpack-plugin": "^5.6.3",
         "i18next-scanner": "^4.6.0",
-        "typescript": "^4.9.5"
+        "sass": "^1.84.0",
+        "sass-loader": "^16.0.4",
+        "style-loader": "^4.0.0",
+        "ts-loader": "^9.5.2",
+        "typescript": "^4.9.5",
+        "webpack": "^5.97.1",
+        "webpack-cli": "^6.0.1",
+        "webpack-dev-server": "^5.2.0"
     }
 }
