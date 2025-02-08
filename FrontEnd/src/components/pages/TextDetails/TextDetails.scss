@@ -1,7 +1,7 @@
-@import '../../../_commonstyle/flexbox.scss';
-@import '../../../_commonstyle/color.scss';
+@use '../../../_commonstyle/flexbox.scss' as flex;
+@use '../../../_commonstyle/color.scss' as color;
 .text-details {
-    @include flexContainerColumns;
+    @include flex.flexContainerColumns;
     align-items: center;
     padding: 0.5em;
 
@@ -86,7 +86,7 @@
         }
     }
     .questions-container {
-        @include flexContRows;
+        @include flex.flexContRows;
         flex-wrap: wrap;
         justify-content: center;
         padding: 1em;

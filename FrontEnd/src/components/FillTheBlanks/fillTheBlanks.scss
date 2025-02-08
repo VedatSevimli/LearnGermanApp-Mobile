@@ -1,5 +1,5 @@
-@import '../../_commonstyle/flexbox.scss';
-@import '../../_commonstyle/color.scss';
+@use '../../_commonstyle/flexbox.scss' as flex;
+@use '../../_commonstyle/color.scss' as customColor;
 
 .fill-the-blanks {
     padding: 1em;
@@ -49,7 +49,7 @@
         cursor: pointer;
 
         &:hover {
-            background-color: darken(#3498db, 10%);
+            background-color: customColor.darken(#3498db, 10%);
         }
 
         &:focus {

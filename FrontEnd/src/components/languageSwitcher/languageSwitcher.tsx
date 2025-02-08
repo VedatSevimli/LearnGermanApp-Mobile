@@ -33,13 +33,13 @@ export const LanguageSwitcher = () => {
             {/* Custom dropdown menu */}
             <div className={`custom-options ${dropdownOpen ? 'active' : ''}`}>
                 <div className="option" onClick={() => changeLanguage('en')}>
-                    {t('Components.language.Switcher.Language.English')}English
+                    {t('Components.language.Switcher.Language.English')}
                 </div>
                 <div className="option" onClick={() => changeLanguage('de')}>
-                    Deutsch{t('Components.language.Switcher.Language.English')}
+                    {t('Components.language.Switcher.Language.German')}
                 </div>
                 <div className="option" onClick={() => changeLanguage('tr')}>
-                    Türkçe{t('Components.language.Switcher.Language.English')}
+                    {t('Components.language.Switcher.Language.Turkish')}
                 </div>
             </div>
         </div>

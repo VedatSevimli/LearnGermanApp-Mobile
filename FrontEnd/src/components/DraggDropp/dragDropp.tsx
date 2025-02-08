@@ -84,7 +84,6 @@ export const DraggQuiz: React.FC<DragDroppProps> = (props): JSX.Element => {
     };
 
     const handleWidgetClick = (word: string) => {
-        speakSentence(word, { rate: 1 });
         setMixedWid((prev) => {
             const idx = prev.indexOf(word);
             let filteredArr;
@@ -117,6 +116,7 @@ export const DraggQuiz: React.FC<DragDroppProps> = (props): JSX.Element => {
                             onDragStart={(e) => handleOnDrag(e, w)}
                             key={i}
                             onClick={() => handleWidgetClick(w)}
+                            onMouseDown={() => speakSentence(w, { rate: 1 })}
                         >
                             {w}
                         </div>
