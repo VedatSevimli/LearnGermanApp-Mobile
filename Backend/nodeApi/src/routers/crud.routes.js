@@ -17,7 +17,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 export const crud = express.Router();
-//TODO:use GET instead of POST
+//TODO:use GET instead of POST..
 crud.get('/', (req, res) =>
     new Response(null, 'Health check is successful').success(res)
 );
