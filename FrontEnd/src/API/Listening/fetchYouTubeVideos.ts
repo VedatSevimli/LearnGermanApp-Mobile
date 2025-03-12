@@ -36,7 +36,6 @@ export type videoDataType = {
 };
 
 const baseApiPath = process.env.REACT_APP_API_URL;
-const apiKey = process.env.REACT_APP_API_YOUTUBE_API_KEY;
 
 //https://developers.google.com/youtube/v3/docs/search/list
 let _query = '';
@@ -48,13 +47,12 @@ export const getYoutubeVideoByQParam = async (
     if (_query !== query) {
         _query = query;
         const resposne = await fetch(
-            `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&q=${query}&type=video&part=snippet&maxResults=${maxResult}&videoEmbeddable=true&relevanceLanguage=de&videoDuration=long&relevanceLanguage=de&order=viewCount`
+            `${baseApiPath}youTube/video-info?query=${query}&maxResult=${maxResult}`
         );
         const videoData = await resposne.json();
-        _videoData = videoData.items;
+        _videoData = videoData.data;
         return _videoData;
     }
-
     return _videoData;
 };
 
