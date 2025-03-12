@@ -19,3 +19,24 @@ mix.get('/youTube/transcript', async (req, res) => {
         return new Response(null, 'No data is avaliable!').erro500(res);
     }
 });
+
+const apiKey = process.env.YOUTUBE_API_KEY ?? '';
+mix.get('/youTube/video-info', async (req, res) => {
+    const { query, maxResult } = req.query;
+    console.log(query, maxResult, apiKey);
+    try {
+        const resposne = await fetch(
+            `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&q=${query}&type=video&part=snippet&maxResults=${maxResult}&videoEmbeddable=true&relevanceLanguage=de&videoDuration=long&relevanceLanguage=de&order=viewCount`
+        );
+        const videoData = await resposne.json();
+
+        if (videoData.items) {
+            return new Response(
+                videoData.items,
+                'Data is sended succesfully'
+            ).success(res);
+        }
+    } catch (error) {
+        return new Response(null, 'No data is avaliable!').erro500(res);
+    }
+});
