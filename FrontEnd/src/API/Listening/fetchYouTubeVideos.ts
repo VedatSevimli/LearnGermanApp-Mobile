@@ -1,4 +1,5 @@
 import { defaultConfig } from '../../config/defaultConfig';
+import api from '../api';
 
 export type videoDataType = {
     kind?: string;
@@ -46,11 +47,11 @@ export const getYoutubeVideoByQParam = async (
 ): Promise<videoDataType[]> => {
     if (_query !== query) {
         _query = query;
-        const resposne = await fetch(
+        const resposne = await api(
             `${baseApiPath}youTube/video-info?query=${query}&maxResult=${maxResult}`
         );
-        const videoData = await resposne.json();
-        _videoData = videoData.data;
+
+        _videoData = resposne.data;
         return _videoData;
     }
     return _videoData;
@@ -72,9 +73,9 @@ export const getVideoTranscript = async (
     videoId: string,
     lang = 'de'
 ): Promise<YoutubeVideoTranscript[]> => {
-    const resposne = await fetch(
+    const resposne = await api(
         `${baseApiPath}youTube/transcript/?videoId=${videoId}&lang=${lang}`
     );
-    const videoData = await resposne.json();
-    return videoData.data;
+
+    return resposne.data;
 };

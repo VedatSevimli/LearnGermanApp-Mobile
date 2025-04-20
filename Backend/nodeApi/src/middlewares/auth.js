@@ -2,6 +2,8 @@ import jwt from 'jsonwebtoken';
 import { User } from '../models/user.model.js';
 import { APIError } from '../utils/error.js';
 
+const VALID_API_KEYS = new Set([process.env.API_KEY]);
+
 export const createToken = async (user, res) => {
     const payload = {
         sub: user._id,
@@ -88,4 +90,18 @@ export const decodedTempoararyToken = async (tempToken) => {
         }
     );
     return userInfo;
+};
+
+export const authenticateAPIKey = (req, res, next) => {
+    const userApiKey = req.headers['x-api-key'];
+
+    if (!userApiKey) {
+        return res.status(403).json({ error: 'API Key required' });
+    }
+
+    if (!VALID_API_KEYS.has(userApiKey)) {
+        return res.status(401).json({ error: 'Invalid API Key' });
+    }
+
+    next();
 };

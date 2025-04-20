@@ -10,21 +10,22 @@ import {
 } from '../controllers/auth.controllers.js';
 import { authValidation } from '../middlewares/validation/auth.validation.js';
 import { checkToken } from '../middlewares/auth.js';
+import { authenticateAPIKey } from '../middlewares/auth.js';
 
 export const auth = express.Router();
 
-auth.post('/login', authValidation.login, login);
+auth.post('/login', authValidation.login, authenticateAPIKey, login);
 
-auth.post('/register', authValidation.register, register);
+auth.post('/register', authValidation.register, authenticateAPIKey, register);
 
-auth.get('/me', checkToken, me);
+auth.get('/me', authenticateAPIKey, checkToken, me);
 
-auth.post('/forget-password', forgetPassword);
-auth.post('/reset-code-check', resetCodeCheck);
-auth.post('/reset-password', resetPassword);
-auth.post('/save-user-proccess', saveUserProccess);
+auth.post('/forget-password', authenticateAPIKey, forgetPassword);
+auth.post('/reset-code-check', authenticateAPIKey, resetCodeCheck);
+auth.post('/reset-password', authenticateAPIKey, resetPassword);
+auth.post('/save-user-proccess', authenticateAPIKey, saveUserProccess);
 
-auth.post('/uploads', (req, res) => {
+auth.post('/uploads', authenticateAPIKey, (req, res) => {
     // * TODO:check it
     upload(req, res, (err) => {
         if (err instanceof multer.MulterError) {

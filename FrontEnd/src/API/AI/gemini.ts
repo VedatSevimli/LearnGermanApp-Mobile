@@ -1,3 +1,5 @@
+import api from '../api';
+
 const baseApiPath = process.env.REACT_APP_API_URL;
 const options = {
     method: 'POST',
@@ -19,12 +21,12 @@ export const chatGemini = async ({
     }[];
     message: string;
 }): Promise<any> => {
-    const response = await fetch(`${baseApiPath}ai/gemini/chat`, {
+    const response = await api(`${baseApiPath}ai/gemini/chat`, {
         ...options,
         body: JSON.stringify({ history, message })
     });
-    const res = await response.json();
-    return res;
+
+    return response;
 };
 
 /**
@@ -35,10 +37,10 @@ export const chatGemini = async ({
 export const geminiPrompt = async (
     prompt: string
 ): Promise<{ output: string }> => {
-    const response = await fetch(`${baseApiPath}ai/gemini`, {
+    const response = await api(`${baseApiPath}ai/gemini`, {
         ...options,
         body: JSON.stringify({ prompt })
     });
-    const output = await response.json();
-    return { output: output.data };
+
+    return { output: response.data };
 };
