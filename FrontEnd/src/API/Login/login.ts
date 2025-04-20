@@ -1,5 +1,6 @@
 import { Login, LoginWithToken } from '../../modules/login/login.type';
 import { Question } from '../../modules/verbs/verbs.type';
+import api from '../api';
 const baseApiPath = process.env.REACT_APP_API_URL;
 
 export const loginWithToken = async ({
@@ -7,16 +8,14 @@ export const loginWithToken = async ({
 }: {
     token: string;
 }): Promise<LoginWithToken> => {
-    const response = await fetch(`${baseApiPath}me`, {
+    const response = await api(`${baseApiPath}me`, {
         method: 'GET',
         headers: new Headers({
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'http://localhost:3000',
             authorization: `Bearer ${token}`
         })
     });
-    const res = await response.json();
-    return res;
+
+    return response;
 };
 
 export const doLogin = async ({
@@ -26,16 +25,13 @@ export const doLogin = async ({
     email: string;
     password: string;
 }): Promise<Login> => {
-    const response = await fetch(`${baseApiPath}login`, {
+    const response = await api(`${baseApiPath}login`, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'http://localhost:3000'
-        },
+        headers: {},
         body: JSON.stringify({ email, password })
     });
-    const res = await response.json();
-    return res;
+
+    return response;
 };
 type Register = {
     name: string;
@@ -44,16 +40,13 @@ type Register = {
     password: string;
 };
 export const register = async (userData: Register) => {
-    const response = await fetch(`${baseApiPath}register`, {
+    const response = await api(`${baseApiPath}register`, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'http://localhost:3000'
-        },
+        headers: {},
         body: JSON.stringify({ ...userData })
     });
-    const res = await response.json();
-    return res;
+
+    return response;
 };
 
 export const saveUserProccess = async (userProgress: {
@@ -62,14 +55,11 @@ export const saveUserProccess = async (userProgress: {
     wrongAnswers: { question: Question; userAnswer: number }[];
     progressValue: string;
 }) => {
-    const response = await fetch(`${baseApiPath}save-user-proccess`, {
+    const response = await api(`${baseApiPath}save-user-proccess`, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'http://localhost:3000'
-        },
+        headers: {},
         body: JSON.stringify(userProgress)
     });
-    const res = await response.json();
-    return res;
+
+    return response;
 };

@@ -7,7 +7,7 @@ import { TensesE, Verb } from '../../../modules/verbs/verbs.type';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import LoadingSpinner from '../../LoadingSpinner/LoadingSpinner';
-import { play_circle } from '../../../images/image';
+import { chevron_svg, play_circle } from '../../../images/image';
 import Dialog from '../../Dialog/dialog';
 import DialogHeader from '../../Dialog/DialogHeader/dialogHeader';
 import { geminiPrompt } from '../../../API/AI/gemini';
@@ -34,11 +34,15 @@ export const VideoPlayerYouTube: React.FC<VideoPlayerYouTubeP> = (
     const [showVideo, setShowVideo] = useState<boolean>(false);
     const [questions, setQuestions] = useState<any>([]);
     const [startQuiz, setStartQuiz] = useState<boolean>(false);
+    const [showUsedVerbs, setShowUsedVerbs] = useState<boolean>(false);
     const videoTranscriptRef = useRef<string>('');
 
     useEffect(() => {
         const getVideoTranscr = async (videoId: string) => {
             try {
+                if (usedVerbs.verbs.length) {
+                    return;
+                }
                 setUsedVerbs({ verbs: [], isLoading: true });
                 const videoTranscript = await getVideoTranscript(videoId);
                 const transScript = videoTranscript
@@ -46,15 +50,16 @@ export const VideoPlayerYouTube: React.FC<VideoPlayerYouTubeP> = (
                     .join(' ');
                 videoTranscriptRef.current = transScript;
 
-                const usedVerbs = findVerbsInText(transScript, props.verbList);
-                setUsedVerbs({ verbs: usedVerbs, isLoading: false });
+                const verbs = findVerbsInText(transScript, props.verbList);
+                setUsedVerbs({ verbs, isLoading: false });
             } catch (err) {
                 setUsedVerbs({ verbs: [], isLoading: false });
                 console.error(err);
             }
         };
-        void getVideoTranscr(videoId);
-    }, []);
+
+        showUsedVerbs && void getVideoTranscr(videoId);
+    }, [showUsedVerbs]);
 
     useEffect(() => {
         const generateQuestions = async () => {
@@ -127,44 +132,56 @@ export const VideoPlayerYouTube: React.FC<VideoPlayerYouTubeP> = (
                 <img className="play-icon" src={play_circle}></img>
             </div>
 
-            <h3>{t('Listening.Used.Verbs.Header')}</h3>
-            <div className="used-verbs-container">
-                {usedVerbs.isLoading ? (
-                    <LoadingSpinner
-                        isLoading={usedVerbs.isLoading}
-                        message={t('Listening.Used.Verbs.Loading')}
-                    ></LoadingSpinner>
-                ) : (
-                    usedVerbs.verbs.map((uv, idx) => {
-                        const isLearned = props.learnedWords?.includes(uv.word);
-                        const { tr, en } =
-                            props.verbList.find(
-                                (verb) =>
-                                    props.verbList && verb.word === uv.word
-                            )?.def ?? {};
-
-                        return (
-                            <span
-                                key={idx}
-                                className={`used-verb ${
-                                    isLearned ? 'learned' : ''
-                                }`}
-                                onClick={(e) => (
-                                    e.stopPropagation(),
-                                    navigate(`/wordDetails/${uv.word}`)
-                                )}
-                            >
-                                {uv.word}
-                                {props.verbList && (
-                                    <div className="tooltip-text">
-                                        {tr || en}
-                                    </div>
-                                )}
-                            </span>
-                        );
-                    })
-                )}
+            <div className="used-verbs-header">
+                <h3>{t('Listening.Used.Verbs.Header')}</h3>
+                <span onClick={() => setShowUsedVerbs(!showUsedVerbs)}>
+                    <img
+                        className={`chevron-icon ${showUsedVerbs ? 'up' : ''}`}
+                        src={chevron_svg}
+                    ></img>
+                </span>
             </div>
+            {showUsedVerbs && (
+                <div className="used-verbs-container">
+                    {usedVerbs.isLoading ? (
+                        <LoadingSpinner
+                            isLoading={usedVerbs.isLoading}
+                            message={t('Listening.Used.Verbs.Loading')}
+                        ></LoadingSpinner>
+                    ) : (
+                        usedVerbs.verbs.map((uv, idx) => {
+                            const isLearned = props.learnedWords?.includes(
+                                uv.word
+                            );
+                            const { tr, en } =
+                                props.verbList.find(
+                                    (verb) =>
+                                        props.verbList && verb.word === uv.word
+                                )?.def ?? {};
+
+                            return (
+                                <span
+                                    key={idx}
+                                    className={`used-verb ${
+                                        isLearned ? 'learned' : ''
+                                    }`}
+                                    onClick={(e) => (
+                                        e.stopPropagation(),
+                                        navigate(`/wordDetails/${uv.word}`)
+                                    )}
+                                >
+                                    {uv.word}
+                                    {props.verbList && (
+                                        <div className="tooltip-text">
+                                            {tr || en}
+                                        </div>
+                                    )}
+                                </span>
+                            );
+                        })
+                    )}
+                </div>
+            )}
 
             {showVideo && renderVideo()}
             {startQuiz && renderQuiz()}

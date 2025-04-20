@@ -1,11 +1,12 @@
 import express from 'express';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { Response } from '../utils/response.js';
+import { authenticateAPIKey } from '../middlewares/auth.js';
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 export const ai = express.Router();
 
-ai.post('/ai/gemini/chat', async (req, res) => {
+ai.post('/ai/gemini/chat', authenticateAPIKey, async (req, res) => {
     const { message, history } = req.body;
 
     const model = genAI.getGenerativeModel({
@@ -18,7 +19,7 @@ ai.post('/ai/gemini/chat', async (req, res) => {
     return new Response(data, 'Data is there').success(res);
 });
 
-ai.post('/ai/gemini', async (req, res) => {
+ai.post('/ai/gemini', authenticateAPIKey, async (req, res) => {
     try {
         const { prompt } = req.body;
         const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });

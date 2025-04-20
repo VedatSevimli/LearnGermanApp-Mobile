@@ -1,4 +1,5 @@
 import { Verb } from '../../modules/verbs/verbs.type';
+import api from '../api';
 
 export enum verbLevelE {
     'A1' = 'A1',
@@ -6,7 +7,6 @@ export enum verbLevelE {
     'B1' = 'B1'
 }
 const baseApiPath = process.env.REACT_APP_API_URL;
-const allowedOrigins = ['http://localhost:3000', 'http://84.133.27.172'];
 
 let _level = '';
 let _verbList: Verb[];
@@ -17,33 +17,25 @@ export const getVerbList = async ({
 }): Promise<Verb[]> => {
     if (_level !== level) {
         _level = level;
-        const response = await fetch(
+        const response = await api(
             `${baseApiPath}get-verbs-with-level?level=${level}`,
             {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': allowedOrigins.join('')
-                }
+                method: 'GET'
             }
         );
-        const verbList = await response.json();
-        _verbList = verbList.data;
+
+        _verbList = response.data;
         return _verbList;
     }
     return _verbList;
 };
 
 export const getWord = async ({ word }: { word: string }): Promise<Verb> => {
-    const response = await fetch(`${baseApiPath}get-verb?word=${word}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': allowedOrigins.join('')
-        }
+    const response = await api(`${baseApiPath}get-verb?word=${word}`, {
+        method: 'GET'
     });
-    const verb = await response.json();
-    return verb.data;
+
+    return response.data;
 };
 
 export const getWords = async ({
@@ -51,14 +43,10 @@ export const getWords = async ({
 }: {
     words: string[];
 }): Promise<Verb[]> => {
-    const response = await fetch(`${baseApiPath}get-verbs`, {
+    const response = await api(`${baseApiPath}get-verbs`, {
         method: 'POST',
-        body: JSON.stringify({ words }),
-        headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': allowedOrigins.join('')
-        }
+        body: JSON.stringify({ words })
     });
-    const verb = await response.json();
-    return verb.data;
+
+    return response.data;
 };
