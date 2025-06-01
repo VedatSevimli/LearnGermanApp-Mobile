@@ -10,6 +10,9 @@ import { LoadingOverlay } from '../../LoadingOverlay/LoadingOverlay';
 import { useUser } from '../../../context/userContext/userContext';
 import { setSeo } from '../../../utils/seo';
 import { useTranslation } from 'react-i18next';
+import { reading_fallback_image } from '../../../images/image';
+import { Popup } from '../../Popup/popup';
+import { Button } from '../../Button/button';
 
 type ReadingProps = {
     verbList?: Verb[];
@@ -22,9 +25,13 @@ export const Reading: React.FC<ReadingProps> = ({
     const { userData } = useUser();
     const { t } = useTranslation();
 
-    const [texts, setTexts] = useState<ITextData[]>([]);
+    const [readingTexts, setReadingTexts] = useState<ITextData[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const isMounted = useRef<boolean>(false);
+    const [openPopup, setOpenPopup] = useState<{
+        isOpen: boolean;
+        infoMessage?: string;
+    }>();
 
     useEffect(() => {
         isMounted.current = true;
@@ -32,7 +39,7 @@ export const Reading: React.FC<ReadingProps> = ({
             setIsLoading(true);
             const texts = await getReadingTexts();
             isMounted.current && setIsLoading(false);
-            isMounted.current && setTexts(() => texts);
+            isMounted.current && setReadingTexts(() => texts);
         };
         void getTexts();
 
@@ -51,7 +58,7 @@ export const Reading: React.FC<ReadingProps> = ({
     };
 
     const handleClickText = (textId: number) => {
-        const textData = texts.find((text) => text.textId === textId);
+        const textData = readingTexts.find((text) => text.textId === textId);
         const isLearnedEveryUsedVerb = textData?.usedVerbs.every((uv) =>
             userData?.progress.map((ud) => ud.word).includes(uv)
         );
@@ -59,9 +66,10 @@ export const Reading: React.FC<ReadingProps> = ({
         if (userData && isLearnedEveryUsedVerb) {
             navigate(`/reading/${textId}`);
         } else {
-            alert(
-                'Du musst zuerst alle verben lernen, danach kannst du den text öffnen'
-            );
+            setOpenPopup({
+                isOpen: true,
+                infoMessage: t('Reading.Popup.Info.Text')
+            });
         }
     };
 
@@ -70,10 +78,11 @@ export const Reading: React.FC<ReadingProps> = ({
     if (isLoading) {
         return <LoadingOverlay></LoadingOverlay>;
     }
+
     return (
         <div className="reading">
-            {texts.map((gt, idx) => {
-                const showText = gt.usedVerbs.every((uv) =>
+            {readingTexts.map((text, idx) => {
+                const showText = text.usedVerbs.every((uv) =>
                     learnedWords?.includes(uv)
                 );
                 return (
@@ -82,12 +91,19 @@ export const Reading: React.FC<ReadingProps> = ({
                         className="text-card-wrapper"
                         onClick={() => handleClickText(idx)}
                     >
+                        <div className="img-container">
+                            <img
+                                src={text.image ?? reading_fallback_image}
+                                alt=""
+                            />
+                        </div>
                         {
                             <TruncatedText
-                                text={gt.text.replace(/<\/?strong>/g, '')}
+                                text={text.text.replace(/<\/?strong>/g, '')}
                                 linesToShow={3}
                                 style={{
-                                    filter: !showText ? 'blur(3px)' : ''
+                                    filter: !showText ? 'blur(3px)' : '',
+                                    margin: '1.5em'
                                 }}
                             />
                         }
@@ -98,7 +114,7 @@ export const Reading: React.FC<ReadingProps> = ({
                                 <h3>{t('Reading.TextHeader.Used.Verbs')}</h3>
                             )}
                             <div className="used-verbs-wrapper">
-                                {gt.usedVerbs.map((uv, idx) => {
+                                {text.usedVerbs.map((uv, idx) => {
                                     const isLearned =
                                         learnedWords?.includes(uv);
                                     return (
@@ -129,6 +145,28 @@ export const Reading: React.FC<ReadingProps> = ({
                     </div>
                 );
             })}
+
+            {openPopup?.isOpen && (
+                <Popup
+                    isOpen={openPopup.isOpen}
+                    onClose={() => setOpenPopup({ isOpen: false })}
+                >
+                    <div className="popup-info">
+                        {openPopup.infoMessage
+                            ? openPopup.infoMessage
+                            : t('WordCard.Login.Info.Text')}
+
+                        <div className="btn-wrapper">
+                            <Button
+                                type="primary"
+                                onClick={() => setOpenPopup({ isOpen: false })}
+                            >
+                                Ok
+                            </Button>
+                        </div>
+                    </div>
+                </Popup>
+            )}
         </div>
     );
 };

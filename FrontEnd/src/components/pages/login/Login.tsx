@@ -13,14 +13,16 @@ export const Login = (props: LoginPorps): JSX.Element => {
     const { loginUser, error, loading } = useUser();
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const [isLogin, setIsLogin] = useState(true); // Toggle between login and register
+    const [isLogin, setIsLogin] = useState(true);
     const [email, setEmail] = useState('');
     const [lastName, setLastName] = useState('');
-    const [errorMessage, setErrorMessage] = useState<string>(''); // State for error message
+    const [errorMessage, setErrorMessage] = useState<string>('');
+
     setSeo(
         `Deutsch-Turkish App -${isLogin ? 'Anmelden' : 'Registrieren'}`,
         `${isLogin ? 'Anmelden' : 'Kostenlos registrieren'}`
     );
+
     const handleLogin = async (
         e?: React.FormEvent<HTMLFormElement>
     ): Promise<void> => {
@@ -50,7 +52,7 @@ export const Login = (props: LoginPorps): JSX.Element => {
                             'authToken',
                             loginRes.data?.token ?? ''
                         );
-                        navigate('/'); // Redirect to home page
+                        navigate('/');
                     }
                 }
             }

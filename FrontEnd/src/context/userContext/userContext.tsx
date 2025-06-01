@@ -44,7 +44,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
                 setUserData(response.data);
                 setError(null);
 
-                localStorage.setItem('token', response.data?.token ?? '');
+                sessionStorage.setItem('authToken', response.data?.token ?? '');
                 return response;
             } else {
                 setError(response.message);
@@ -63,7 +63,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const loginWithSavedToken = async () => {
         setLoading(true);
 
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('authToken');
         if (token) {
             try {
                 const response = await loginWithToken({ token });

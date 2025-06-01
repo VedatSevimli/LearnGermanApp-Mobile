@@ -26,15 +26,12 @@ const api = async <T>(
             if (response.status === 401) {
                 console.error('Unauthorized! Invalid API Key.');
             }
-            throw new Error(
-                `API Error: ${response.status} ${response.statusText}`
-            );
         }
 
         return await response.json();
     } catch (error) {
         console.error('Network or API Error:', (error as Error).message);
-        throw error;
+        return { data: null, success: false, message: '' };
     }
 };
 

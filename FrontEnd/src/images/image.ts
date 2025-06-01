@@ -18,7 +18,6 @@ import kid_bot from './kid_bot.webp';
 import woman_bot_1 from './woman_bot_1.webp';
 import teeneger_bot from './teeneger_bot.webp';
 import message_icon from './messages_icon.svg';
-import chat_icon from './chat_icon_2.svg';
 import play_circle from './play_icon_circle.svg';
 import home_svg from './home_svg.svg';
 import reading_svg from './reading_svg.svg';
@@ -27,6 +26,11 @@ import quiz_svg from './quiz_svg.svg';
 import verb_svg from './verb_svg.svg';
 import login_svg from './login_svg.svg';
 import chevron_svg from './chevron.svg';
+import hoparlor_svg from './speaker.svg';
+import verb_fallback_image from './verbImageFallback.webp';
+import reading_fallback_image from './readingFallbackImage.png';
+import logo from './logo.png';
+import chatBotWithoutBg from './chatBotWithoutBg.png';
 
 export {
     quiz,
@@ -49,7 +53,6 @@ export {
     teeneger_bot,
     woman_bot_1,
     message_icon,
-    chat_icon,
     play_circle,
     home_svg,
     reading_svg,
@@ -57,5 +60,10 @@ export {
     quiz_svg,
     verb_svg,
     login_svg,
-    chevron_svg
+    chevron_svg,
+    hoparlor_svg,
+    verb_fallback_image,
+    reading_fallback_image,
+    logo,
+    chatBotWithoutBg
 };

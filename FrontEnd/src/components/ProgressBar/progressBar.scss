@@ -4,23 +4,20 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+
     .progress-bar {
         width: 100%;
         height: 1em;
         background: #ffffff;
         border-radius: 25px;
-
         overflow: hidden;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+
         .progress {
             height: 100%;
             border-radius: 25px;
-            // background: linear-gradient(to right, #007bff, #00ff00);
             background: linear-gradient(to right, #8cfa93, #3d9002);
             transition: width 0.3s ease-in-out;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
     }
 
@@ -29,5 +26,41 @@
         font-weight: bold;
         color: #333;
         position: absolute;
+        top: 0;
+        right: 0;
+    }
+}
+
+// Circle progress styles
+.progress-circle {
+    position: relative;
+    display: inline-block;
+
+    svg {
+        transform: rotate(-90deg);
+
+        circle {
+            fill: none;
+            stroke-linecap: round;
+        }
+
+        .progress-bg {
+            stroke: #e6e6e6;
+        }
+
+        .progress-fg {
+            stroke: #3d9002;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+    }
+
+    .circle-label {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 0.75rem;
+        font-weight: bold;
+        color: #333;
     }
 }

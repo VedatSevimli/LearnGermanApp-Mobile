@@ -11,11 +11,14 @@ import LoadingSpinner from '../../../LoadingSpinner/LoadingSpinner';
 import { Popover } from '../../../Popover/popover';
 import { useTranslation } from 'react-i18next';
 import { getLanguageFromISO } from '../../../../utils/util';
+import { hoparlor_svg, verb_fallback_image } from '../../../../images/image';
+import { speakSentence } from '../../../../utils/speech';
 
 type WordProps = {
     wordData: Verb;
     classes: string[];
     userData: UserData;
+    disabled: boolean;
 };
 
 export const WordCard: React.FC<WordProps> = ({
@@ -34,8 +37,11 @@ export const WordCard: React.FC<WordProps> = ({
     } = wordData;
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const [isOpen, setIsOpen] = React.useState<boolean>(false);
-    const [openInfoPopup, setOpenInfoPopup] = React.useState<{
+    const [openPopup, setOpenPopup] = useState<{
+        isOpen: boolean;
+        infoMessage?: string;
+    }>();
+    const [openInfoPopup, setOpenInfoPopup] = useState<{
         isLoading: boolean;
         isOpen: boolean;
         info: string;
@@ -49,9 +55,16 @@ export const WordCard: React.FC<WordProps> = ({
 
     const handleCardClick = () => {
         if (!props.userData) {
-            setIsOpen(true);
+            setOpenPopup({ isOpen: true });
         } else {
-            navigate(`/wordDetails/${word}`);
+            if (learnProgress >= 90) {
+                setOpenPopup({
+                    isOpen: true,
+                    infoMessage: t('WordCard.Login.Info.Text.Succes')
+                });
+            } else {
+                navigate(`/wordDetails/${word}`);
+            }
         }
     };
 
@@ -143,6 +156,16 @@ export const WordCard: React.FC<WordProps> = ({
         });
     };
 
+    const getCardStatus = () => {
+        if (!learnProgress) {
+            return 'locked';
+        } else if (learnProgress >= 90) {
+            return 'completed';
+        } else {
+            return 'active';
+        }
+    };
+
     const renderInfoPopup = () => {
         return (
             <Popover
@@ -184,103 +207,158 @@ export const WordCard: React.FC<WordProps> = ({
 
     return (
         <>
-            <div
-                className={`word-card ${
-                    isModalVerb ? 'modal-verb' : ''
-                } ${classes.join(' ')}`}
-                onClick={handleCardClick}
-            >
-                <h2>{word}</h2>
-                <p>{def?.tr}</p>
-                <p>{def?.en}</p>
-                <div className="bottom-section">
-                    {hasAkkObject && (
-                        <div
-                            className="info-label info-label-akk"
-                            onClick={(e) => {
-                                void handleInfoClick(e, 'Akkusativ');
-                            }}
+            <div className="verb-grid">
+                <div className={`verb-card active ${getCardStatus()}`}>
+                    <div className="verb-image">
+                        <img
+                            src={wordData.imageUrl || verb_fallback_image}
+                            alt="test"
+                            className="verbImg"
+                        />
+                    </div>
+                    <div className="verb-header">
+                        <h2>{word}</h2>
+                        <Button
+                            className="sound-btn"
+                            aria-label="sound"
+                            onClick={() => speakSentence(word)}
                         >
-                            {t('WordCard.Verb.Info.Akk')}
-                        </div>
-                    )}
-                    {hasDativObject && (
-                        <div
-                            className="info-label info-label-dativ"
-                            onClick={(e) => {
-                                void handleInfoClick(e, 'Dativ');
-                            }}
-                        >
-                            {t('WordCard.Verb.Info.Dativ')}
-                        </div>
-                    )}
-                    {isReflexiv && (
-                        <div
-                            className="info-label info-label-reflexiv"
-                            onClick={(e) => {
-                                void handleInfoClick(e, 'Reflexiv');
-                            }}
-                        >
-                            {t('WordCard.Verb.Info.Reflexiv')}
-                        </div>
-                    )}
-                    {isSeparable && (
-                        <div
-                            className="info-label info-label-separable"
-                            onClick={(e) => {
-                                void handleInfoClick(e, 'Trennbare Verben');
-                            }}
-                        >
-                            {t('WordCard.Verb.Info.Sperable')}
-                        </div>
-                    )}
-                    {isModalVerb && (
-                        <div
-                            className="info-label info-label-modal"
-                            onClick={(e) => {
-                                void handleInfoClick(e, 'modal verben');
-                            }}
-                        >
-                            {t('WordCard.Verb.Info.ModalVerb')}
-                        </div>
-                    )}
-                </div>
+                            <img src={hoparlor_svg} alt="" />
+                        </Button>
+                    </div>
+                    <div className="verb-content">
+                        <div className="content">
+                            <div className="verb-info">
+                                <p className="translation">{def.tr}</p>
+                                <div className="bagde-container">
+                                    {hasAkkObject && (
+                                        <div
+                                            className="info-label akk"
+                                            onClick={(e) => {
+                                                void handleInfoClick(
+                                                    e,
+                                                    'Akkusativ'
+                                                );
+                                            }}
+                                        >
+                                            {t('WordCard.Verb.Info.Akk')}
+                                        </div>
+                                    )}
+                                    {hasDativObject && (
+                                        <div
+                                            className="info-label dativ"
+                                            onClick={(e) => {
+                                                void handleInfoClick(
+                                                    e,
+                                                    'Dativ'
+                                                );
+                                            }}
+                                        >
+                                            {t('WordCard.Verb.Info.Dativ')}
+                                        </div>
+                                    )}
+                                    {isReflexiv && (
+                                        <div
+                                            className="info-label reflexiv"
+                                            onClick={(e) => {
+                                                void handleInfoClick(
+                                                    e,
+                                                    'Reflexiv'
+                                                );
+                                            }}
+                                        >
+                                            {t('WordCard.Verb.Info.Reflexiv')}
+                                        </div>
+                                    )}
+                                    {isSeparable && (
+                                        <div
+                                            className="info-label separable"
+                                            onClick={(e) => {
+                                                void handleInfoClick(
+                                                    e,
+                                                    'Trennbare Verben'
+                                                );
+                                            }}
+                                        >
+                                            {t('WordCard.Verb.Info.Sperable')}
+                                        </div>
+                                    )}
+                                    {isModalVerb && (
+                                        <div
+                                            className="info-label modal"
+                                            onClick={(e) => {
+                                                void handleInfoClick(
+                                                    e,
+                                                    'modal verben'
+                                                );
+                                            }}
+                                        >
+                                            {t('WordCard.Verb.Info.ModalVerb')}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
 
-                {wordData.imageUrl ? (
-                    <img
-                        src={wordData.imageUrl}
-                        alt="test"
-                        className="verbImg"
-                    />
-                ) : null}
+                            <div className="progress-bar">
+                                <ProgressBar
+                                    percentage={learnProgress}
+                                    type="circle"
+                                    size={60}
+                                />
+                            </div>
+                        </div>
 
-                <div className="progress-bar-wrapper">
-                    <ProgressBar
-                        percentage={
-                            classes.includes('disable') ? 0 : learnProgress
-                        }
-                    />
+                        <p className="example">
+                            {wordData?.sentences?.presens?.[0]?.sentence}
+                        </p>
+                        <Button
+                            onClick={handleCardClick}
+                            type="secondary"
+                            className={`action-button ${
+                                learnProgress >= 90 ? 'completed' : ''
+                            }`}
+                            disabled={props.disabled}
+                        >
+                            {learnProgress >= 90 ? '🏆' : 'lernen'}
+                        </Button>
+                    </div>
                 </div>
             </div>
 
-            {isOpen && (
-                <Popup isOpen={isOpen} onClose={() => setIsOpen(false)}>
+            {openPopup?.isOpen && (
+                <Popup
+                    isOpen={openPopup.isOpen}
+                    onClose={() => setOpenPopup({ isOpen: false })}
+                >
                     <div className="popup-info">
-                        {t('WordCard.Login.Info.Text')}
+                        {openPopup.infoMessage
+                            ? openPopup.infoMessage
+                            : t('WordCard.Login.Info.Text')}
 
                         <div className="btn-wrapper">
                             <Button
-                                type="secondary"
+                                type="primary"
                                 onClick={() => navigate(`/wordDetails/${word}`)}
                             >
                                 {t('WordCard.Login.Info.Continue')}
                             </Button>
-                            <Button
-                                type="primary"
-                                onClick={() => navigate('/login')}
-                            >
-                                {t('WordCard.Login.Info.LoggIn')}
-                            </Button>
+                            {!openPopup.infoMessage ? (
+                                <Button
+                                    type="secondary"
+                                    onClick={() => navigate('/login')}
+                                >
+                                    {t('WordCard.Login.Info.LoggIn')}
+                                </Button>
+                            ) : (
+                                <Button
+                                    type="secondary"
+                                    onClick={() =>
+                                        setOpenPopup({ isOpen: false })
+                                    }
+                                >
+                                    {t('WordCard.Login.Info.Exit')}
+                                </Button>
+                            )}
                         </div>
                     </div>
                 </Popup>

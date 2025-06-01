@@ -10,9 +10,9 @@ export const loginWithToken = async ({
 }): Promise<LoginWithToken> => {
     const response = await api(`${baseApiPath}me`, {
         method: 'GET',
-        headers: new Headers({
+        headers: {
             authorization: `Bearer ${token}`
-        })
+        }
     });
 
     return response;
