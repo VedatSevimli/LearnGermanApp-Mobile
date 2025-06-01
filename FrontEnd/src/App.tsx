@@ -23,7 +23,7 @@ import { UserProvider } from './context/userContext/userContext';
 import { setSeo } from './utils/seo';
 import { ChatBot } from './components/ChatBot/chatBot';
 import { Button } from './components/Button/button';
-import { chat_icon } from './images/image';
+import { chatBotWithoutBg } from './images/image';
 import { Dashboard } from './components/pages/Dashboard/dashboard';
 
 export type UserInfo = {
@@ -109,7 +109,7 @@ function App(): JSX.Element {
                             onClick={() => setShowChat(!showChat)}
                         >
                             <img
-                                src={chat_icon}
+                                src={chatBotWithoutBg}
                                 alt="message"
                                 title="Chat with AI to learn german"
                             />

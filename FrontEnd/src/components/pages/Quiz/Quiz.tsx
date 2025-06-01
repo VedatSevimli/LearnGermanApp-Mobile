@@ -308,8 +308,8 @@ export const Quiz: React.FC<QuizProps> = (props): JSX.Element => {
             <div className="quiz-end">
                 <span>{t('Page.Quiz.Quiz.End.Txt')}</span>
                 <p>
-                    {' '}
                     {activeQuiz === 'Multiple Choice' &&
+                        quizResult?.wrongAnswers?.length &&
                         t('Page.Quiz.Quiz.End.Wrong.Answers.Txt')}
                 </p>
                 <div className="wrong-answers">

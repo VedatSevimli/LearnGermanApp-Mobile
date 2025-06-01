@@ -47,7 +47,11 @@ export const QuizSections: React.FC<QuizSectionsProps> = ({
     return (
         <div className="quiz-section">
             <h2>{t('Quiz.Sections.Header.Text')}</h2>
-            <div className="quiz-options">
+            <div
+                className={`quiz-options ${
+                    !props.showQuizOptions ? 'withOutOptions' : ''
+                }`}
+            >
                 {props.showQuizOptions ? (
                     <>
                         <DropDown

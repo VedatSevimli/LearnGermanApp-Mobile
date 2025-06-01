@@ -32,12 +32,12 @@ export const checkToken = async (req, res, next) => {
     const headerToken =
         req.headers.authorization &&
         req.headers.authorization.startsWith('Bearer ');
+
     if (!headerToken) {
         return res.status(401).json({
             success: false,
             message: 'Please sign in first!'
         });
-        // throw new APIError("Please sign in first", 401);
     }
 
     const token = req.headers.authorization.split(' ')[1];
@@ -47,7 +47,6 @@ export const checkToken = async (req, res, next) => {
                 success: false,
                 message: 'invalid token'
             });
-            // throw new APIError("invalid token", 401);
         }
 
         const userInfo = await User.findById(decoded.sub).select(

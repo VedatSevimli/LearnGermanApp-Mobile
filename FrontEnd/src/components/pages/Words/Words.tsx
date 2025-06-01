@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Words.scss';
 import { Verb } from '../../../modules/verbs/verbs.type';
 import { WordCard } from './Word/WordCard ';
@@ -29,6 +29,7 @@ export const Words: React.FC<WordsProps> = ({ words }): JSX.Element => {
             {words.map((wordData, idx) => (
                 <WordCard
                     classes={isDisable(wordData.word, idx) ? ['disable'] : ['']}
+                    disabled={isDisable(wordData.word, idx)}
                     key={idx}
                     wordData={wordData}
                     userData={userData as UserData}

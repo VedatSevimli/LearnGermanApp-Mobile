@@ -5,8 +5,22 @@
 }
 
 :root {
+    --background-main: #fff5ee;
+    --background-header-icons-mobile: #b65d25;
+    --background-white: #ffffff;
     --primary-color: #3498db;
     --secondary-color: #2ecc71;
+    --nav-item-color: #f4631e;
+    --button-primary-bg-color: #f4631e;
+    --button-primary-hover-bg-color: #ff9f00;
+    --button-primary-border-color: #ff9f00;
+    --button-secondary-bg-color: #ffffff;
+    --button-secondary-border-color: #333;
+    --button-danger-bg-color: #dc3545;
+    --button-danger-hover-bg-color: #f34b5c;
+    --card-border-color: #ff9f00;
+    --loading-overlay-bg-color: #ff9f0080;
+    --loading-spinner-bg-color: #309898;
     --text-color: #333;
     --success-color: #27ae60;
     --error-color: #e74c3c;
@@ -19,4 +33,7 @@
     --button-background: #3498db;
     --button-text-color: #fff;
     --button-hover-background: #2c3e50;
+    --color-dark: #000000;
+    --color-white: #ffffff;
+    --user-icon-bg-color: #f47f20;
 }

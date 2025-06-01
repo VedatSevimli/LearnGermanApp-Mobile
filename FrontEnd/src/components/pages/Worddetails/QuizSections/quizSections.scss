@@ -1,5 +1,11 @@
 .quiz-section {
     position: relative;
+    .quiz-options {
+        &.withOutOptions {
+            background: var(--background-white);
+            box-shadow: none;
+        }
+    }
     .DropDown {
         // position: absolute;
         // top: 0;

@@ -5,6 +5,7 @@ export interface ITextData {
     tense: string;
     questions: TextDataQuestion[];
     fillTheBlank: FillTheBlank;
+    image?: string;
 }
 
 export interface TextDataQuestion {
