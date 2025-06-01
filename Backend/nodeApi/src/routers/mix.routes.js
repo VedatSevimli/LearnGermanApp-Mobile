@@ -1,11 +1,11 @@
 import express from 'express';
 import { Response } from '../utils/response.js';
 import { YoutubeTranscript } from 'youtube-transcript';
-import { authenticateAPIKey } from '../middlewares/auth.js';
+import {} from '../middlewares/auth.js';
 
 export const mix = express.Router();
 
-mix.get('/youTube/transcript', authenticateAPIKey, async (req, res) => {
+mix.get('/youTube/transcript', async (req, res) => {
     const { videoId, lang } = req.query;
     try {
         const data = await YoutubeTranscript.fetchTranscript(videoId, {
@@ -22,7 +22,7 @@ mix.get('/youTube/transcript', authenticateAPIKey, async (req, res) => {
 });
 
 const apiKey = process.env.YOUTUBE_API_KEY ?? '';
-mix.get('/youTube/video-info', authenticateAPIKey, async (req, res) => {
+mix.get('/youTube/video-info', async (req, res) => {
     const { query, maxResult } = req.query;
     console.log(query, maxResult, apiKey);
     try {
