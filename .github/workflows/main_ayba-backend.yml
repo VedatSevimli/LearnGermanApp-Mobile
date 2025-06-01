@@ -23,11 +23,13 @@ jobs:
         with:
           node-version: '20.x'
 
-      - name: npm install, build, and test
+      - name: Change to backend folder and install/build
         run: |
+          cd Backend/nodeApi
           npm install
           npm run build --if-present
           npm run test --if-present
+        working-directory: ./Backend/nodeApi
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
@@ -36,7 +38,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: release.zip
+          path: Backend/nodeApi/release.zip
 
   deploy:
     runs-on: ubuntu-latest
