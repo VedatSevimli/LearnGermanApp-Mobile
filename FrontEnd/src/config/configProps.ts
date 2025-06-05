@@ -9,7 +9,7 @@ export type QuizOptions =
     | 'Speak'
     | 'Writing';
 
-export type defaultConfigProps = {
+export type configProps = {
     siteBackground: string;
     options: { name: QuizOptions; image: string }[];
     learnMode: {
@@ -19,4 +19,8 @@ export type defaultConfigProps = {
     }[];
     learnedVerbsExample: string[];
     youTubeVideoCount?: number;
+    categorizedVerbs: { verb: string; level: 'easy' | 'medium' | 'hard' }[];
+    baseApiPath: string;
+    allowedOrigin: string;
+    apiKey: string;
 };

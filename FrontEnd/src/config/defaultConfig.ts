@@ -8,9 +8,9 @@ import {
     writing_quiz
 } from '../images/image';
 import { TensesE } from '../modules/verbs/verbs.type';
-import { defaultConfigProps } from './configProps';
+import { configProps } from './configProps';
 
-export const defaultConfig = (): defaultConfigProps => {
+export const defaultConfig = (): configProps => {
     return {
         siteBackground: '#ffffff',
         options: [
@@ -101,6 +101,10 @@ export const defaultConfig = (): defaultConfigProps => {
             'geben',
             'nehmen'
         ],
-        youTubeVideoCount: 10
+        youTubeVideoCount: 10,
+        apiKey: '',
+        allowedOrigin: '',
+        baseApiPath: '',
+        categorizedVerbs: []
     };
 };

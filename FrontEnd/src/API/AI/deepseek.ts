@@ -1,3 +1,5 @@
+import { getCustomConfig } from '../../App';
+import { getApiBasePath } from '../../utils/util';
 import api from '../api';
 
 /**
@@ -5,7 +7,6 @@ import api from '../api';
 /* Medium (0.5 - 0.7)	Balances creativity and coherence (default in many APIs).	Chatbots, general-purpose use.
 /* High (0.8 - 1.2)	Increases randomness for creative/divergent ideas (may hallucinate).	Poetry, storytelling, brainstorming.
 */
-const baseApiPath = process.env.REACT_APP_API_URL;
 
 interface DeepSeekOptions {
     temperature?: number; // 0.1 (strict) to 1.0 (creative)
@@ -40,7 +41,7 @@ export async function callDeepSeekAPI(
     } = options;
 
     try {
-        const response = await api(`${baseApiPath}ai/deepseek`, {
+        const response = await api(`${getApiBasePath()}ai/deepseek`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

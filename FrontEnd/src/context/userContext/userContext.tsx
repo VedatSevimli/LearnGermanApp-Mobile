@@ -51,6 +51,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
                 return response;
             }
         } catch (error) {
+            // eslint-disable-next-line no-console
             console.error('Login error:', error);
             setError('Login failed. Please try again.');
         } finally {
@@ -73,6 +74,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
                     logout();
                 }
             } catch (error) {
+                // eslint-disable-next-line no-console
                 console.error('Token validation error:', error);
                 logout();
             } finally {

@@ -1,4 +1,5 @@
 import { Verb } from '../../modules/verbs/verbs.type';
+import { getApiBasePath } from '../../utils/util';
 import api from '../api';
 
 export enum verbLevelE {
@@ -6,7 +7,6 @@ export enum verbLevelE {
     'A2' = 'A2',
     'B1' = 'B1'
 }
-const baseApiPath = process.env.REACT_APP_API_URL;
 
 let _level = '';
 let _verbList: Verb[];
@@ -18,7 +18,7 @@ export const getVerbList = async ({
     if (_level !== level) {
         _level = level;
         const response = await api(
-            `${baseApiPath}get-verbs-with-level?level=${level}`,
+            `${getApiBasePath()}get-verbs-with-level?level=${level}`,
             {
                 method: 'GET'
             }
@@ -31,7 +31,7 @@ export const getVerbList = async ({
 };
 
 export const getWord = async ({ word }: { word: string }): Promise<Verb> => {
-    const response = await api(`${baseApiPath}get-verb?word=${word}`, {
+    const response = await api(`${getApiBasePath()}get-verb?word=${word}`, {
         method: 'GET'
     });
 
@@ -43,7 +43,7 @@ export const getWords = async ({
 }: {
     words: string[];
 }): Promise<Verb[]> => {
-    const response = await api(`${baseApiPath}get-verbs`, {
+    const response = await api(`${getApiBasePath()}get-verbs`, {
         method: 'POST',
         body: JSON.stringify({ words })
     });
