@@ -1,14 +1,15 @@
+import { getCustomConfig } from '../../App';
 import { Login, LoginWithToken } from '../../modules/login/login.type';
 import { Question } from '../../modules/verbs/verbs.type';
+import { getApiBasePath } from '../../utils/util';
 import api from '../api';
-const baseApiPath = process.env.REACT_APP_API_URL;
 
 export const loginWithToken = async ({
     token
 }: {
     token: string;
 }): Promise<LoginWithToken> => {
-    const response = await api(`${baseApiPath}me`, {
+    const response = await api(`${getApiBasePath()}me`, {
         method: 'GET',
         headers: {
             authorization: `Bearer ${token}`
@@ -25,7 +26,7 @@ export const doLogin = async ({
     email: string;
     password: string;
 }): Promise<Login> => {
-    const response = await api(`${baseApiPath}login`, {
+    const response = await api(`${getApiBasePath()}login`, {
         method: 'POST',
         headers: {},
         body: JSON.stringify({ email, password })
@@ -40,7 +41,7 @@ type Register = {
     password: string;
 };
 export const register = async (userData: Register) => {
-    const response = await api(`${baseApiPath}register`, {
+    const response = await api(`${getApiBasePath()}register`, {
         method: 'POST',
         headers: {},
         body: JSON.stringify({ ...userData })
@@ -55,7 +56,7 @@ export const saveUserProccess = async (userProgress: {
     wrongAnswers: { question: Question; userAnswer: number }[];
     progressValue: string;
 }) => {
-    const response = await api(`${baseApiPath}save-user-proccess`, {
+    const response = await api(`${getApiBasePath()}save-user-proccess`, {
         method: 'POST',
         headers: {},
         body: JSON.stringify(userProgress)

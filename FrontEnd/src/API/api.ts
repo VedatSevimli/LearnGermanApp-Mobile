@@ -1,5 +1,5 @@
-const API_KEY = process.env.REACT_APP_API_KEY as string;
-const allowedOrigins = process.env.REACT_APP_API_ALLOWED_ORIGINS as string;
+import { getCustomConfig } from '../App';
+import { getApiBasePath, getApiKey } from '../utils/util';
 
 interface FetchOptions extends RequestInit {
     headers?: HeadersInit;
@@ -9,10 +9,13 @@ const api = async <T>(
     endpoint: string,
     options: FetchOptions = {}
 ): Promise<{ data: any; success: boolean; message: string }> => {
+    const { allowedOrigin } = getCustomConfig();
+    const apiKey = getApiKey();
+
     const headers: HeadersInit = {
         'Content-Type': 'application/json',
-        'x-api-key': API_KEY,
-        'Access-Control-Allow-Origin': allowedOrigins,
+        'x-api-key': apiKey,
+        'Access-Control-Allow-Origin': allowedOrigin,
         ...options.headers
     };
 

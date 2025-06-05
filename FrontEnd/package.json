@@ -26,7 +26,7 @@
     },
     "scripts": {
         "start": "webpack serve --config webpack.dev.js --open --hot",
-        "startWithOutWebPack": "react-scripts start",
+        "debugMode": "react-scripts start",
         "watch": "webpack --watch --config webpack.dev.js",
         "build": "echo REACT_APP_API_URL=$REACT_APP_API_URL && webpack --config webpack.prod.js",
         "test": "react-scripts test",

@@ -8,6 +8,7 @@ import {
     TensesE,
     Verb
 } from '../modules/verbs/verbs.type';
+import { getCustomConfig } from '../App';
 
 export const sortedVerbObjects = (
     verbObjects: Verb[],
@@ -153,7 +154,7 @@ export const generateQuiz = (
         const stc = sentenceAr.splice(num, 1);
         if (!sentenceAr[0]?.def) {
             // eslint-disable-next-line no-console
-            console.log('Error! Word has no definition', obj.word);
+            console.warn('Error! Word has no definition', obj.word);
         }
         return stc[0] ?? { def: { tr: 'Alle sind richtig' } };
     }
@@ -493,3 +494,13 @@ export const seperableVerbEndings = [
     'weg',
     'zurück'
 ];
+
+export const getApiBasePath = () => {
+    const { baseApiPath } = getCustomConfig();
+    return baseApiPath ?? '';
+};
+
+export const getApiKey = () => {
+    const { apiKey } = getCustomConfig();
+    return apiKey ?? '';
+};

@@ -25,6 +25,28 @@ import { ChatBot } from './components/ChatBot/chatBot';
 import { Button } from './components/Button/button';
 import { chatBotWithoutBg } from './images/image';
 import { Dashboard } from './components/pages/Dashboard/dashboard';
+import { defaultConfig } from './config/defaultConfig';
+export interface AppConfig {
+    baseApiPath: string;
+    allowedOrigin: string;
+    apiKey: string;
+}
+
+let config: AppConfig;
+
+export const loadConfig = async () => {
+    const isLocalhost = window.location.hostname === 'localhost';
+    const configFile = isLocalhost ? '/config.dev.json' : '/config.prod.json';
+    try {
+        const response = await fetch(configFile);
+        const customConfig = await response.json();
+        config = { ...defaultConfig(), ...customConfig };
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const getCustomConfig = () => config;
 
 export type UserInfo = {
     name: string;

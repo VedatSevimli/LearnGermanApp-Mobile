@@ -1,7 +1,7 @@
-const baseApiPath = process.env.REACT_APP_API_URL;
 import React, { useState } from 'react';
 import { Verb } from '../../../modules/verbs/verbs.type';
 import { ConjugationTable } from '../../Table/Table';
+import { getApiBasePath } from '../../../utils/util';
 
 type DashboardP = {
     verbList: Verb[];
@@ -29,7 +29,9 @@ export const Dashboard: React.FC<DashboardP> = (
 
         try {
             const response = await fetch(
-                `${baseApiPath}update-verb-image-url?word=${wordInput?.value}`,
+                `${getApiBasePath()}update-verb-image-url?word=${
+                    wordInput?.value
+                }`,
                 {
                     method: 'POST',
                     headers: {

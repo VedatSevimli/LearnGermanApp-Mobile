@@ -1,4 +1,6 @@
+import { getCustomConfig } from '../../App';
 import { defaultConfig } from '../../config/defaultConfig';
+import { getApiBasePath } from '../../utils/util';
 import api from '../api';
 
 export type videoDataType = {
@@ -36,8 +38,6 @@ export type videoDataType = {
     };
 };
 
-const baseApiPath = process.env.REACT_APP_API_URL;
-
 //https://developers.google.com/youtube/v3/docs/search/list
 let _query = '';
 let _videoData: videoDataType[];
@@ -48,7 +48,7 @@ export const getYoutubeVideoByQParam = async (
     if (_query !== query) {
         _query = query;
         const resposne = await api(
-            `${baseApiPath}youTube/video-info?query=${query}&maxResult=${maxResult}`
+            `${getApiBasePath()}youTube/video-info?query=${query}&maxResult=${maxResult}`
         );
 
         _videoData = resposne.data;
@@ -74,7 +74,7 @@ export const getVideoTranscript = async (
     lang = 'de'
 ): Promise<YoutubeVideoTranscript[]> => {
     const resposne = await api(
-        `${baseApiPath}youTube/transcript/?videoId=${videoId}&lang=${lang}`
+        `${getApiBasePath()}youTube/transcript/?videoId=${videoId}&lang=${lang}`
     );
 
     return resposne.data;
