@@ -26,6 +26,8 @@ import { Button } from './components/Button/button';
 import { chatBotWithoutBg } from './images/image';
 import { Dashboard } from './components/pages/Dashboard/dashboard';
 import { defaultConfig } from './config/defaultConfig';
+import { Popup } from './components/Popup/popup';
+import i18n from '././i18n/i18n';
 export interface AppConfig {
     baseApiPath: string;
     allowedOrigin: string;
@@ -56,6 +58,8 @@ export type UserInfo = {
 function App(): JSX.Element {
     const [verbList, setVerbList] = useState<Verb[]>([]);
     const [showChat, setShowChat] = useState<boolean>(false);
+    const [showPopup, setShowPopup] = useState<boolean>(false);
+    const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
 
     useEffect(() => {
         const getVerbListA = async (): Promise<void> => {
@@ -72,7 +76,32 @@ function App(): JSX.Element {
             'Deutsch-Turkish App',
             'Lerne Deutsch mit verschiedenen Übungen'
         );
+
+        window.addEventListener(
+            'beforeinstallprompt',
+            handleBeforeInstallprompt
+        );
+
+        return () => {
+            window.removeEventListener(
+                'beforeinstallprompt',
+                handleBeforeInstallprompt
+            );
+        };
     }, []);
+
+    const handleBeforeInstallprompt = (e: any) => {
+        e.preventDefault();
+        setDeferredPrompt(e);
+        setShowPopup(true);
+    };
+
+    const handleInstallClick = () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        setDeferredPrompt(null);
+        setShowPopup(false);
+    };
 
     return (
         <UserProvider>
@@ -138,6 +167,28 @@ function App(): JSX.Element {
                         </Button>
                     )}
                 </div>
+                {showPopup && (
+                    <Popup
+                        className="pwa-install-popup"
+                        isOpen={showPopup}
+                        onClose={() => setShowPopup(false)}
+                    >
+                        <div>
+                            <p>{i18n.t('App.Pwa.Popup.Text')}</p>
+                        </div>
+                        <div className="button-wrapper">
+                            <Button type="primary" onClick={handleInstallClick}>
+                                {i18n.t('App.Pwa.Popup.Button.Accept.Txt')}{' '}
+                            </Button>
+                            <Button
+                                type="secondary"
+                                onClick={() => setShowPopup(false)}
+                            >
+                                {i18n.t('App.Pwa.Popup.Button.Cancel.Txt')}{' '}
+                            </Button>
+                        </div>
+                    </Popup>
+                )}
             </div>
         </UserProvider>
     );

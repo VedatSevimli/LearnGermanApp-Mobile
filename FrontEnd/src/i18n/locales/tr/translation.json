@@ -1,4 +1,7 @@
 {
+    "App.Pwa.Popup.Button.Accept.Txt": "Yükle",
+    "App.Pwa.Popup.Button.Cancel.Txt": "Iptal",
+    "App.Pwa.Popup.Text": "App olarak kullanmak istermisiniz?",
     "Components.Dragg.Dropp.Btn.Text": "Sıfırla",
     "Components.Dragg.Dropp.Header.Text": "Lütfen cümleyi düzenleyiniz",
     "Components.FillBlank.Btn.Text": "Sıfırla",

@@ -92,6 +92,20 @@
         }
     }
 
+    .pwa-install-popup {
+        p {
+            padding: 0.5em;
+        }
+
+        .button-wrapper {
+            display: flex;
+            justify-content: space-evenly;
+            .button-secondary {
+                margin-left: 1em;
+            }
+        }
+    }
+
     /* Track */
     ::-webkit-scrollbar {
         width: 8px;

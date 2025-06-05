@@ -1,4 +1,7 @@
 {
+    "App.Pwa.Popup.Button.Accept.Txt": "Installieren",
+    "App.Pwa.Popup.Button.Cancel.Txt": "Abbrechen",
+    "App.Pwa.Popup.Text": "Möchten Sie es als App benutzen?",
     "Components.Dragg.Dropp.Btn.Text": "Reset",
     "Components.Dragg.Dropp.Header.Text": "Bitte ordnen Sie den Satz zu",
     "Components.FillBlank.Btn.Text": "Reset",
