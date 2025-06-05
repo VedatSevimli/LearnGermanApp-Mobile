@@ -18,12 +18,14 @@ import { appiLimiter } from './src/middlewares/rateLimit.js';
 import moment from 'moment-timezone';
 import multer from 'multer';
 import { ImageUpload } from './src/models/image.model.js';
+import { APIError } from './src/utils/error.js';
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5001;
 const API_KEY = process.env.API_KEY;
+const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [];
 
 moment.tz.setDefault('Europe/Berlin');
 
@@ -46,7 +48,20 @@ app.use(
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('uploads/', express.static(path.join(__dirname)));
 
-app.use(cors({ origin: 'http://localhost:3000' })); // to prevent not wanted urls
+app.use(
+    cors({
+        origin: function (origin, callback) {
+            // allow requests with no origin (like mobile apps or curl requests)
+            if (!origin) return callback(null, true);
+            if (allowedOrigins.includes(origin)) {
+                return callback(null, true);
+            } else {
+                return callback(new APIError('Not allowed by CORS', 403));
+            }
+        },
+        credentials: true
+    })
+);
 
 app.use('/api', appiLimiter);
 
