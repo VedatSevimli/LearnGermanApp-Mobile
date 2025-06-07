@@ -2,7 +2,7 @@ import './App.scss';
 import { useEffect, useState } from 'react';
 import { Header } from '../src/components/header/Header';
 import { Route, Routes } from 'react-router-dom';
-import '././i18n/i18n'; // Initialize i18n
+import '././i18n/i18n';
 
 import { Reading } from './components/pages/Reading/Reading';
 import { Listening } from './components/pages/Listening/Listening';
@@ -28,6 +28,7 @@ import { Dashboard } from './components/pages/Dashboard/dashboard';
 import { defaultConfig } from './config/defaultConfig';
 import { Popup } from './components/Popup/popup';
 import i18n from '././i18n/i18n';
+import ErrorBoundaryWrapper from './components/errorBoundary/errorFallback';
 export interface AppConfig {
     baseApiPath: string;
     allowedOrigin: string;
@@ -69,7 +70,7 @@ function App(): JSX.Element {
         try {
             void getVerbListA();
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
 
         setSeo(
@@ -109,64 +110,122 @@ function App(): JSX.Element {
                 <Header />
                 <main className="main">
                     <Routes>
-                        <Route index path="/" element={<Home />} />
-                        <Route index path="/home" element={<Home />} />
+                        <Route
+                            index
+                            path="/"
+                            element={
+                                <ErrorBoundaryWrapper>
+                                    <Home />
+                                </ErrorBoundaryWrapper>
+                            }
+                        />
+                        <Route
+                            index
+                            path="/home"
+                            element={
+                                <ErrorBoundaryWrapper>
+                                    <Home />
+                                </ErrorBoundaryWrapper>
+                            }
+                        />
                         <Route
                             path="/reading"
-                            element={<Reading verbList={verbList} />}
+                            element={
+                                <ErrorBoundaryWrapper>
+                                    <Reading verbList={verbList} />
+                                </ErrorBoundaryWrapper>
+                            }
                         />
                         <Route
                             path="/listening"
-                            element={<Listening verbList={verbList} />}
+                            element={
+                                <ErrorBoundaryWrapper>
+                                    <Listening verbList={verbList} />
+                                </ErrorBoundaryWrapper>
+                            }
                         />
                         <Route
                             path="/words"
-                            element={<Words words={verbList} />}
+                            element={
+                                <ErrorBoundaryWrapper>
+                                    <Words words={verbList} />
+                                </ErrorBoundaryWrapper>
+                            }
                         />
                         <Route
                             path="/quiz/:word/:qtype/:tense/:quizOpt"
-                            element={<Quiz verbList={verbList} />}
+                            element={
+                                <ErrorBoundaryWrapper>
+                                    <Quiz verbList={verbList} />
+                                </ErrorBoundaryWrapper>
+                            }
                         />
                         <Route
                             path="/quiz"
-                            element={<Quiz verbList={verbList} />}
+                            element={
+                                <ErrorBoundaryWrapper>
+                                    <Quiz verbList={verbList} />
+                                </ErrorBoundaryWrapper>
+                            }
                         />
                         <Route
                             path="/wordDetails/:word"
-                            element={<VerbDetails verbList={verbList} />}
+                            element={
+                                <ErrorBoundaryWrapper>
+                                    <VerbDetails verbList={verbList} />
+                                </ErrorBoundaryWrapper>
+                            }
                         />
                         <Route
                             path="/reading/:textId"
-                            element={<TextDetails />}
+                            element={
+                                <ErrorBoundaryWrapper>
+                                    <TextDetails />
+                                </ErrorBoundaryWrapper>
+                            }
                         />
-                        <Route path="/login" element={<Login />}></Route>
+                        <Route
+                            path="/login"
+                            element={
+                                <ErrorBoundaryWrapper>
+                                    <Login />
+                                </ErrorBoundaryWrapper>
+                            }
+                        ></Route>
                         <Route
                             path="/dashboard"
-                            element={<Dashboard verbList={verbList} />}
+                            element={
+                                <ErrorBoundaryWrapper>
+                                    <Dashboard verbList={verbList} />
+                                </ErrorBoundaryWrapper>
+                            }
                         ></Route>
                         <Route path="*" element={<NoMatch />} />
                     </Routes>
                 </main>
 
                 <Footer />
-                <div className="chatBot" style={{}}>
-                    <ChatBot
-                        className={!showChat ? 'hidden' : 'show'}
-                        setShowChat={setShowChat}
-                    ></ChatBot>
-                    {!showChat && (
-                        <Button
-                            type="secondary"
-                            onClick={() => setShowChat(!showChat)}
-                        >
-                            <img
-                                src={chatBotWithoutBg}
-                                alt="message"
-                                title="Chat with AI to learn german"
-                            />
-                        </Button>
-                    )}
-                </div>
+                <ErrorBoundaryWrapper>
+                    <div className="chatBot" style={{}}>
+                        <ChatBot
+                            className={!showChat ? 'hidden' : 'show'}
+                            setShowChat={setShowChat}
+                        ></ChatBot>
+                        {!showChat && (
+                            <Button
+                                type="secondary"
+                                onClick={() => setShowChat(!showChat)}
+                            >
+                                <img
+                                    src={chatBotWithoutBg}
+                                    alt="message"
+                                    title="Chat with AI to learn german"
+                                />
+                            </Button>
+                        )}
+                    </div>
+                </ErrorBoundaryWrapper>
+
                 {showPopup && (
                     <Popup
                         className="pwa-install-popup"
