@@ -17,6 +17,7 @@ mix.get('/youTube/transcript', async (req, res) => {
             );
         }
     } catch (err) {
+        console.log(err);
         return new Response(null, 'No data is avaliable!').erro500(res);
     }
 });
@@ -38,6 +39,7 @@ mix.get('/youTube/video-info', async (req, res) => {
             ).success(res);
         }
     } catch (error) {
+        console.log(error);
         return new Response(null, 'No data is avaliable!').erro500(res);
     }
 });
