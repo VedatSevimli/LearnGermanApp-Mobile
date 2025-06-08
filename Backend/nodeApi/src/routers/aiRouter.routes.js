@@ -31,6 +31,7 @@ ai.post('/ai/gemini', authenticateAPIKey, async (req, res) => {
 
         return new Response(data, 'Data is there').success(res);
     } catch (error) {
+        console.log(error);
         return new Response(null, 'No data is avaliable!').erro500(res);
     }
 });
@@ -58,6 +59,7 @@ ai.post('/ai/deepseek', async (req, res) => {
         });
         return new Response(aiResponse, 'Data is there').success(res);
     } catch (error) {
+        console.log(error);
         return new Response(null, 'No data is avaliable!').err400(res);
     }
 });
@@ -98,6 +100,7 @@ const queryDeepSeek = async ({
         const data = await response.json();
         return data.choices[0].message.content;
     } catch (error) {
+        console.log(error);
         console.error('DeepSeek API Error:', error.message);
     }
 };
