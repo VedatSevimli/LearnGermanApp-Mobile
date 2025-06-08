@@ -24,11 +24,11 @@
 @media (max-width: 768px) {
     .App {
         .chatBot {
-            bottom: 63px;
+            top: 0;
             right: 0;
             .chat-bot-wrapper {
                 width: 100vw;
-                height: 95vh;
+                height: 100vh;
                 max-width: 100vw;
             }
         }
