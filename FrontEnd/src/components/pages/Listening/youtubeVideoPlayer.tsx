@@ -14,7 +14,6 @@ import { geminiPrompt } from '../../../API/AI/gemini';
 import { MultipleChoice } from '../../MultipleChoice/multipleChoice';
 import { TruncatedText } from '../../TruncatedText/truncatedText';
 import { Button } from '../../Button/button';
-import { Trivia } from '../../MultipleChoice/triva';
 import DialogBody from '../../Dialog/DialogBody/dialogBody';
 
 type VideoPlayerYouTubeP = {

@@ -1,4 +1,3 @@
-import { getCustomConfig } from '../../App';
 import { defaultConfig } from '../../config/defaultConfig';
 import { getApiBasePath } from '../../utils/util';
 import api from '../api';

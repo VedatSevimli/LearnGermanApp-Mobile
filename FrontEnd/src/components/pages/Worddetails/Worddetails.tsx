@@ -46,7 +46,7 @@ export const VerbDetails: React.FC<VerbDetailsP> = ({
     );
     const [verb, setVerb] = useState<Verb>({} as Verb);
     const [isLoading, setIsLoading] = useState(true);
-    const [showSentences, setShowSentences] = useState(() => {
+    const [showSentences] = useState(() => {
         return !!userData?.progress.find((p) => p.word === word);
     });
     const [options, setOptions] = useState<{

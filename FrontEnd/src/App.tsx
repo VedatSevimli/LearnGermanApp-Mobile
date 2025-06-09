@@ -70,7 +70,7 @@ function App(): JSX.Element {
         try {
             void getVerbListA();
         } catch (error) {
-            console.error(error);
+            //
         }
 
         setSeo(

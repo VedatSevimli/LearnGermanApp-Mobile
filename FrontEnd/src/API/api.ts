@@ -1,5 +1,5 @@
 import { getCustomConfig } from '../App';
-import { getApiBasePath, getApiKey } from '../utils/util';
+import { getApiKey } from '../utils/util';
 
 interface FetchOptions extends RequestInit {
     headers?: HeadersInit;
