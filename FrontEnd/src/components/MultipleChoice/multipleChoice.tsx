@@ -58,7 +58,8 @@ export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     useEffect(() => {
         if (
             (quiz && !quiz?.[questionType]?.[tense]?.[questionNumber - 1]) ||
-            (props.mixedQuestions && props.mixedQuestions?.[questionNumber - 1])
+            (props.mixedQuestions &&
+                !props.mixedQuestions?.[questionNumber - 1])
         ) {
             setQuizResult({ ...quizResult, quizFinished: true });
             props.onQuizFinsih?.(quizResult);
@@ -93,6 +94,8 @@ export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
                     <Trivia
                         setQuestionNumber={setQuestionNumber}
                         question={props.mixedQuestions[questionNumber - 1]}
+                        setTimeOut={setTimeOut}
+                        setQuizResult={setQuizResult}
                     ></Trivia>
                 )}
                 {quizResult.quizFinished && (
@@ -105,10 +108,7 @@ export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
                             {t('Components.MultipleChoice.False.Questions')}
                             {quizResult.wrongAnswers.length}
                         </span>
-                        <div
-                            className="wrong-answer-review"
-                            style={{ display: 'flex' }}
-                        >
+                        <div className="wrong-answer-review">
                             {quizResult.wrongAnswers.map((wa) => (
                                 <Trivia
                                     key={wa.question.id}

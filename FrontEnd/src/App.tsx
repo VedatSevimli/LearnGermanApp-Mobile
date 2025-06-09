@@ -206,7 +206,10 @@ function App(): JSX.Element {
 
                 <Footer />
                 <ErrorBoundaryWrapper>
-                    <div className="chatBot" style={{}}>
+                    <div
+                        className="chatBot"
+                        style={{ bottom: showChat ? '0' : '4em' }}
+                    >
                         <ChatBot
                             className={!showChat ? 'hidden' : 'show'}
                             setShowChat={setShowChat}

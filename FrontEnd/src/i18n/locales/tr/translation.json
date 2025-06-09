@@ -39,6 +39,8 @@
     "Home.Word.Info.Text.Header": "Filler",
     "Listening.Used.Verbs.Header": "Video da kullanilan fiiller",
     "Listening.Used.Verbs.Loading": "Videoda kullanilan fiiller bulunuyor..",
+    "Listening.Video.Quizz.No.Question": "Soru bulunmamaktadır, lütfen daha sonra tekrar deneyin!",
+    "Listening.Video.Quizz.Start": "Quiz'i başlat",
     "Page.Quiz.Quiz.End.Btn.Close": "Kapat",
     "Page.Quiz.Quiz.End.Btn.NewQuiz": "Yeni Quiz",
     "Page.Quiz.Quiz.End.Txt": "Sınav bitti! Tebrikler!",

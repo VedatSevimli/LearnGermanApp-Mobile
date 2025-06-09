@@ -74,7 +74,7 @@ export const getVideoTranscript = async (
     lang = 'de'
 ): Promise<YoutubeVideoTranscript[]> => {
     const resposne = await api(
-        `${getApiBasePath()}youTube/transcript/?videoId=${videoId}&lang=${lang}`
+        `${getApiBasePath()}youTube/transcript?videoId=${videoId}&lang=${lang}`
     );
 
     return resposne.data;
