@@ -68,6 +68,10 @@ export const Trivia: React.FC<TrivaProps> = ({
         });
     };
 
+    if (!question?.question) {
+        return <></>;
+    }
+
     return (
         <div className="trivia">
             <div className="question">{question?.question}</div>

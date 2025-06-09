@@ -11,10 +11,12 @@ mix.get('/youTube/transcript', async (req, res) => {
         const data = await YoutubeTranscript.fetchTranscript(videoId, {
             lang: lang ?? 'de'
         });
-        if (data) {
+        if (data && data.length) {
             return new Response(data, 'Data is sended succesfully').success(
                 res
             );
+        } else {
+            return new Response([], 'No data is avaliable').success(res);
         }
     } catch (err) {
         console.log(err);
