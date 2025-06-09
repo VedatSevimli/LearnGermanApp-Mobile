@@ -261,7 +261,7 @@ id (a unique number starting from 0),
 
 question (the question text),
 
-options (an array of 4 answer choices, with only one correct option marked "isCorrect": true).
+options (an array of 10 answer choices, with only one correct option marked "isCorrect": true).
 
 Response Format Example: [  
   {  

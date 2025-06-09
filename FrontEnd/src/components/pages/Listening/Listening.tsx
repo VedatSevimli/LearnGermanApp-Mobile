@@ -32,20 +32,20 @@ export const Listening: React.FC<{ verbList: Verb[] }> = (props: {
 
     const learnedWords = userData?.progress.map((p) => p.word);
 
+    if (isVideoDataLoading) {
+        return <LoadingOverlay></LoadingOverlay>;
+    }
+
     return (
         <div className="listening">
-            {isVideoDataLoading ? (
-                <LoadingOverlay></LoadingOverlay>
-            ) : (
-                videoData?.map((data) => (
-                    <VideoPlayerYouTube
-                        key={data.id.videoId}
-                        videoData={data}
-                        verbList={props.verbList}
-                        learnedWords={learnedWords}
-                    ></VideoPlayerYouTube>
-                ))
-            )}
+            {videoData?.map((data) => (
+                <VideoPlayerYouTube
+                    key={data.id.videoId}
+                    videoData={data}
+                    verbList={props.verbList}
+                    learnedWords={learnedWords}
+                ></VideoPlayerYouTube>
+            ))}
         </div>
     );
 };
