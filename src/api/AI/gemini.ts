@@ -16,4 +16,23 @@ export const geminiPrompt = async (
         body: JSON.stringify({ prompt })
     });
     return { output: response.data };
+};
+
+export const chatGemini = async ({
+    history,
+    message
+}: {
+    history: {
+        role: string;
+        parts: {
+            text: string;
+        }[];
+    }[];
+    message: string;
+}): Promise<any> => {
+    const response = await api(`${getApiBasePath()}/ai/gemini/chat`, {
+        ...options,
+        body: JSON.stringify({ history, message })
+    });
+    return response;
 }; 

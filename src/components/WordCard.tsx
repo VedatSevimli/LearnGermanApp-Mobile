@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Modal, ActivityIndicator, Pressable } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Modal, ActivityIndicator, Pressable, ScrollView } from 'react-native';
 import * as Speech from 'expo-speech';
 import CircularProgress from './CircularProgress';
 import { Ionicons } from '@expo/vector-icons';
@@ -36,7 +36,7 @@ const WordCard = ({ wordData, onNavigate }: { wordData: any; onNavigate: (word: 
     try {
       const prompt = `Erkläre mir bitte ${info} mit 5 einfachen deutschen Sätzen mit Verb ${wordData.word}. Du musst das auf Türkisch erklären.`;
       const res = await geminiPrompt(prompt);
-      setInfoModal({ open: true, loading: false, info: res.output.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') });
+      setInfoModal({ open: true, loading: false, info: res.output.replace(/\*\*(.*?)\*\*/g, '') });
     } catch (e) {
       setInfoModal({ open: true, loading: false, info: 'AI yanıtı alınamadı.' });
     }
@@ -60,7 +60,7 @@ const WordCard = ({ wordData, onNavigate }: { wordData: any; onNavigate: (word: 
       <View style={styles.contentSection}>
         <View style={styles.wordSpeakerRow}>
           <Text style={styles.word}>{wordData.word}</Text>
-          <TouchableOpacity style={styles.speakerBtn} onPress={handleSpeak} disabled={isLocked}>
+          <TouchableOpacity style={styles.speakerBtn} onPress={handleSpeak} >
             <Ionicons name="volume-high" size={28} color={isLocked ? '#b0b0b0' : '#007AFF'} />
           </TouchableOpacity>
         </View>
@@ -89,7 +89,13 @@ const WordCard = ({ wordData, onNavigate }: { wordData: any; onNavigate: (word: 
       <Modal visible={infoModal.open} transparent animationType="fade">
         <View style={styles.modalBg}>
           <View style={styles.modalContent}>
-            {infoModal.loading ? <ActivityIndicator size="large" color="#f4631e" /> : <Text style={{ fontSize: 16 }}>{infoModal.info}</Text>}
+            {infoModal.loading ? (
+              <ActivityIndicator size="large" color="#f4631e" />
+            ) : (
+              <ScrollView style={{ maxHeight: 300, marginBottom: 8 }} contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}>
+                <Text style={{ fontSize: 16 }}>{infoModal.info}</Text>
+              </ScrollView>
+            )}
             <Pressable style={styles.modalBtn} onPress={() => setInfoModal({ open: false, loading: false, info: '' })}>
               <Text style={{ color: '#fff', fontWeight: 'bold' }}>OK</Text>
             </Pressable>

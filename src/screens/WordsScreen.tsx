@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import CircularProgress from '../components/CircularProgress';
 import SpeakerIcon from '../assets/SpeakerIcon';
 import WordCard from '../components/WordCard';
+import { useNavigation } from '@react-navigation/native';
 
 const BADGES = [
   { key: 'hasAkkObject', label: 'Has Akk Object', color: '#9d7ef5' },
@@ -22,6 +23,7 @@ const WordsScreen: React.FC = () => {
   const [verbs, setVerbs] = useState<Verb[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchVerbs = async () => {
@@ -44,6 +46,10 @@ const WordsScreen: React.FC = () => {
     fetchVerbs();
   }, []);
 
+  const handleWordPress = (word: string) => {
+    navigation.navigate('WordDetails', { word });
+  };
+
   if (loading) {
     return (
       <View style={styles.centered}><ActivityIndicator size="large" /></View>
@@ -59,16 +65,14 @@ const WordsScreen: React.FC = () => {
   return (
     <View style={{ flex: 1, backgroundColor: '#f8fafc', padding: 8 }}>
       <Text style={styles.header}>Verbs</Text>
-      <ScrollView>
       <FlatList
         data={verbs}
         keyExtractor={item => item._id.$oid}
         renderItem={({ item }) => (
-            <WordCard wordData={item} onNavigate={(word) => {/* TODO: Implement navigation to word details */}} />
+          <WordCard wordData={item} onNavigate={handleWordPress} />
         )}
         contentContainerStyle={styles.listContent}
-        />
-        </ScrollView>
+      />
     </View>
   );
 };
