@@ -2,3 +2,4 @@
 Backend/nodeApi/.env
 Backend/nodeApi/node_modules
 Backend/nodeApi/.vscode/settings.json
+node_modules
